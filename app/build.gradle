@@ -30,6 +30,7 @@ dependencies {
 
     //Firebase Integration
     implementation 'com.google.firebase:firebase-database:19.2.0'
+    implementation 'com.google.android.material:material:1.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
