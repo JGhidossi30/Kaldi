@@ -20,29 +20,11 @@ public class User
      * @param username
      * @param password
      */
-    public User(String fullname, String username, String password)
+    public User(String id, String fullname, String username, String password)
     {
+        this.id = id;
         this.fullname = fullname;
         this.username = username;
         this.password = password;
-    }
-
-    /**
-     *
-     * @param i
-     * @return
-     */
-    public Item retrieveItem(Item i)
-    {
-        return i;
-    }
-
-    /**
-     *
-     * @param curLocation
-     */
-    public void openMap(Location curLocation)
-    {
-
     }
 }

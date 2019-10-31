@@ -1,4 +1,6 @@
 package com.appfactory.kaldi;
 
-public class Trip {
+public class Trip
+{
+
 }

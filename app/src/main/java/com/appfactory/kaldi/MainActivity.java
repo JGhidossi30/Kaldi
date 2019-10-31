@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity
 {
+    private User currentUser;
     private DatabaseReference database;
 
     @Override
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //Connect to Database
-        writeNewUser("users", "John Doe", "johnnyd", "heynow");
+        writeNewUser("merchants", "Jimmy", "what", "kyle");
     }
 
     @Override
@@ -30,9 +31,11 @@ public class MainActivity extends AppCompatActivity
     {
         super.onStart();
 
-        database.addValueEventListener(new ValueEventListener() {
+        database.addValueEventListener(new ValueEventListener()
+        {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
                     User u = snapshot.getValue(User.class);
@@ -41,7 +44,8 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
 
             }
         });
@@ -56,10 +60,15 @@ public class MainActivity extends AppCompatActivity
      */
     private void writeNewUser(String userType, String fullname, String username, String password)
     {
-        this.database = FirebaseDatabase.getInstance().getReference(userType);
+        this.database = FirebaseDatabase.getInstance().getReference("users");
 
         String id = this.database.push().getKey();
-        User user = new User(fullname, username, password);
-        this.database.child(id).setValue(user); //userid
+        User user;
+        if (userType.equals("drinkers"))
+            user = new Drinker(id, fullname, username, password);
+        else
+            user = new Merchant(id, fullname, username, password);
+        this.database.child(userType).child(id).setValue(user);
+        this.currentUser = user;
     }
 }
