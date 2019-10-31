@@ -11,7 +11,7 @@ public class Drinker extends User
     private int dailyCaffeine;
 
     /**
-     *
+     * Default constructor required for calls to DataSnapshot.getValue(Drinker.class)
      */
     public Drinker()
     {
