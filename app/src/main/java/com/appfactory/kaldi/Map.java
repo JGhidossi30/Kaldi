@@ -1,5 +1,6 @@
 package com.appfactory.kaldi;
 
-public class Map {
+public class Map
+{
 
 }

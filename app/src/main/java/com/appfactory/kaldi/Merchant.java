@@ -1,5 +1,6 @@
 package com.appfactory.kaldi;
 
-public class Merchant extends User {
+public class Merchant extends User
+{
 
 }
