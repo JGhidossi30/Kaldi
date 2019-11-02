@@ -1,6 +1,9 @@
 package com.appfactory.kaldi;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +24,16 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        Button button1 =  (Button) findViewById(R.id.loginButton);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), Register.class);
+                startActivity(myIntent);
+            }
+
+        });
 
         //Connect to Database
         writeNewUser("merchants", "Jimmy", "what", "kyle");
