@@ -34,6 +34,15 @@ public class MainActivity extends AppCompatActivity
             }
 
         });
+        Button button2 =  (Button) findViewById(R.id.regButton);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), Register.class);
+                startActivity(myIntent);
+            }
+
+        });
 
         //Connect to Database
         writeNewUser("merchants", "Jimmy", "what", "kyle");
