@@ -1,21 +1,43 @@
 package com.appfactory.kaldi;
 
-import java.util.ArrayList;
 import android.location.Location;
 
-public class Drinker extends User
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.ArrayList;
+
+@IgnoreExtraProperties
+public class Drinker
 {
+    public String email_address, username, password, id;
     public ArrayList<Trip> tripHistory;
     public ArrayList<String> drinkPreferences;
     public Location curLocation;
     public int dailyCaffeine;
+    protected  DatabaseReference database;
 
     /**
-     * Default constructor required for calls to DataSnapshot.getValue(Drinker.class)
+     *
+     *
+     * @param email_address
+     * @param username
+     * @param password
      */
-    public Drinker(String id, String fullname, String username, String password)
+    public Drinker(String username, String password, String email_address)
     {
-        super(id, fullname, username, password);
+        this.database = FirebaseDatabase.getInstance().getReference("users");
+        this.email_address = email_address;
+        this.username = username;
+        this.password = password;
+        this.id = database.push().getKey();
+        submitToDatabase();
+    }
+
+    public void submitToDatabase()
+    {
+       this.database.child("drinkers").child(this.id).setValue(this);
     }
 
     /**
@@ -37,7 +59,7 @@ public class Drinker extends User
     /**
      *
      */
-    public void openMap(User u)
+    public void openMap(Drinker u)
     {
 
     }
