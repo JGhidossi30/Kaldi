@@ -1,14 +1,24 @@
 package com.appfactory.kaldi;
 
-public class Merchant extends User
+public class Merchant extends Drinker
 {
     public Menu menu;
 
     /**
+     * Constructor
+     */
+    public Merchant(String username, String password, String email_address)
+    {
+        super(username, password, email_address);
+
+    }
+
+    /**
      *
      */
-    public Merchant(String id, String fullname, String username, String password)
+    @Override
+    public void submitToDatabase()
     {
-        super(id, fullname, username, password);
+        this.database.child("merchants").child(this.id).setValue(this);
     }
 }

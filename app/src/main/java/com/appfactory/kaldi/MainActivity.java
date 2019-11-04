@@ -13,8 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity
 {
-    private User currentUser;
-    private DatabaseReference database;
+    private Drinker currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity
             {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
-                    User u = snapshot.getValue(User.class);
+                    Drinker u = snapshot.getValue(Drinker.class);
                     System.out.println("------------------    " + u.fullname + "    -------------");
                 }
             }
@@ -63,12 +62,18 @@ public class MainActivity extends AppCompatActivity
         this.database = FirebaseDatabase.getInstance().getReference("users");
 
         String id = this.database.push().getKey();
-        User user;
+        Drinker user;
         if (userType.equals("drinkers"))
             user = new Drinker(id, fullname, username, password);
         else
             user = new Merchant(id, fullname, username, password);
         this.database.child(userType).child(id).setValue(user);
         this.currentUser = user;
+    }
+
+    private void deleteUser()
+    {
+        //this.database.removeValue(); at location
+        //You can also delete by specifying null as the value for another write operation such as setValue() or updateChildren(). You can use this technique with updateChildren() to delete multiple children in a single API call.
     }
 }
