@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity
 {
-    private User currentUser;
+    private Drinker currentUser;
     private DatabaseReference database;
 
     @Override
@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity
                 Intent myIntent = new Intent(view.getContext(), Register.class);
                 startActivity(myIntent);
             }
-
         });
         Button button2 =  (Button) findViewById(R.id.regButton);
         button2.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         //Connect to Database
-        writeNewUser("merchants", "Jimmy", "what", "kyle");
+//        writeNewUser("merchants", "Jimmy", "what", "kyle");
     }
 
     @Override
@@ -53,24 +52,24 @@ public class MainActivity extends AppCompatActivity
     {
         super.onStart();
 
-        database.addValueEventListener(new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                {
-                    User u = snapshot.getValue(User.class);
-                    System.out.println("------------------    " + u.fullname + "    -------------");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError)
-            {
-
-            }
-        });
+//        database.addValueEventListener(new ValueEventListener()
+//        {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+//            {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+//                {
+//                    Drinker u = snapshot.getValue(Drinker.class);
+//                    System.out.println("------------------    " + u.name + "    -------------");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError)
+//            {
+//
+//            }
+//        });
     }
 
     /**
@@ -80,17 +79,17 @@ public class MainActivity extends AppCompatActivity
      * @param username
      * @param password
      */
-    private void writeNewUser(String userType, String fullname, String username, String password)
-    {
-        this.database = FirebaseDatabase.getInstance().getReference("users");
-
-        String id = this.database.push().getKey();
-        User user;
-        if (userType.equals("drinkers"))
-            user = new Drinker(id, fullname, username, password);
-        else
-            user = new Merchant(id, fullname, username, password);
-        this.database.child(userType).child(id).setValue(user);
-        this.currentUser = user;
-    }
+//    private void writeNewUser(String userType, String fullname, String username, String password)
+//    {
+//        this.database = FirebaseDatabase.getInstance().getReference("users");
+//
+//        String id = this.database.push().getKey();
+//        Drinker user;
+//        if (userType.equals("drinkers"))
+//            user = new Drinker(id, fullname, username, password);
+//        else
+//            user = new Merchant(id, fullname, username, password);
+//        this.database.child(userType).child(id).setValue(user);
+//        this.currentUser = user;
+//    }
 }

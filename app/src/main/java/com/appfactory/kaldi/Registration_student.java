@@ -11,6 +11,6 @@ public class Registration_student extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration_student);
+    }
 
-        }
 }

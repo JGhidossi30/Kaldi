@@ -1,16 +1,21 @@
 package com.appfactory.kaldi;
 
+import java.util.ArrayList;
+import android.location.Location;
+
 public class Merchant extends Drinker
 {
-    public Menu menu;
+    public String storeName;
+    public ArrayList<Store> stores;
 
     /**
      * Constructor
      */
-    public Merchant(String username, String password, String email_address)
+    public Merchant(String storeName, String name, String password, String email_address)
     {
-        super(username, password, email_address);
-
+        super(name, password, email_address);
+        this.storeName = storeName;
+        submitToDatabase();
     }
 
     /**
@@ -20,5 +25,13 @@ public class Merchant extends Drinker
     public void submitToDatabase()
     {
         this.database.child("merchants").child(this.id).setValue(this);
+    }
+
+    /**
+     *
+     */
+    public void addstore(Store store)
+    {
+        stores.add(store);
     }
 }
