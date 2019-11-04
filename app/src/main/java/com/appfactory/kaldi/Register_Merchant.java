@@ -29,6 +29,12 @@ public class Register_Merchant extends AppCompatActivity {
                 String emailInput = findViewById(R.id.emailInput).toString();
                 String passwordInput = findViewById(R.id.passwordInput).toString();
                 String confirmPasswordInput = findViewById(R.id.confirmPasswordInput).toString();
+                //check for  email and password (these two are done for student already)
+                //deal with storename after
+                //create page following registration of merchant for address, then add page
+                //where the merchant can add to its menu, this can be the merchant submitting via text
+                // after this, store in DB and finish registration, following the clicking of
+                //"finish registration" we will go to their own storefront page
 
                 Merchant business = new Merchant(storeName, nameInput, passwordInput, emailInput);
 
