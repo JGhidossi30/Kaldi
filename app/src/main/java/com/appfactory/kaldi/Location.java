@@ -2,10 +2,13 @@ package com.appfactory.kaldi;
 
 public class Location
 {
+    public String street, city, state, zip;
     public double longitude, latitude;
-    public Location(double longitude, double latitude)
+    public Location(String street, String city, String state, String zip)
     {
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
     }
 }

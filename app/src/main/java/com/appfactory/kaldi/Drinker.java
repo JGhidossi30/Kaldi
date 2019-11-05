@@ -71,23 +71,24 @@ public class Drinker
     public static boolean exists(String email)
     {
         Query search = database.child("drinkers").orderByChild("email").equalTo(email);
-        search.addValueEventListener(new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                int i = 0;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                {
-                    i++;
-                }
-                System.out.println("--------------------                 Num: " + i);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
-        return false;
+        System.out.println(search.toString());
+//        search.addValueEventListener(new ValueEventListener()
+//        {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+//            {
+//                int i = 0;
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+//                {
+//                    i++;
+//                }
+//                System.out.println("--------------------                 Num: " + i);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) { }
+//        });
+        return true;
     }
 
     /**
