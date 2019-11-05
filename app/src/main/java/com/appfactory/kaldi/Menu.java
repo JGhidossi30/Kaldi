@@ -1,10 +1,19 @@
 package com.appfactory.kaldi;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Menu
 {
-    public ArrayList<Item> menu;
+    public List<Item> menu;
+
+    /**
+     *
+     */
+    public Menu()
+    {
+        this.menu = new ArrayList<Item>();
+    }
 
     /**
      *

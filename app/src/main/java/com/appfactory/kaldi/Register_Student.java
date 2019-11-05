@@ -10,19 +10,25 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Register_Student extends AppCompatActivity {
-
+public class Register_Student extends AppCompatActivity
+{
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register__student);
 
+        Button registerButton = (Button)findViewById(R.id.register_button);
 
-        Button registerButton =  (Button) findViewById(R.id.register_button);
-
-        registerButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
 
                 TextView nameInput = findViewById(R.id.adminInput1);
                 TextView emailInput = findViewById(R.id.emailInput);
@@ -36,18 +42,21 @@ public class Register_Student extends AppCompatActivity {
 
                 if (!password.equals(confirmPassword))
                 {
-                    Toast.makeText(getApplicationContext(), "Passwords do not match!", Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), "Passwords do not match!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
                 }
                 else if (Drinker.exists(email))
                 {
-                    Toast.makeText(getApplicationContext(), "Email already exists!", Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), "Email already exists!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
                 }
                 else
                 {
-                    Drinker student = new Drinker(name, password, email);
-                    System.out.println("------------------------------------------- hi");
+                    new Drinker(name, password, email);
 
-//                we need to now go to a new page once registered
+                    //Update Page
                     Intent myIntent = new Intent(view.getContext(), Register.class);
                     startActivity(myIntent);
                 }

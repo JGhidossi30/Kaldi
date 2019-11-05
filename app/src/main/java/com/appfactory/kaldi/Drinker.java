@@ -1,43 +1,93 @@
 package com.appfactory.kaldi;
 
-import android.location.Location;
+import androidx.annotation.NonNull;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @IgnoreExtraProperties
 public class Drinker
 {
-    public String email_address, username, password, id;
-    public ArrayList<Trip> tripHistory;
-    public ArrayList<String> drinkPreferences;
+    public String name, password, email;
+    public List<Trip> tripHistory;
+    public List<String> drinkPreferences;
     public Location curLocation;
     public int dailyCaffeine;
-    protected DatabaseReference database;
+    protected  static DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+    protected String id;
 
     /**
      *
      *
-     * @param email_address
-     * @param username
+     * @param name
      * @param password
+     * @param email
      */
-    public Drinker(String username, String password, String email_address)
+    public Drinker(String name, String password, String email)
     {
-        this.database = FirebaseDatabase.getInstance().getReference("users");
-        this.email_address = email_address;
-        this.username = username;
+        this.name = name;
         this.password = password;
+        this.email = email;
         this.id = database.push().getKey();
+        this.tripHistory = new ArrayList<Trip>();
+        this.drinkPreferences = new ArrayList<String>();
         submitToDatabase();
     }
 
+    /**
+     *
+     * @param name
+     * @param password
+     * @param email
+     * @param id
+     */
+    public Drinker(String name, String password, String email, String id)
+    {
+        this(name, password, email);
+        this.id = id;
+    }
+
+    /**
+     *
+     */
     public void submitToDatabase()
     {
-       this.database.child("drinkers").child(this.id).setValue(this);
+        database.child("drinkers").child(id).setValue(this);
+    }
+
+    /**
+     *
+     * @param email
+     * @return
+     */
+    public static boolean exists(String email)
+    {
+        Query search = database.child("drinkers").orderByChild("email").equalTo(email);
+        search.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                int i = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    i++;
+                }
+                System.out.println("--------------------                 Num: " + i);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+        return false;
     }
 
     /**
