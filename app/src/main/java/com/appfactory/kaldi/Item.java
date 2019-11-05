@@ -3,7 +3,8 @@ package com.appfactory.kaldi;
 import java.nio.charset.Charset;
 import java.util.Random;
 
-public class Item
+public class
+Item
 {
 
     public String id, name;
