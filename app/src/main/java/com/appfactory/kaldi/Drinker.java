@@ -26,13 +26,12 @@ public class Drinker
     protected  static DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
     protected String id;
 
+
     /**
      *
      */
-    public Drinker()
-    {
+    public Drinker() { }
 
-    }
     /**
      *
      *
@@ -60,8 +59,14 @@ public class Drinker
      */
     public Drinker(String name, String password, String email, String id)
     {
-        this(name, password, email);
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.id = database.push().getKey();
+        this.tripHistory = new ArrayList<Trip>();
+        this.drinkPreferences = new ArrayList<String>();
         this.id = id;
+        submitToDatabase();
     }
 
     /**
