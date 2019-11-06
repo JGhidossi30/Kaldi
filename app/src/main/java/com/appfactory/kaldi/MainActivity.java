@@ -10,10 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,63 +37,72 @@ public class MainActivity extends AppCompatActivity
         TextView passwordInput = (TextView) findViewById(R.id.editText10);
 
         Button loginButton1 = findViewById(R.id.loginButton);
-        loginButton1.setOnClickListener(new View.OnClickListener() {
+        loginButton1.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
 
-//                String email = emailInput.getText().toString();
-//                String password = passwordInput.getText().toString();
-//
-//                DrinkerHolder dh = new DrinkerHolder();
-//                dh.drinker = new Drinker();
-//                Query search = Drinker.database.child("drinkers").orderByChild("email").equalTo(email);
-//                search.addValueEventListener(new ValueEventListener()
-//                {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        System.out.println("are we here");
-//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                            System.out.println("thsi the shit we sposed to see: " + snapshot.getValue());
-//                            //if (snapshot.getValue().equals(email))
-//                            if (dataSnapshot.exists())
-//                                dh.drinker = new Drinker(snapshot.getValue(Drinker.class).name, snapshot.getValue(Drinker.class).password, snapshot.getValue(Drinker.class).email);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) { }
-//                });
-//
-//                try {
-//                    Thread.sleep(10000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                System.out.println("dh.drinker.password is " + dh.drinker.password);
-//                if (!dh.drinker.password.equals(password))
-//                {
-//                    Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
-//                    toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
-//                    toast.show();
-//                }
-//                else if (dh.drinker == null)
-//                {
-//                    Toast toast = Toast.makeText(getApplicationContext(), "Account does not exist!", Toast.LENGTH_LONG);
-//                    toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
-//                    toast.show();
-//                }
-//                else if (dh.drinker.email.equals(email) && dh.drinker.password.equals(password))
-//                {
-//                    currentUser = dh.drinker;
-//
-//                    //Update Page
-//                    Intent myIntent = new Intent(view.getContext(), Register.class);
-//                    startActivity(myIntent);
-//                }
+                String email = emailInput.getText().toString();
+                String password = passwordInput.getText().toString();
 
+                Query search = Drinker.database.child("drinkers").orderByChild("email").equalTo(email);
+                search.addValueEventListener(new ValueEventListener()
+                {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        System.out.println("start on data change");
+                        if (!validateEmail(email))
+                        {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Invalid email!", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                            toast.show();
+                        }
+                        else if (password.isEmpty())
+                        {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Password is empty!", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                            toast.show();
+                        }
+                        else if (dataSnapshot.getChildrenCount() == 0)
+                        {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Email does not match our records!", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                            toast.show();
+                        }
+                        else
+                        {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                            {
+                                if (snapshot.exists())
+                                {
+                                    Drinker drinker = snapshot.getValue(Drinker.class);
+                                    if (!drinker.password.equals(password)) {
+                                        Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
+                                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                        toast.show();
+                                    } else if (drinker.email.equals(email) && drinker.password.equals(password)) {
+                                        currentUser = drinker;
 
-                Intent myIntent = new Intent(view.getContext(), Drinker_Main.class);
-                startActivity(myIntent);
+                                        //Update Page
+                                        Intent myIntent = new Intent(view.getContext(), Drinker_Main.class);
+                                        startActivity(myIntent);
+                                    }
+                                }
+                                else
+                                {
+                                    Toast toast = Toast.makeText(getApplicationContext(), "Account does not exist!", Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    toast.show();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) { }
+                });
             }
         });
         Button button2 =  (Button) findViewById(R.id.regButton);
@@ -109,14 +116,6 @@ public class MainActivity extends AppCompatActivity
             }
 
         });
-    }
-
-    /**
-     *
-     */
-    public static class DrinkerHolder
-    {
-        Drinker drinker;
     }
 
     private boolean validateEmail(String email)

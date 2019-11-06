@@ -29,7 +29,6 @@ public class Register_Student extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
                 TextView nameInput = findViewById(R.id.adminInput1);
                 TextView emailInput = findViewById(R.id.emailInput);
                 TextView passwordInput = findViewById(R.id.passwordInput);
@@ -61,7 +60,6 @@ public class Register_Student extends AppCompatActivity
                     startActivity(myIntent);
                 }
             }
-
         });
     }
 }
