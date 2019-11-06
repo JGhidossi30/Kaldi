@@ -10,7 +10,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Register_Student extends AppCompatActivity
+import java.io.Serializable;
+
+public class Register_Student extends AppCompatActivity implements Serializable
 {
     /**
      *
@@ -51,10 +53,11 @@ public class Register_Student extends AppCompatActivity
                 }
                 else
                 {
-                    new Drinker(name, password, email);
+                    Drinker drinkMan = new Drinker(name, password, email);
 
                     //Update Page
                     Intent myIntent = new Intent(view.getContext(), Drinker_Main.class);
+                    myIntent.putExtra("Drinker", drinkMan);
                     startActivity(myIntent);
                 }
             }

@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Register_Merchant extends AppCompatActivity
+import java.io.Serializable;
+
+public class Register_Merchant extends AppCompatActivity implements Serializable
 {
     /**
      *
@@ -73,10 +75,11 @@ public class Register_Merchant extends AppCompatActivity
                 }
                 else
                 {
-                    new Merchant(name, password, email, storeName, "hi", new Menu(new Item("hello", 5)));//hardcode
-
+                    //Drinker merchantMan = new  Merchant(name, password, email, storeName, "hi", new Menu(new Item("hello", 5)));//hardcode
+                    Drinker merchantMan = new Drinker(name, password, email);
                     //Update Page
                     Intent myIntent = new Intent(view.getContext(), Drinker_Main.class);
+                    myIntent.putExtra("Drinker", merchantMan);
                     startActivity(myIntent);
                 }
             }
