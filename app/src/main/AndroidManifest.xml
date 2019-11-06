@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Manage_Profile"></activity>
+        <activity android:name=".Manage_Store"></activity>
+        <activity android:name=".Merchant_Main" />
+        <activity android:name=".Manage_Profile" />
         <activity android:name=".Order_History" />
         <activity android:name=".Drinker_Main" />
         <activity android:name=".Register_Merchant" />
