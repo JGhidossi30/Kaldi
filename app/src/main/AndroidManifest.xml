@@ -15,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Register_Merchant"></activity>
+        <activity android:name=".Manage_Profile"></activity>
+        <activity android:name=".Order_History" />
+        <activity android:name=".Drinker_Main" />
+        <activity android:name=".Register_Merchant" />
         <activity android:name=".Register_Student" />
         <activity android:name=".Register" />
         <!--
