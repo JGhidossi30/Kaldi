@@ -70,25 +70,32 @@ public class Drinker
      */
     public static boolean exists(String email)
     {
+        ExistsHolder exists = new ExistsHolder();
+        exists.exists = false;
         Query search = database.child("drinkers").orderByChild("email").equalTo(email);
-        System.out.println(search.toString());
-//        search.addValueEventListener(new ValueEventListener()
-//        {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-//            {
-//                int i = 0;
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren())
-//                {
-//                    i++;
-//                }
-//                System.out.println("--------------------                 Num: " + i);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) { }
-//        });
-        return true;
+        search.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getValue().equals(email))
+                        exists.exists = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+        return exists.exists;
+    }
+
+    /**
+     *
+     */
+    public static class ExistsHolder
+    {
+        boolean exists;
     }
 
     /**
@@ -105,13 +112,5 @@ public class Drinker
     public void addDrink(Item i)
     {
         drinkPreferences.add(i.toString());
-    }
-
-    /**
-     *
-     */
-    public void openMap(Drinker u)
-    {
-
     }
 }
