@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#94CE9A"
+    tools:context=".Menu_Activity">
+
+    <Button
+        android:id="@+id/iced_coffee"
+        android:layout_width="221dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginTop="53dp"
+        android:text="Iced Coffee"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <Button
+        android:id="@+id/americano"
+        android:layout_width="221dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="99dp"
+        android:text="Americano"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iced_coffee" />
+
+    <Button
+        android:id="@+id/chai_tea"
+        android:layout_width="221dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="99dp"
+        android:text="Chai Tea Latte"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/americano" />
+
+    <Button
+        android:id="@+id/green_tea"
+        android:layout_width="221dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="99dp"
+        android:text="Green Tea"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chai_tea" />
+
+    <Button
+        android:id="@+id/black_tea"
+        android:layout_width="221dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="99dp"
+        android:text="Black Tea"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/green_tea" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="152dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="133dp"
+        android:layout_marginTop="66dp"
+        android:text="Sample Menu"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/checkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="161dp"
+        android:layout_marginBottom="69dp"
+        android:text="Checkout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
