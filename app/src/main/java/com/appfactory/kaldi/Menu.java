@@ -10,9 +10,10 @@ public class Menu
     /**
      *
      */
-    public Menu()
+    public Menu(Item initialItem)
     {
         this.menu = new ArrayList<Item>();
+        this.menu.add(initialItem);
     }
 
     /**

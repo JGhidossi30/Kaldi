@@ -25,7 +25,7 @@ public class Drinker_Main extends AppCompatActivity {
 
         });
         Button historyButton =  (Button) findViewById(R.id.history);
-        manageProfile.setOnClickListener(new View.OnClickListener()
+        historyButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {
@@ -35,11 +35,11 @@ public class Drinker_Main extends AppCompatActivity {
 
         });
         Button mapButton =  (Button) findViewById(R.id.mapButton);
-        manageProfile.setOnClickListener(new View.OnClickListener()
+        mapButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(view.getContext(), Login.class);
+                Intent myIntent = new Intent(view.getContext(), MapsActivity.class);
                 startActivityForResult(myIntent, 0);
             }
 

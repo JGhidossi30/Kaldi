@@ -46,7 +46,7 @@ public class Register_Student extends AppCompatActivity
                     toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
                 }
-                else if (Drinker.exists(email))
+                else if (Drinker.emailExists(email))
                 {
                     Toast toast = Toast.makeText(getApplicationContext(), "Email already exists!", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);

@@ -1,5 +1,7 @@
 package com.appfactory.kaldi;
 
+import android.util.Patterns;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +26,13 @@ public class Drinker
     protected  static DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
     protected String id;
 
+    /**
+     *
+     */
+    public Drinker()
+    {
+
+    }
     /**
      *
      *
@@ -68,7 +77,7 @@ public class Drinker
      * @param email
      * @return
      */
-    public static boolean exists(String email)
+    public static boolean emailExists(String email)
     {
         ExistsHolder exists = new ExistsHolder();
         exists.exists = false;

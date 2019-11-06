@@ -10,11 +10,11 @@ public class Merchant extends Drinker
     /**
      * Constructor
      */
-    public Merchant(String name, String password, String email, String storeName, Location location, Menu menu)
+    public Merchant(String name, String password, String email, String storeName, String location, Menu menu)
     {
         super(name, password, email);
         this.stores = new ArrayList<>();
-        this.stores.add(new Store(storeName, location, new Menu()));
+        this.stores.add(new Store(storeName, location, menu));
         submitToDatabase();
     }
 
@@ -28,7 +28,7 @@ public class Merchant extends Drinker
      * @param menu
      * @param id
      */
-    public Merchant(String name, String password, String email, String storeName, Location location, Menu menu, String id)
+    public Merchant(String name, String password, String email, String storeName, String location, Menu menu, String id)
     {
         this(name, password, email, storeName, location, menu);
         this.id = id;

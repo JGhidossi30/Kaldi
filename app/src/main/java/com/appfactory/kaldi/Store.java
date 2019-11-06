@@ -3,7 +3,7 @@ package com.appfactory.kaldi;
 public class Store
 {
     public String storeName;
-    public Location location;
+    public String location;
     public Menu menu;
 
     /**
@@ -12,7 +12,7 @@ public class Store
      * @param location
      * @param menu
      */
-    public Store(String storeName, Location location, Menu menu)
+    public Store(String storeName, String location, Menu menu)
     {
         this.storeName = storeName;
         this.location = location;
@@ -41,7 +41,7 @@ public class Store
      *
      * @return
      */
-    public Location getLocation()
+    public String getLocation()
     {
         return location;
     }
@@ -50,7 +50,7 @@ public class Store
      *
      * @param location
      */
-    public void setLocation(Location location)
+    public void setLocation(String location)
     {
         this.location = location;
     }
