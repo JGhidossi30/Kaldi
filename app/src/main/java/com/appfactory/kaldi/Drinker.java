@@ -21,7 +21,7 @@ public class Drinker
     public String name, password, email;
     public List<Trip> tripHistory;
     public List<String> drinkPreferences;
-    public Location curLocation;
+    public String curLocation;
     public int dailyCaffeine;
     protected  static DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
     protected String id;

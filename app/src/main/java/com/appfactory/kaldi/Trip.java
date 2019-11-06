@@ -2,13 +2,13 @@ package com.appfactory.kaldi;
 
 public class Trip
 {
-    public Location startPoint, endPoint;
+    public String startPoint, endPoint;
 
     /**
      *
      * @return
      */
-    public Location getStartPoint()
+    public String getStartPoint()
     {
         return startPoint;
     }
@@ -17,7 +17,7 @@ public class Trip
      *
      * @param startPoint
      */
-    public void setStartPoint(Location startPoint)
+    public void setStartPoint(String startPoint)
     {
         this.startPoint = startPoint;
     }
@@ -26,7 +26,7 @@ public class Trip
      * 
      * @return
      */
-    public Location getEndPoint()
+    public String getEndPoint()
     {
         return endPoint;
     }
@@ -35,7 +35,7 @@ public class Trip
      *
      * @param endPoint
      */
-    public void setEndPoint(Location endPoint)
+    public void setEndPoint(String endPoint)
     {
         this.endPoint = endPoint;
     }
