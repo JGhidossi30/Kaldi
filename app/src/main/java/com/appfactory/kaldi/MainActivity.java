@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        new Drinker("name", "123", "o@usc.edu");
 
         TextView emailInput = (TextView) findViewById(R.id.editText8);
         TextView passwordInput = (TextView) findViewById(R.id.editText10);
