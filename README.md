@@ -1,3 +1,5 @@
+Bean & Leaf v1.01
+
 Start the project by clicking the run button in Android Studio. 
 
 The app automatically takes you to the login page, where you can login or create a new account.
@@ -8,9 +10,12 @@ Students are able to view the map and select a store, where they can view its me
 
 Merchants have all of the capabilities of students but can also create/manage their own store(s).
 
-Since both merchants and students can "order" from coffee/tea shops on the map, every account should be able to
-view their order history. This functionality has not been implemented yet.
+The following features will be implemented in Bean & Leaf v1.02:
 
-The menu is currently hard-coded, so every store has the same basic menu. We have not implemented
+Since both merchants and students can "order" from coffee/tea shops on the map, every account should be able to
+view their order history. This functionality is still in development.
+
+The menu is currently hard-coded, so every store has the same basic menu. We are still developing
 the ability to add new items or create customizable menus yet.
 
+The directions to a selected store are still in development.
