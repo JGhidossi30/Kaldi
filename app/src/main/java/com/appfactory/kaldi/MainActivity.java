@@ -18,11 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity
-{
-    private Drinker currentUser;
-    private DatabaseReference database;
+import java.io.Serializable;
 
+public class MainActivity extends AppCompatActivity implements Serializable
+{
     /**
      *
      * @param savedInstanceState
@@ -83,10 +82,9 @@ public class MainActivity extends AppCompatActivity
                                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                                         toast.show();
                                     } else if (drinker.email.equals(email) && drinker.password.equals(password)) {
-                                        currentUser = drinker;
-
                                         //Update Page
                                         Intent myIntent = new Intent(view.getContext(), Drinker_Main.class);
+                                        myIntent.putExtra("Drinker", drinker);
                                         startActivity(myIntent);
                                     }
                                 }
@@ -112,6 +110,8 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), Register.class);
+                //myIntent.putExtra("Drinker", (Seria);
+
                 startActivity(myIntent);
             }
 

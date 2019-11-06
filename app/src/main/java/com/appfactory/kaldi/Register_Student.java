@@ -21,9 +21,7 @@ public class Register_Student extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register__student);
-
         Button registerButton = (Button)findViewById(R.id.register_button);
-
         registerButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -56,7 +54,7 @@ public class Register_Student extends AppCompatActivity
                     new Drinker(name, password, email);
 
                     //Update Page
-                    Intent myIntent = new Intent(view.getContext(), Register.class);
+                    Intent myIntent = new Intent(view.getContext(), Drinker_Main.class);
                     startActivity(myIntent);
                 }
             }

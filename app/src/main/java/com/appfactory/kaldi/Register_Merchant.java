@@ -76,7 +76,7 @@ public class Register_Merchant extends AppCompatActivity
                     new Merchant(name, password, email, storeName, "hi", new Menu(new Item("hello", 5)));//hardcode
 
                     //Update Page
-                    Intent myIntent = new Intent(view.getContext(), Register.class);
+                    Intent myIntent = new Intent(view.getContext(), Drinker_Main.class);
                     startActivity(myIntent);
                 }
             }

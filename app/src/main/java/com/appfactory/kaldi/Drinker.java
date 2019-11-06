@@ -12,11 +12,12 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @IgnoreExtraProperties
-public class Drinker
+public class Drinker implements Serializable
 {
     public String name, password, email;
     public List<Trip> tripHistory;

@@ -8,6 +8,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -17,6 +18,8 @@ import android.location.LocationManager;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -186,14 +189,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Please make your selection")
                     .setCancelable(true)
-                    .setPositiveButton("Directions", new DialogInterface.OnClickListener() {
-                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                    .setPositiveButton("Directions", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id)
+                        {
 //                            calculateDirections(marker);
                             dialog.dismiss();
                         }
                     })
-                    .setNegativeButton("Menu", new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                    .setNegativeButton("Menu", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id)
+                        {
+                            Intent myIntent = new Intent(MapsActivity.this, Menu_Activity.class);
+                            startActivityForResult(myIntent, 0);
                             dialog.cancel();
                         }
                     });

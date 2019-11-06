@@ -47,6 +47,8 @@ public class Drinker_Main extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), Manage_Profile.class);
+                Drinker d = (Drinker) getIntent().getSerializableExtra("Drinker");
+                myIntent.putExtra("Drinker", d);
                 startActivityForResult(myIntent, 0);
             }
 
