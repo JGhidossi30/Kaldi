@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements Serializable
                 Query search;
                 RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
                 int selectedId = radioGroup.getCheckedRadioButtonId();
-                System.out.println("----------------radio:      ---      "+selectedId);
                 if (selectedId == 2131361905)
                     search = Drinker.database.child("drinkers").orderByChild("email").equalTo(email);
                 else
