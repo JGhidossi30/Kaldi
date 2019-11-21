@@ -48,6 +48,25 @@
         android:inputType="textPassword"
         android:textColorHint="#FFFFFF" />
 
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/drinkerRadio"
+            android:layout_width="198dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Drinker" />
+
+        <RadioButton
+            android:id="@+id/merchantRadio"
+            android:layout_width="199dp"
+            android:layout_height="wrap_content"
+            android:text="Merchant" />
+    </RadioGroup>
+
     <Button
         android:id="@+id/loginButton"
         android:layout_width="106dp"

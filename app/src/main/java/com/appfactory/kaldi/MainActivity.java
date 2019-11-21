@@ -6,6 +6,7 @@ import android.util.Patterns;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +45,15 @@ public class MainActivity extends AppCompatActivity implements Serializable
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
 
-                Query search = Drinker.database.child("drinkers").orderByChild("email").equalTo(email);
+                Query search;
+                RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+                System.out.println("----------------radio:      ---      "+selectedId);
+                if (selectedId == 2131361905)
+                    search = Drinker.database.child("drinkers").orderByChild("email").equalTo(email);
+                else
+                    search = Drinker.database.child("merchants").orderByChild("email").equalTo(email);
+
                 search.addValueEventListener(new ValueEventListener()
                 {
                     @Override

@@ -6,6 +6,13 @@ public class Store
     public String location;
     public Menu menu;
 
+
+    /**
+     *
+     */
+    public Store() {
+
+    }
     /**
      *
      * @param storeName

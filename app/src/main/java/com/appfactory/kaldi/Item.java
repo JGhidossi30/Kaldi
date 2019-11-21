@@ -9,6 +9,11 @@ Item
     public String name;
     public int caffeine;
 
+    public Item()
+    {
+
+    }
+
     /**
      *
      */

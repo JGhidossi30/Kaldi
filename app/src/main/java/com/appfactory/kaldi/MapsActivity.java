@@ -48,7 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double longitude;
     private Location location;
     private Location dest = null;
-    private com.google.maps.model.LatLng destination;
+    private com.google.maps.model.LatLng destination = null;
     private GoogleMap mMap;
     private Marker marker;
     private String TAG = "logoutput";
@@ -97,13 +97,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             // May throw an IOException
             address = coder.getFromLocationName(strAddress, 5);
-            if (address == null)
+            if (address.size() == 0)
             {
                 return null;
             }
             Address location = address.get(0);
-            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
-
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
         }
         catch (IOException ex)
         {
@@ -148,15 +147,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                {
+                    Log.d("debug", "" + postSnapshot);
                     Merchant merchant = postSnapshot.getValue(Merchant.class);
-                    for (int i = 0; i < merchant.stores.size(); i++) {
+                    for (int i = 0; i < merchant.stores.size(); i++)
+                    {
+//                        Log.d("size", "" + merchant.stores.size());
                         String strAddress = merchant.stores.get(i).getLocation();
+//                        Log.d("address", "" + merchant.stores.get(i).getLocation());
                         String businessName = merchant.stores.get(i).getStoreName();
+//                        Log.d("buss", "" + merchant.stores.get(i).getStoreName());
+                        Log.d("test", "" + strAddress);
                         LatLng latLng = getLocationFromAddress(getApplicationContext(), strAddress);
                         addMarker(businessName, latLng, 0);
-
-                        Log.d("latlng2", latLng.latitude + "," + latLng.longitude);
+                        Log.d("test", "end");
+//                        Log.d("latlng2", latLng.latitude + "," + latLng.longitude);
                     }
                 }
             }
@@ -168,14 +174,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnMarkerClickListener(this);
-//        String strAddress = "941 Bloom Walk";
-//        String businessName = "Sal Coffee";
-//        LatLng latLng = getLocationFromAddress(this, strAddress);
-//        addMarker(businessName, latLng, 0);
-//        // --- End of repeating process ---
-//        Log.d("latlng2", latLng.latitude + "," +latLng.longitude);
-//        mMap.setOnInfoWindowClickListener(this);
-//        mMap.setOnMarkerClickListener(this);
     }
 
 
@@ -212,6 +210,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id)
                         {
                             Intent myIntent = new Intent(MapsActivity.this, MenuActivity.class);
+                            myIntent.putExtra("businessTitle", marker.getTitle());
                             startActivityForResult(myIntent, 0);
                             dialog.cancel();
                         }
@@ -229,19 +228,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("lon", "" + longitude);
         latitude = location.getLatitude();
         Log.d("lat", "" + latitude);
-        boolean test = dest != null;
+        boolean test = destination == null;
         Log.d("comp", "" + test);
         if(destination != null)
         {
-            Location dest = new Location("");
-            dest.setLatitude(destination.lat);
-            dest.setLongitude(destination.lng);
-            float distance =  location.distanceTo(dest);
-            Log.d("dist", "" + distance);
-            if (distance < 5)
+            if (destination.lat != 0.0)
             {
-                Intent myIntent = new Intent(MapsActivity.this, MenuActivity.class);
-                startActivityForResult(myIntent, 0);
+                Location dest = new Location("");
+                dest.setLatitude(destination.lat);
+                dest.setLongitude(destination.lng);
+                float distance = location.distanceTo(dest);
+                Log.d("dist", "" + distance);
+                if (distance < 5) {
+                    Intent myIntent = new Intent(MapsActivity.this, MenuActivity.class);
+                    startActivityForResult(myIntent, 0);
+                }
             }
         }
     }

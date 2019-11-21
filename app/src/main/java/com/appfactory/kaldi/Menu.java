@@ -7,6 +7,11 @@ public class Menu
 {
     public List<Item> menu;
 
+    public Menu()
+    {
+
+    }
+
     /**
      *
      */
