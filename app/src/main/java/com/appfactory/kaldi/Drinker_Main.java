@@ -30,7 +30,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 public class Drinker_Main extends AppCompatActivity
 {
-    private boolean mLocationPermissionGranted = false;
+    public boolean mLocationPermissionGranted = false;
     public static final int ERROR_DIALOG_REQUEST = 9001;
     public static final int PERMISSIONS_REQUEST_ENABLE_GPS = 9002;
     public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 9003;
@@ -78,8 +78,6 @@ public class Drinker_Main extends AppCompatActivity
                     else
                     {
                         getLocationPermission();
-                        Intent i = new Intent(getApplicationContext(), MapsActivity.class);
-                        startActivity(i);
                     }
                 }
             }
@@ -135,8 +133,11 @@ public class Drinker_Main extends AppCompatActivity
     {
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+                == PackageManager.PERMISSION_GRANTED)
+        {
             mLocationPermissionGranted = true;
+            Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+            startActivity(i);
         }
         else {
             ActivityCompat.requestPermissions(this,

@@ -1,25 +1,20 @@
 package com.appfactory.kaldi;
 
 
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
 
-import android.Manifest;
+import androidx.fragment.app.FragmentActivity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.nfc.Tag;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -32,9 +27,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
-import com.google.maps.PendingResult;
-import com.google.maps.model.DirectionsResult;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +35,13 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, LocationListener
 {
-    private static final int REQUEST_LOCATION_PERMISSION = 1;
+    // Global Variables
     private FusedLocationProviderClient mFusedLocationClient;
     double latitude;
     double longitude;
     private Location location;
+    private Location dest = null;
+    private com.google.maps.model.LatLng destination;
     private GoogleMap mMap;
     private Marker marker;
     private String TAG = "logoutput";
@@ -63,44 +57,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-//        if(mGeoApiContext == null)
-//        {
-//            mGeoApiContext = new GeoApiContext.Builder()
-//                    .apiKey(getString(R.string.google_maps_key)).build();
-//        }
+        if(mGeoApiContext == null)
+        {
+            mGeoApiContext = new GeoApiContext.Builder()
+                    .apiKey(getString(R .string.google_maps_key)).build();
+        }
         // Continue editing code
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
     /* Calculates the directions for the marker we click on */
-    private void calculateDirections(Marker marker){
+    private void calculateDirections(Marker marker)
+    {
         Log.d(TAG, "calculateDirections: calculating directions.");
-
-        com.google.maps.model.LatLng destination = new com.google.maps.model.LatLng(
-                marker.getPosition().latitude,
-                marker.getPosition().longitude
-        );
-        DirectionsApiRequest directions = new DirectionsApiRequest(mGeoApiContext);
-
-        directions.alternatives(true);
-        directions.origin(new com.google.maps.model.LatLng(location.getLatitude(),location.getLongitude()));
+        destination = new com.google.maps.model.LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
+        DirectionsApiRequest direction = new DirectionsApiRequest(mGeoApiContext);
+        direction.alternatives(true);
+        direction.origin(new com.google.maps.model.LatLng(location.getLatitude(),location.getLongitude()));
         Log.d(TAG, "calculateDirections: destination: " + destination.toString());
-        directions.destination(destination).setCallback(new PendingResult.Callback<DirectionsResult>()
-        {
-            @Override
-            public void onResult(DirectionsResult result) {
-                Log.d(TAG, "calculateDirections: routes: " + result.routes[0].toString());
-                Log.d(TAG, "calculateDirections: duration: " + result.routes[0].legs[0].duration);
-                Log.d(TAG, "calculateDirections: distance: " + result.routes[0].legs[0].distance);
-                Log.d(TAG, "calculateDirections: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
-            }
-
-            @Override
-            public void onFailure(Throwable e) {
-                Log.e(TAG, "calculateDirections: Failed to get directions: " + e.getMessage() );
-
-            }
-        });
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/dir/My+Location/" + destination.toString()));
+        startActivity(browserIntent);
     }
 
 
@@ -134,8 +110,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     {
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
         LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        location = lm.getLastKnownLocation (LocationManager.GPS_PROVIDER);
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         LatLng latLng = new LatLng(latitude, longitude);
@@ -165,7 +143,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("latlng2", latLng.latitude + "," +latLng.longitude);
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnMarkerClickListener(this);
-//        trackLocation();
     }
 
 
@@ -193,7 +170,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     {
                         public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id)
                         {
-//                            calculateDirections(marker);
+                            calculateDirections(marker);
                             dialog.dismiss();
                         }
                     })
@@ -216,7 +193,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location)
     {
         longitude = location.getLongitude();
+        Log.d("lon", "" + longitude);
         latitude = location.getLatitude();
+        Log.d("lat", "" + latitude);
+        boolean test = dest != null;
+        Log.d("comp", "" + test);
+        if(destination != null)
+        {
+            Location dest = new Location("");
+            dest.setLatitude(destination.lat);
+            dest.setLongitude(destination.lng);
+            float distance =  location.distanceTo(dest);
+            Log.d("dist", "" + distance);
+            if (distance < 5)
+            {
+                Intent myIntent = new Intent(MapsActivity.this, Menu_Activity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        }
     }
 
     @Override
