@@ -16,8 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Checkout"></activity>
-        <activity android:name=".Menu_Activity" />
+        <activity android:name=".CheckoutActivity"></activity>
+        <activity android:name=".MenuActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -33,13 +33,13 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".Manage_Store" />
-        <activity android:name=".Merchant_Main" />
-        <activity android:name=".Manage_Profile" />
+        <activity android:name=".ManageStoreActivity" />
+        <activity android:name=".MerchantMainActivity" />
+        <activity android:name=".ManageProfileActivity" />
         <activity android:name=".Order_History" />
-        <activity android:name=".Drinker_Main" />
-        <activity android:name=".Register_Merchant" />
-        <activity android:name=".Register_Student" />
+        <activity android:name=".DrinkerMainActivity" />
+        <activity android:name=".RegisterMerchantActivity" />
+        <activity android:name=".RegisterDrinkerActivity" />
         <activity android:name=".Register" />
 
         <meta-data

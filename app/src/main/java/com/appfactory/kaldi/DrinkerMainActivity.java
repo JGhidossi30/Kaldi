@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -17,10 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -28,7 +24,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 
 
-public class Drinker_Main extends AppCompatActivity
+public class DrinkerMainActivity extends AppCompatActivity
 {
     public boolean mLocationPermissionGranted = false;
     public static final int ERROR_DIALOG_REQUEST = 9001;
@@ -46,7 +42,7 @@ public class Drinker_Main extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(view.getContext(), Manage_Profile.class);
+                Intent myIntent = new Intent(view.getContext(), ManageProfileActivity.class);
                 Drinker d = (Drinker) getIntent().getSerializableExtra("Drinker");
                 myIntent.putExtra("Drinker", d);
                 startActivityForResult(myIntent, 0);
@@ -63,7 +59,7 @@ public class Drinker_Main extends AppCompatActivity
             }
 
         });
-        Button mapButton =  (Button) findViewById(R.id.mapButton);
+        Button mapButton = (Button) findViewById(R.id.mapButton);
         mapButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
@@ -150,7 +146,7 @@ public class Drinker_Main extends AppCompatActivity
     public boolean isServicesOK()
     {
         Log.d("TAG", "isServicesOK: checking google services version");
-        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(Drinker_Main.this);
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(DrinkerMainActivity.this);
         if(available == ConnectionResult.SUCCESS){
             //everything is fine and the user can make map requests
             Log.d("TAG", "isServicesOK: Google Play Services is working");
@@ -159,7 +155,7 @@ public class Drinker_Main extends AppCompatActivity
         else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
             //an error occured but we can resolve it
             Log.d("TAG", "isServicesOK: an error occured but we can fix it");
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(Drinker_Main.this, available, ERROR_DIALOG_REQUEST);
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(DrinkerMainActivity.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
         }else{
             Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();

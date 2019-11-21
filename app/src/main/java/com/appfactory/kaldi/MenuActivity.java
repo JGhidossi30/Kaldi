@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 
-public class Menu_Activity extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class Menu_Activity extends AppCompatActivity {
         {
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(view.getContext(), Checkout.class);
+                Intent myIntent = new Intent(view.getContext(), CheckoutActivity.class);
                 myIntent.putExtra("BAG", bag);
                 startActivityForResult(myIntent, 0);
             }

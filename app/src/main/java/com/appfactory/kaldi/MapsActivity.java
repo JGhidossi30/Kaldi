@@ -2,6 +2,7 @@ package com.appfactory.kaldi;
 
 
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -25,6 +26,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import java.io.IOException;
@@ -135,14 +142,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         getCurrentLoc();
         // ---- Repeat process for all added business ---
-        String strAddress = "941 Bloom Walk";
-        String businessName = "Sal Coffee";
-        LatLng latLng = getLocationFromAddress(this, strAddress);
-        addMarker(businessName, latLng, 0);
-        // --- End of repeating process ---
-        Log.d("latlng2", latLng.latitude + "," +latLng.longitude);
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
+        database.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Merchant merchant = postSnapshot.getValue(Merchant.class);
+                    for (int i = 0; i < merchant.stores.size(); i++) {
+                        String strAddress = merchant.stores.get(i).getLocation();
+                        String businessName = merchant.stores.get(i).getStoreName();
+                        LatLng latLng = getLocationFromAddress(getApplicationContext(), strAddress);
+                        addMarker(businessName, latLng, 0);
+
+                        Log.d("latlng2", latLng.latitude + "," + latLng.longitude);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnMarkerClickListener(this);
+//        String strAddress = "941 Bloom Walk";
+//        String businessName = "Sal Coffee";
+//        LatLng latLng = getLocationFromAddress(this, strAddress);
+//        addMarker(businessName, latLng, 0);
+//        // --- End of repeating process ---
+//        Log.d("latlng2", latLng.latitude + "," +latLng.longitude);
+//        mMap.setOnInfoWindowClickListener(this);
+//        mMap.setOnMarkerClickListener(this);
     }
 
 
@@ -178,7 +211,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     {
                         public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id)
                         {
-                            Intent myIntent = new Intent(MapsActivity.this, Menu_Activity.class);
+                            Intent myIntent = new Intent(MapsActivity.this, MenuActivity.class);
                             startActivityForResult(myIntent, 0);
                             dialog.cancel();
                         }
@@ -207,7 +240,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.d("dist", "" + distance);
             if (distance < 5)
             {
-                Intent myIntent = new Intent(MapsActivity.this, Menu_Activity.class);
+                Intent myIntent = new Intent(MapsActivity.this, MenuActivity.class);
                 startActivityForResult(myIntent, 0);
             }
         }

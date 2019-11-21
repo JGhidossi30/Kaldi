@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#94CE9A"
-    tools:context=".Menu_Activity">
+    tools:context=".MenuActivity">
 
     <Button
         android:id="@+id/iced_coffee"

@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                         toast.show();
                                     } else if (drinker.email.equals(email) && drinker.password.equals(password)) {
                                         //Update Page
-                                        Intent myIntent = new Intent(view.getContext(), Drinker_Main.class);
+                                        Intent myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
                                         myIntent.putExtra("Drinker", drinker);
                                         startActivity(myIntent);
                                     }

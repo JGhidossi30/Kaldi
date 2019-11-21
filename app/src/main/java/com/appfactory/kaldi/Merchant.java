@@ -8,12 +8,20 @@ public class Merchant extends Drinker
     public List<Store> stores;
 
     /**
+     * Default constructor
+     */
+    public Merchant()
+    {
+
+    }
+
+    /**
      * Constructor
      */
     public Merchant(String name, String password, String email, String storeName, String location, Menu menu)
     {
         super(name, password, email);
-        this.stores = new ArrayList<>();
+        this.stores = new ArrayList<Store>();
         this.stores.add(new Store(storeName, location, menu));
         submitToDatabase();
     }

@@ -9,10 +9,11 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 
-public class Manage_Profile extends AppCompatActivity implements Serializable {
+public class ManageProfileActivity extends AppCompatActivity implements Serializable {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage__profile);
         Drinker d = (Drinker) getIntent().getSerializableExtra("Drinker");

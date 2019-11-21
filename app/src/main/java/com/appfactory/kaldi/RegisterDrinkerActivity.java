@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 
-public class Register_Student extends AppCompatActivity implements Serializable
+public class RegisterDrinkerActivity extends AppCompatActivity implements Serializable
 {
     /**
      *
@@ -56,7 +56,7 @@ public class Register_Student extends AppCompatActivity implements Serializable
                     Drinker drinkMan = new Drinker(name, password, email);
 
                     //Update Page
-                    Intent myIntent = new Intent(view.getContext(), Drinker_Main.class);
+                    Intent myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
                     myIntent.putExtra("Drinker", drinkMan);
                     startActivity(myIntent);
                 }

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class Merchant_Main extends AppCompatActivity {
+public class MerchantMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class Merchant_Main extends AppCompatActivity {
         {
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(view.getContext(), Manage_Store.class);
+                Intent myIntent = new Intent(view.getContext(), ManageStoreActivity.class);
                 startActivityForResult(myIntent, 0);
             }
 
@@ -30,7 +30,7 @@ public class Merchant_Main extends AppCompatActivity {
         {
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(view.getContext(), Drinker_Main.class);
+                Intent myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
                 startActivityForResult(myIntent, 0);
             }
 

@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.View;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 
-public class Register_Merchant extends AppCompatActivity implements Serializable
+public class RegisterMerchantActivity extends AppCompatActivity implements Serializable
 {
     /**
      *
@@ -25,10 +24,6 @@ public class Register_Merchant extends AppCompatActivity implements Serializable
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register__merchant);
-        //registration(savedInstanceState);
-//    }
-//    public void registration(Bundle saveInstanceState)
-//    {
 
         Button registerButton =  (Button) findViewById(R.id.register_student);
         registerButton.setOnClickListener(new View.OnClickListener()
@@ -75,11 +70,10 @@ public class Register_Merchant extends AppCompatActivity implements Serializable
                 }
                 else
                 {
-                    //Drinker merchantMan = new  Merchant(name, password, email, storeName, "hi", new Menu(new Item("hello", 5)));//hardcode
-                    Drinker merchantMan = new Drinker(name, password, email);
+                    Merchant merchantMan = new Merchant(name, password, email, storeName, address, new Menu(new Item(initialItem, Integer.parseInt(caffeine))));
                     //Update Page
-                    Intent myIntent = new Intent(view.getContext(), Drinker_Main.class);
-                    myIntent.putExtra("Drinker", merchantMan);
+                    Intent myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
+                    //myIntent.putExtra("Drinker", merchantMan);
                     startActivity(myIntent);
                 }
             }

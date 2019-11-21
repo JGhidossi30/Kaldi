@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class Checkout extends AppCompatActivity {
+public class CheckoutActivity extends AppCompatActivity {
 
     ArrayList<String> bag;
     String bagString = "";
@@ -20,11 +20,11 @@ public class Checkout extends AppCompatActivity {
         bag = (ArrayList<String>) getIntent().getExtras().get("BAG");
 
         TextView textview = (TextView) findViewById(R.id.bagText);
-        for(int i=0; i<bag.size(); i++){
-            bagString+=bag.get(i);
-            bagString+="\n";
+        for(int i = 0; i < bag.size(); i++)
+        {
+            bagString += bag.get(i);
+            bagString += "\n";
         }
         textview.setText(bagString);
-
     }
 }

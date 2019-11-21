@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -26,7 +25,7 @@ public class Register extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(view.getContext(), Register_Student.class);
+                Intent myIntent = new Intent(view.getContext(), RegisterDrinkerActivity.class);
                 startActivity(myIntent);
             }
 
@@ -38,7 +37,7 @@ public class Register extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(view.getContext(), Register_Merchant.class);
+                Intent myIntent = new Intent(view.getContext(), RegisterMerchantActivity.class);
 
                 startActivity(myIntent);
             }
