@@ -72,7 +72,7 @@ public class RegisterMerchantActivity extends AppCompatActivity implements Seria
                 {
                     Merchant merchantMan = new Merchant(name, password, email, storeName, address, new Menu(new Item(initialItem, Integer.parseInt(caffeine))));
                     //Update Page
-                    Intent myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
+                    Intent myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
                     //myIntent.putExtra("Drinker", merchantMan);
                     startActivity(myIntent);
                 }

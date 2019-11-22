@@ -6,6 +6,7 @@ import android.util.Patterns;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,8 +49,16 @@ public class MainActivity extends AppCompatActivity implements Serializable
 
                 Query search;
                 RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
-                int selectedId = radioGroup.getCheckedRadioButtonId();
-                if (selectedId == 2131361901) {
+                int radioButtonId = radioGroup.getCheckedRadioButtonId();
+                int id = 1;
+                if (radioButtonId != -1 )
+                {
+                    RadioButton radioButton = (RadioButton)radioGroup.findViewById(radioButtonId);
+                    if (radioButton != null)
+                        id = (Integer.parseInt((String)radioButton.getTag()));
+                }
+
+                if (id == 1) {
                     search = Drinker.database.child("drinkers").orderByChild("email").equalTo(email);
                 }
                 else {
@@ -57,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements Serializable
                     isDrinker = false;
                 }
 
-
+System.out.println(search.getPath());
                 search.addValueEventListener(new ValueEventListener()
                 {
                     @Override
@@ -88,17 +97,29 @@ public class MainActivity extends AppCompatActivity implements Serializable
                             {
                                 if (snapshot.exists())
                                 {
-                                    Drinker drinker = snapshot.getValue(Drinker.class);
+                                    Drinker drinker;
+//                                    Merchant merchant;
+                                    if (isDrinker)
+                                        drinker = snapshot.getValue(Drinker.class);
+                                    else
+                                        drinker = snapshot.getValue(Merchant.class);
+                                    System.out.println(drinker.email + "  " + drinker.password);
                                     if (!drinker.password.equals(password))
                                     {
                                         Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                                         toast.show();
                                     }
+//                                    else if (!merchant.password.equals(password))
+//                                    {
+//                                        Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
+//                                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                                        toast.show();
+//                                    }
                                     else if (drinker.email.equals(email) && drinker.password.equals(password))
                                     {
                                         //Update Page
-                                        if(isDrinker)
+                                        if (isDrinker)
                                         {
                                             Intent myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
                                             myIntent.putExtra("Drinker", drinker);
