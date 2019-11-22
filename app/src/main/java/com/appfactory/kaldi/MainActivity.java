@@ -65,14 +65,11 @@ public class MainActivity extends AppCompatActivity implements Serializable
                     search = Drinker.database.child("merchants").orderByChild("email").equalTo(email);
                     isDrinker = false;
                 }
-
-System.out.println(search.getPath());
                 search.addValueEventListener(new ValueEventListener()
                 {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                     {
-                        System.out.println("start on data change");
                         if (!validateEmail(email))
                         {
                             Toast toast = Toast.makeText(getApplicationContext(), "Invalid email!", Toast.LENGTH_LONG);
@@ -98,24 +95,16 @@ System.out.println(search.getPath());
                                 if (snapshot.exists())
                                 {
                                     Drinker drinker;
-//                                    Merchant merchant;
                                     if (isDrinker)
                                         drinker = snapshot.getValue(Drinker.class);
                                     else
                                         drinker = snapshot.getValue(Merchant.class);
                                     System.out.println(drinker.email + "  " + drinker.password);
-                                    if (!drinker.password.equals(password))
-                                    {
+                                    if (!drinker.password.equals(password)) {
                                         Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                                         toast.show();
                                     }
-//                                    else if (!merchant.password.equals(password))
-//                                    {
-//                                        Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
-//                                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-//                                        toast.show();
-//                                    }
                                     else if (drinker.email.equals(email) && drinker.password.equals(password))
                                     {
                                         //Update Page
