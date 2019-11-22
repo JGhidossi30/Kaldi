@@ -22,7 +22,6 @@ public class MerchantMainActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(view.getContext(), ManageStoreActivity.class);
                 startActivityForResult(myIntent, 0);
             }
-
         });
 
         Button drinkerProfile =  (Button) findViewById(R.id.drinkerProfile);
@@ -33,7 +32,6 @@ public class MerchantMainActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
                 startActivityForResult(myIntent, 0);
             }
-
         });
 
     }

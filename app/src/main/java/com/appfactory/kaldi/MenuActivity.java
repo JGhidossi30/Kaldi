@@ -22,6 +22,7 @@ public class MenuActivity extends AppCompatActivity
 {
     private List<Item> menu;
     private Button newItem;
+    private ArrayList<String> bag = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -30,7 +31,7 @@ public class MenuActivity extends AppCompatActivity
         String businessTitle = getIntent().getStringExtra("businessTitle");
         getMenu(menu, businessTitle);
 
-        ArrayList<String> bag = new ArrayList<String>();
+
 
 //        Button icedCoffee = (Button) findViewById(R.id.iced_coffee);
 //        icedCoffee.setOnClickListener(new View.OnClickListener()
@@ -82,7 +83,8 @@ public class MenuActivity extends AppCompatActivity
     {
         System.out.println("------------------title " + businessTitle);
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
-        database.addValueEventListener(new ValueEventListener() {
+        database.addValueEventListener(new ValueEventListener()
+        {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -92,7 +94,7 @@ public class MenuActivity extends AppCompatActivity
                             List<Item> menu = merchant.stores.get(i).menu.menu;
                             for (Item item : menu)
                             {
-                                String itemContent =  item.name + " " + item.caffeine;
+                                String itemContent =  item.name + "             " + item.caffeine + "mg" + "            " + "$4.50";
                                 addMenuItem(itemContent);
                             }
                         }
@@ -105,6 +107,17 @@ public class MenuActivity extends AppCompatActivity
 
             }
         });
+        Button checkout =  (Button) findViewById(R.id.checkout);
+        checkout.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                Intent myIntent = new Intent(view.getContext(), CheckoutActivity.class);
+                myIntent.putExtra("BAG", bag);
+                startActivityForResult(myIntent, 0);
+            }
+
+        });
     }
     public void addMenuItem(String itemContent)
     {
@@ -112,5 +125,12 @@ public class MenuActivity extends AppCompatActivity
         newItem = new Button(this);
         newItem.setText(itemContent);
         layout.addView(newItem);
+        newItem.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                bag.add(itemContent);
+            }
+        });
     }
 }

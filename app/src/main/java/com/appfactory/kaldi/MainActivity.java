@@ -22,6 +22,7 @@ import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity implements Serializable
 {
+    private boolean isDrinker = true;
     /**
      *
      * @param savedInstanceState
@@ -48,10 +49,14 @@ public class MainActivity extends AppCompatActivity implements Serializable
                 Query search;
                 RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
                 int selectedId = radioGroup.getCheckedRadioButtonId();
-                if (selectedId == 2131361905)
+                if (selectedId == 2131361901) {
                     search = Drinker.database.child("drinkers").orderByChild("email").equalTo(email);
-                else
+                }
+                else {
                     search = Drinker.database.child("merchants").orderByChild("email").equalTo(email);
+                    isDrinker = false;
+                }
+
 
                 search.addValueEventListener(new ValueEventListener()
                 {
@@ -84,15 +89,27 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                 if (snapshot.exists())
                                 {
                                     Drinker drinker = snapshot.getValue(Drinker.class);
-                                    if (!drinker.password.equals(password)) {
+                                    if (!drinker.password.equals(password))
+                                    {
                                         Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                                         toast.show();
-                                    } else if (drinker.email.equals(email) && drinker.password.equals(password)) {
+                                    }
+                                    else if (drinker.email.equals(email) && drinker.password.equals(password))
+                                    {
                                         //Update Page
-                                        Intent myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
-                                        myIntent.putExtra("Drinker", drinker);
-                                        startActivity(myIntent);
+                                        if(isDrinker)
+                                        {
+                                            Intent myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
+                                            myIntent.putExtra("Drinker", drinker);
+                                            startActivity(myIntent);
+                                        }
+                                        else
+                                        {
+                                            Intent myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
+                                            myIntent.putExtra("Drinker", drinker);
+                                            startActivity(myIntent);
+                                        }
                                     }
                                 }
                                 else
