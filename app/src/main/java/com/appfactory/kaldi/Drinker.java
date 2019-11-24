@@ -20,11 +20,9 @@ import java.util.List;
 public class Drinker implements Serializable
 {
     public String name, password, email;
-    public List<Trip> tripHistory;
-    public List<String> drinkPreferences;
-    public String curLocation;
     public int dailyCaffeine;
-    protected  static DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+    public List<Item> orderHistory;
+    protected static DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
     protected String id;
 
 
@@ -45,10 +43,8 @@ public class Drinker implements Serializable
         this.name = name;
         this.password = password;
         this.email = email;
+        this.orderHistory = new ArrayList<Item>();
         this.id = database.push().getKey();
-        this.tripHistory = new ArrayList<Trip>();
-        this.drinkPreferences = new ArrayList<String>();
-        submitToDatabase();
     }
 
     /**
@@ -63,11 +59,8 @@ public class Drinker implements Serializable
         this.name = name;
         this.password = password;
         this.email = email;
-        this.id = database.push().getKey();
-        this.tripHistory = new ArrayList<Trip>();
-        this.drinkPreferences = new ArrayList<String>();
+        this.orderHistory = new ArrayList<Item>();
         this.id = id;
-        submitToDatabase();
     }
 
     /**
@@ -76,56 +69,5 @@ public class Drinker implements Serializable
     public void submitToDatabase()
     {
         database.child("drinkers").child(id).setValue(this);
-    }
-
-    /**
-     *
-     * @param email
-     * @return
-     */
-    public static boolean emailExists(String email)
-    {
-        ExistsHolder exists = new ExistsHolder();
-        exists.exists = false;
-        Query search = database.child("drinkers").orderByChild("email").equalTo(email);
-        search.addValueEventListener(new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (snapshot.getValue().equals(email))
-                        exists.exists = true;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
-        return exists.exists;
-    }
-
-    /**
-     *
-     */
-    public static class ExistsHolder
-    {
-        boolean exists;
-    }
-
-    /**
-     *
-     */
-    public void addTrip(Trip t)
-    {
-        tripHistory.add(t);
-    }
-
-    /**
-     *
-     */
-    public void addDrink(Item i)
-    {
-        drinkPreferences.add(i.toString());
     }
 }

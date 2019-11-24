@@ -144,6 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
+
         // Add all current location features if the user grants access
         if(checkMapServices())
         {
@@ -165,12 +166,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         database.addValueEventListener(new ValueEventListener()
         {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
                 {
                     Merchant merchant = postSnapshot.getValue(Merchant.class);
-                    if(merchant.stores != null)
+                    if (merchant.stores != null)
                     {
                         for (int i = 0; i < merchant.stores.size(); i++) {
                             String strAddress = merchant.stores.get(i).getLocation();

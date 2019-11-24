@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "53083777039-si5dq6ga197tnnlnbrm5bghp72nr3o4k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.appfactory.kaldi",
+            "certificate_hash": "ecb051f16cf954df574e2d71f181f62a73ccf127"
+          }
+        },
+        {
           "client_id": "53083777039-f9nfg3hgmdp1je000an766sjootm2028.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -47,7 +47,7 @@ public class DrinkerMainActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(view.getContext(), Order_History.class);
+                Intent myIntent = new Intent(view.getContext(), OrderHistoryActivity.class);
                 startActivityForResult(myIntent, 0);
             }
 

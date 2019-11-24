@@ -36,7 +36,7 @@
         <activity android:name=".ManageStoreActivity" />
         <activity android:name=".MerchantMainActivity" />
         <activity android:name=".ManageProfileActivity" />
-        <activity android:name=".Order_History" />
+        <activity android:name=".OrderHistoryActivity" />
         <activity android:name=".DrinkerMainActivity" />
         <activity android:name=".RegisterMerchantActivity" />
         <activity android:name=".RegisterDrinkerActivity" />

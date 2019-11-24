@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.Serializable;
+
 public class Register extends AppCompatActivity
 {
     /**
@@ -19,7 +21,7 @@ public class Register extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        Button button1 =  (Button) findViewById(R.id.studButton);
+        Button button1 =  (Button) findViewById(R.id.drinkerButton);
         button1.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -31,7 +33,7 @@ public class Register extends AppCompatActivity
 
         });
 
-        Button button2 =  (Button) findViewById(R.id.merchButton);
+        Button button2 =  (Button) findViewById(R.id.merchantButton);
         button2.setOnClickListener(new View.OnClickListener()
         {
             @Override

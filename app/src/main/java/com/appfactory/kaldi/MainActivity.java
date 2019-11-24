@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -23,138 +25,133 @@ import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity implements Serializable
 {
-    private boolean isDrinker = true;
+    private int id;
+
     /**
-     *
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_main);
 
-        TextView emailInput = (TextView) findViewById(R.id.editText8);
-        TextView passwordInput = (TextView) findViewById(R.id.editText10);
-
-        Button loginButton1 = findViewById(R.id.loginButton);
-        loginButton1.setOnClickListener(new View.OnClickListener()
+        Button loginButton = findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
+                TextView emailInput = (TextView) findViewById(R.id.email);
+                TextView passwordInput = (TextView) findViewById(R.id.password);
 
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
 
-                Query search;
-                RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
-                int radioButtonId = radioGroup.getCheckedRadioButtonId();
-                int id = 1;
-                if (radioButtonId != -1 )
+                if (!validateEmail(email))
                 {
-                    RadioButton radioButton = (RadioButton)radioGroup.findViewById(radioButtonId);
-                    if (radioButton != null)
-                        id = (Integer.parseInt((String)radioButton.getTag()));
+                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid email!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
                 }
-
-                if (id == 1) {
-                    search = Drinker.database.child("drinkers").orderByChild("email").equalTo(email);
-                }
-                else {
-                    search = Drinker.database.child("merchants").orderByChild("email").equalTo(email);
-                    isDrinker = false;
-                }
-                search.addValueEventListener(new ValueEventListener()
+                else if (password.isEmpty())
                 {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    Toast toast = Toast.makeText(getApplicationContext(), "Password is empty!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }
+                else
+                {
+                    RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+                    int radioButtonId = radioGroup.getCheckedRadioButtonId();
+                    if (radioButtonId != -1)
                     {
-                        if (!validateEmail(email))
+                        RadioButton radioButton = (RadioButton) radioGroup.findViewById(radioButtonId);
+                        if (radioButton != null) ;
                         {
-                            Toast toast = Toast.makeText(getApplicationContext(), "Invalid email!", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                            toast.show();
-                        }
-                        else if (password.isEmpty())
-                        {
-                            Toast toast = Toast.makeText(getApplicationContext(), "Password is empty!", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                            toast.show();
-                        }
-                        else if (dataSnapshot.getChildrenCount() == 0)
-                        {
-                            Toast toast = Toast.makeText(getApplicationContext(), "Email does not match our records!", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                            toast.show();
-                        }
-                        else
-                        {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                            id = (Integer.parseInt((String) radioButton.getTag()));
+                            DatabaseReference database;
+                            if (id == 1)
+                                database = FirebaseDatabase.getInstance().getReference("users").child("drinkers");
+                            else
+                                database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
+                            database.addValueEventListener(new ValueEventListener()
                             {
-                                if (snapshot.exists())
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                                 {
-                                    Drinker drinker;
-                                    if (isDrinker)
-                                        drinker = snapshot.getValue(Drinker.class);
-                                    else
-                                        drinker = snapshot.getValue(Merchant.class);
-                                    System.out.println(drinker.email + "  " + drinker.password);
-                                    if (!drinker.password.equals(password)) {
-                                        Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
-                                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                        toast.show();
-                                    }
-                                    else if (drinker.email.equals(email) && drinker.password.equals(password))
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren())
                                     {
-                                        //Update Page
-                                        if (isDrinker)
+                                        if (snapshot.exists())
                                         {
-                                            Intent myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
-                                            myIntent.putExtra("Drinker", drinker);
-                                            startActivity(myIntent);
+                                            Drinker drinker;
+                                            if (id == 1)
+                                                drinker = snapshot.getValue(Drinker.class);
+                                            else
+                                                drinker = snapshot.getValue(Merchant.class);
+                                            if (!drinker.password.equals(password))
+                                            {
+                                                Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
+                                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                                toast.show();
+                                            }
+                                            else if (drinker.email.equals(email))
+                                            {
+                                                //Update Page
+                                                Intent myIntent;
+                                                if (id == 1)
+                                                    myIntent = new Intent(getApplicationContext(), DrinkerMainActivity.class);
+                                                else
+                                                    myIntent = new Intent(getApplicationContext(), MerchantMainActivity.class);
+                                                myIntent.putExtra("currentUser", drinker);
+                                                startActivity(myIntent);
+                                            }
+                                            else
+                                            {
+                                                Toast toast = Toast.makeText(getApplicationContext(), "Account does not exist!", Toast.LENGTH_LONG);
+                                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                                toast.show();
+                                            }
                                         }
                                         else
                                         {
-                                            Intent myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
-                                            myIntent.putExtra("Drinker", drinker);
-                                            startActivity(myIntent);
+                                            Toast toast = Toast.makeText(getApplicationContext(), "Account does not exist!", Toast.LENGTH_LONG);
+                                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                            toast.show();
                                         }
                                     }
                                 }
-                                else
-                                {
-                                    Toast toast = Toast.makeText(getApplicationContext(), "Account does not exist!", Toast.LENGTH_LONG);
-                                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                    toast.show();
-                                }
-                            }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) { }
+                            });
                         }
                     }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) { }
-                });
+                }
             }
         });
-        Button button2 =  (Button) findViewById(R.id.regButton);
+        Button button2 = (Button) findViewById(R.id.regButton);
         button2.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), Register.class);
-                //myIntent.putExtra("Drinker", (Seria);
-
                 startActivity(myIntent);
             }
 
         });
     }
 
+    /**
+     * Validates that the input given is in the correct format.
+     *
+     * @param email
+     * @return
+     */
     private boolean validateEmail(String email)
     {
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
         {
             return false;
         }
