@@ -1,5 +1,4 @@
 package com.appfactory.kaldi;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -52,7 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private com.google.maps.model.LatLng destination = null;
     private com.google.maps.model.LatLng currLoc = null;
     private GoogleMap mMap;
-    private Marker marker;
+    private Marker destMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +71,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             getCurrentLoc();
             destination = new com.google.maps.model.LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
             currLoc = new com.google.maps.model.LatLng(myLocation.getLatitude(), myLocation.getLongitude());
-            float distance = distanceToDest();
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/dir/" + currLoc.toString() + "/" + destination.toString()));
             startActivity(browserIntent);
         }
@@ -118,14 +116,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
             myLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            // Debug Statement
-            double latitude = myLocation.getLatitude();
-            double longitude = myLocation.getLongitude();
-            // End of debug
-            LatLng latLng = new LatLng(latitude, longitude);
-            CameraUpdate loc = CameraUpdateFactory.newLatLngZoom(latLng, 15.5f);
-            mMap.animateCamera(loc);
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, this);
+            Log.d("Get myLocation", "" + myLocation);
+            if (myLocation != null) {
+                // Debug Statement
+                double latitude = myLocation.getLatitude();
+                double longitude = myLocation.getLongitude();
+                // End of debug
+                LatLng latLng = new LatLng(latitude, longitude);
+                CameraUpdate loc = CameraUpdateFactory.newLatLngZoom(latLng, 15.5f);
+                mMap.animateCamera(loc);
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, this);
+            }
         }
 
 
@@ -134,7 +135,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // Adds marker on map using LatLng object
     void addMarker(String businessName, LatLng latlng, int tag)
     {
-        marker = mMap.addMarker(new MarkerOptions().position(latlng).title(businessName).snippet("Come have some delicious coffee!"));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(businessName).snippet("Come have some delicious coffee!"));
         marker.setTag(tag);
     }
 
@@ -157,10 +158,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 getLocationPermission();
             }
         }
-        String strAddress = "941 Bloom Walk, Los Angeles, CA 90089";
-        String businessName = "Sal's coffee";
-        LatLng latLng = getLocationFromAddress(getApplicationContext(), strAddress);
-        addMarker(businessName, latLng, 0);
         // ---- Repeat process for all added business ---
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
         database.addValueEventListener(new ValueEventListener()
@@ -219,6 +216,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id)
                 {
+                    destMarker = marker;
                     calculateDirections(marker);
                     dialog.dismiss();
                 }
@@ -233,7 +231,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     myIntent.putExtra("currentUser", currentUser);
                     myIntent.putExtra("isDrinker", isDrinker);
                     myIntent.putExtra("businessTitle", marker.getTitle());
-                    startActivityForResult(myIntent, 0);System.out.println("----------   "+currentUser+" "+isDrinker);
+                    startActivityForResult(myIntent, 0);
                     dialog.cancel();
                 }
             });
@@ -254,6 +252,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location)
     {
         myLocation = location;
+        Log.d("Update myLocation", "" + myLocation);
         if(((destination != null) && (myLocation != null)) && (mLocationPermissionGranted))
         {
             // Prevents the application from switching back from the mapping page to the menu page
@@ -267,7 +266,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 e.printStackTrace();
             }
             float distance = distanceToDest();
-            if (distance < 25)
+            Log.d("dist", "" + distance);
+            if (distance < 50)
             {
                 Intent myIntent = new Intent(MapsActivity.this, MenuActivity.class);
                 String currentUser = getIntent().getStringExtra("currentUser");
