@@ -31,13 +31,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".DrinkerMainActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".ManageStoreActivity" />
         <activity android:name=".MerchantMainActivity" />
         <activity android:name=".ManageProfileActivity" />
         <activity android:name=".OrderHistoryActivity" />
-        <activity android:name=".DrinkerMainActivity" />
         <activity android:name=".RegisterMerchantActivity" />
         <activity android:name=".RegisterDrinkerActivity" />
         <activity android:name=".Register" />
