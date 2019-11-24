@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -86,16 +87,19 @@ public class MenuActivity extends AppCompatActivity
         database.addValueEventListener(new ValueEventListener()
         {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Merchant merchant = postSnapshot.getValue(Merchant.class);
-                    for (int i = 0; i < merchant.stores.size(); i++) {
-                        if (merchant.stores.get(i).storeName.equals(businessTitle)) {
-                            List<Item> menu = merchant.stores.get(i).menu.menu;
-                            for (Item item : menu)
-                            {
-                                String itemContent =  item.name + "             " + item.caffeine + "mg" + "            " + "$4.50";
-                                addMenuItem(itemContent);
+                    if(merchant.stores != null)
+                    {
+                        for (int i = 0; i < merchant.stores.size(); i++) {
+                            if (merchant.stores.get(i).storeName.equals(businessTitle)) {
+                                List<Item> menu = merchant.stores.get(i).menu.menu;
+                                for (Item item : menu) {
+                                    String itemContent = item.name + "             " + item.caffeine + "mg" + "            " + "$4.50";
+                                    addMenuItem(itemContent);
+                                }
                             }
                         }
                     }

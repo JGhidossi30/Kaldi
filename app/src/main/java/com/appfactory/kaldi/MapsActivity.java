@@ -1,13 +1,16 @@
 package com.appfactory.kaldi;
 
-
-
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -16,8 +19,9 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
+import android.widget.Toast;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,58 +36,52 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.maps.DirectionsApiRequest;
-import com.google.maps.GeoApiContext;
+
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
-        GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, LocationListener
-{
+        GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, LocationListener {
     // Global Variables
-    private FusedLocationProviderClient mFusedLocationClient;
-    double latitude;
-    double longitude;
-    private Location location;
-    private Location dest = null;
+    public boolean mLocationPermissionGranted = false;
+    public static final int ERROR_DIALOG_REQUEST = 9001;
+    public static final int PERMISSIONS_REQUEST_ENABLE_GPS = 9002;
+    public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 9003;
+    private Location myLocation;
     private com.google.maps.model.LatLng destination = null;
+    private com.google.maps.model.LatLng currLoc = null;
     private GoogleMap mMap;
     private Marker marker;
-    private String TAG = "logoutput";
-    private GeoApiContext mGeoApiContext = null;
 
-    private ArrayList<String> business;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        if(mGeoApiContext == null)
-        {
-            mGeoApiContext = new GeoApiContext.Builder()
-                    .apiKey(getString(R .string.google_maps_key)).build();
-        }
-        // Continue editing code
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
     /* Calculates the directions for the marker we click on */
     private void calculateDirections(Marker marker)
     {
-        Log.d(TAG, "calculateDirections: calculating directions.");
-        destination = new com.google.maps.model.LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
-        DirectionsApiRequest direction = new DirectionsApiRequest(mGeoApiContext);
-        direction.alternatives(true);
-        direction.origin(new com.google.maps.model.LatLng(location.getLatitude(),location.getLongitude()));
-        Log.d(TAG, "calculateDirections: destination: " + destination.toString());
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/dir/My+Location/" + destination.toString()));
-        startActivity(browserIntent);
+        if (mLocationPermissionGranted)
+        {
+            getCurrentLoc();
+            destination = new com.google.maps.model.LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
+            currLoc = new com.google.maps.model.LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+            float distance = distanceToDest();
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/dir/" + currLoc.toString() + "/" + destination.toString()));
+            startActivity(browserIntent);
+        }
+        else
+        {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps"));
+            startActivity(browserIntent);
+        }
+
     }
 
 
@@ -93,19 +91,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Geocoder coder = new Geocoder(context);
         List<Address> address;
         LatLng p1 = null;
-        try
-        {
+        try {
             // May throw an IOException
             address = coder.getFromLocationName(strAddress, 5);
-            if (address.size() == 0)
-            {
+            if (address.size() == 0) {
                 return null;
             }
             Address location = address.get(0);
             p1 = new LatLng(location.getLatitude(), location.getLongitude());
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
         return p1;
@@ -114,18 +108,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // Gets the current location of the user
     private void getCurrentLoc()
     {
-        mMap.setMyLocationEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setCompassEnabled(true);
-        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        location = lm.getLastKnownLocation (LocationManager.GPS_PROVIDER);
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        LatLng latLng = new LatLng(latitude, longitude);
-        CameraUpdate loc = CameraUpdateFactory.newLatLngZoom(latLng, 15.5f);
-        mMap.animateCamera(loc);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, this);
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            getLocationPermission();
+        }
+        else {
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            myLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            // Debug Statement
+            double latitude = myLocation.getLatitude();
+            double longitude = myLocation.getLongitude();
+            // End of debug
+            LatLng latLng = new LatLng(latitude, longitude);
+            CameraUpdate loc = CameraUpdateFactory.newLatLngZoom(latLng, 15.5f);
+            mMap.animateCamera(loc);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, this);
+        }
+
+
     }
 
     // Adds marker on map using LatLng object
@@ -139,7 +142,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap)
     {
         mMap = googleMap;
-        getCurrentLoc();
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        // Add all current location features if the user grants access
+        if(checkMapServices())
+        {
+            if(mLocationPermissionGranted)
+            {
+                getCurrentLoc();
+            }
+            else
+            {
+                getLocationPermission();
+            }
+        }
+        String strAddress = "941 Bloom Walk, Los Angeles, CA 90089";
+        String businessName = "Sal's coffee";
+        LatLng latLng = getLocationFromAddress(getApplicationContext(), strAddress);
+        addMarker(businessName, latLng, 0);
         // ---- Repeat process for all added business ---
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
         database.addValueEventListener(new ValueEventListener()
@@ -149,20 +169,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
                 {
-                    Log.d("debug", "" + postSnapshot);
                     Merchant merchant = postSnapshot.getValue(Merchant.class);
-                    for (int i = 0; i < merchant.stores.size(); i++)
+                    if(merchant.stores != null)
                     {
-//                        Log.d("size", "" + merchant.stores.size());
-                        String strAddress = merchant.stores.get(i).getLocation();
-//                        Log.d("address", "" + merchant.stores.get(i).getLocation());
-                        String businessName = merchant.stores.get(i).getStoreName();
-//                        Log.d("buss", "" + merchant.stores.get(i).getStoreName());
-                        Log.d("test", "" + strAddress);
-                        LatLng latLng = getLocationFromAddress(getApplicationContext(), strAddress);
-                        addMarker(businessName, latLng, 0);
-                        Log.d("test", "end");
-//                        Log.d("latlng2", latLng.latitude + "," + latLng.longitude);
+                        for (int i = 0; i < merchant.stores.size(); i++) {
+                            String strAddress = merchant.stores.get(i).getLocation();
+                            String businessName = merchant.stores.get(i).getStoreName();
+                            LatLng latLng = getLocationFromAddress(getApplicationContext(), strAddress);
+                            addMarker(businessName, latLng, 0);
+                        }
+                    }
+                    else
+                    {
+                        Log.d("Debug", "No merchants were found.");
                     }
                 }
             }
@@ -181,7 +200,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean onMarkerClick(Marker marker)
     {
         LatLng latLng = marker.getPosition();
-
         return false;
     }
 
@@ -195,54 +213,59 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else{
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Please make your selection")
-                    .setCancelable(true)
+            builder.setMessage("Please make your selection").setCancelable(true)
                     .setPositiveButton("Directions", new DialogInterface.OnClickListener()
-                    {
-                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id)
-                        {
-                            calculateDirections(marker);
-                            dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton("Menu", new DialogInterface.OnClickListener()
-                    {
-                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id)
-                        {
-                            Intent myIntent = new Intent(MapsActivity.this, MenuActivity.class);
-                            myIntent.putExtra("businessTitle", marker.getTitle());
-                            startActivityForResult(myIntent, 0);
-                            dialog.cancel();
-                        }
-                    });
+            {
+                public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id)
+                {
+                    calculateDirections(marker);
+                    dialog.dismiss();
+                }
+            })
+            .setNegativeButton("Menu", new DialogInterface.OnClickListener()
+            {
+                public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id)
+                {
+                    Intent myIntent = new Intent(MapsActivity.this, MenuActivity.class);
+                    myIntent.putExtra("businessTitle", marker.getTitle());
+                    startActivityForResult(myIntent, 0);
+                    dialog.cancel();
+                }
+            });
             final AlertDialog alert = builder.create();
             alert.show();
         }
+    }
 
+    float distanceToDest()
+    {
+        Location dest = new Location("");
+        dest.setLatitude(destination.lat);
+        dest.setLongitude(destination.lng);
+        return myLocation.distanceTo(dest);
     }
 
     @Override
     public void onLocationChanged(Location location)
     {
-        longitude = location.getLongitude();
-        Log.d("lon", "" + longitude);
-        latitude = location.getLatitude();
-        Log.d("lat", "" + latitude);
-        boolean test = destination == null;
-        Log.d("comp", "" + test);
-        if(destination != null)
+        myLocation = location;
+        if(((destination != null) && (myLocation != null)) && (mLocationPermissionGranted))
         {
-            if (destination.lat != 0.0)
+            // Prevents the application from switching back from the mapping page to the menu page
+            // this could happen if the user requests directions when he/she is at the store
+            try
             {
-                Location dest = new Location("");
-                dest.setLatitude(destination.lat);
-                dest.setLongitude(destination.lng);
-                float distance = location.distanceTo(dest);
-                Log.d("dist", "" + distance);
-                if (distance < 5) {
-                    Intent myIntent = new Intent(MapsActivity.this, MenuActivity.class);
-                    startActivityForResult(myIntent, 0);
-                }
+                Thread.sleep(10000);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            float distance = distanceToDest();
+            if (distance < 25)
+            {
+                Intent myIntent = new Intent(MapsActivity.this, MenuActivity.class);
+                startActivityForResult(myIntent, 0);
             }
         }
     }
@@ -262,6 +285,124 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onProviderDisabled(String provider)
     {
+
+    }
+    // Checks if all map services are enabled
+    private boolean checkMapServices()
+    {
+        if(isServicesOK())
+        {
+            if(isMapsEnabled())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Prompts user to enable GPS
+    private void buildAlertMessageNoGps()
+    {
+        final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setMessage("This application requires GPS to work properly, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        Intent enableGpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivityForResult(enableGpsIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
+                    }
+                });
+        final androidx.appcompat.app.AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    // Checks if the maps functionality is enabled on the device
+    public boolean isMapsEnabled()
+    {
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
+
+        if ( !manager.isProviderEnabled(LocationManager.GPS_PROVIDER ) ) {
+            buildAlertMessageNoGps();
+            return false;
+        }
+        return true;
+    }
+
+    /*
+     * Request location permission, so that we can get the location of the
+     * device. The result of the permission request is handled by a callback,
+     * onRequestPermissionsResult.
+     */
+    private void getLocationPermission()
+    {
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED)
+        {
+            mLocationPermissionGranted = true;
+            getCurrentLoc();
+        }
+        else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    // Checks if the device can use google services
+    public boolean isServicesOK()
+    {
+        Log.d("TAG", "isServicesOK: checking google services version");
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MapsActivity.this);
+        if(available == ConnectionResult.SUCCESS){
+            //everything is fine and the user can make map requests
+            Log.d("TAG", "isServicesOK: Google Play Services is working");
+            return true;
+        }
+        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+            //an error occured but we can resolve it
+            Log.d("TAG", "isServicesOK: an error occured but we can fix it");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MapsActivity.this, available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }else{
+            Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
+    {
+        mLocationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION:  {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    mLocationPermissionGranted = true;
+                    getCurrentLoc();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("TAG", "onActivityResult: called.");
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ENABLE_GPS: {
+                if(mLocationPermissionGranted)
+                {
+                    getCurrentLoc();
+                }
+                else{
+                    getLocationPermission();
+                }
+            }
+        }
 
     }
 }
