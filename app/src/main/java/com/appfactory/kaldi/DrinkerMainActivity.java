@@ -37,8 +37,10 @@ public class DrinkerMainActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), ManageProfileActivity.class);
-                Drinker d = (Drinker) getIntent().getSerializableExtra("Drinker");
-                myIntent.putExtra("Drinker", d);
+                String currentUser = getIntent().getStringExtra("currentUser");
+                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+                myIntent.putExtra("currentUser", currentUser);
+                myIntent.putExtra("isDrinker", isDrinker);
                 startActivityForResult(myIntent, 0);
             }
         });
@@ -48,6 +50,10 @@ public class DrinkerMainActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), OrderHistoryActivity.class);
+                String currentUser = getIntent().getStringExtra("currentUser");
+                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+                myIntent.putExtra("currentUser", currentUser);
+                myIntent.putExtra("isDrinker", isDrinker);
                 startActivityForResult(myIntent, 0);
             }
 
@@ -57,8 +63,12 @@ public class DrinkerMainActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
-                startActivity(i);
+                Intent myIntent = new Intent(getApplicationContext(), MapsActivity.class);
+                String currentUser = getIntent().getStringExtra("currentUser");
+                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+                myIntent.putExtra("currentUser", currentUser);
+                myIntent.putExtra("isDrinker", isDrinker);
+                startActivity(myIntent);
             }
 
         });

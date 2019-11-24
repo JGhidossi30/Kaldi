@@ -8,6 +8,7 @@ Item
 
     public String name;
     public int caffeine;
+    public double price;
 
     public Item()
     {

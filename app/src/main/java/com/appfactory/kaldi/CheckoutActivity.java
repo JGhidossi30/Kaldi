@@ -17,8 +17,6 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
-        bag = (ArrayList<String>) getIntent().getExtras().get("BAG");
-
         TextView textview = (TextView) findViewById(R.id.bagText);
         for(int i = 0; i < bag.size(); i++)
         {

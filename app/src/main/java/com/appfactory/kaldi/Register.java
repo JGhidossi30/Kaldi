@@ -40,7 +40,6 @@ public class Register extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), RegisterMerchantActivity.class);
-
                 startActivity(myIntent);
             }
 

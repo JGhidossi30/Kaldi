@@ -21,7 +21,7 @@ public class Drinker implements Serializable
 {
     public String name, password, email;
     public int dailyCaffeine;
-    public List<Item> orderHistory;
+    public List<Order> orderHistory;
     protected static DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
     protected String id;
 
@@ -29,7 +29,7 @@ public class Drinker implements Serializable
     /**
      *
      */
-    public Drinker() { }
+    public Drinker() { this.orderHistory = new ArrayList<Order>(); }
 
     /**
      *
@@ -43,7 +43,7 @@ public class Drinker implements Serializable
         this.name = name;
         this.password = password;
         this.email = email;
-        this.orderHistory = new ArrayList<Item>();
+        this.orderHistory = new ArrayList<Order>();
         this.id = database.push().getKey();
     }
 
@@ -59,7 +59,7 @@ public class Drinker implements Serializable
         this.name = name;
         this.password = password;
         this.email = email;
-        this.orderHistory = new ArrayList<Item>();
+        this.orderHistory = new ArrayList<Order>();
         this.id = id;
     }
 

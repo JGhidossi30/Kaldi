@@ -228,8 +228,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id)
                 {
                     Intent myIntent = new Intent(MapsActivity.this, MenuActivity.class);
+                    String currentUser = getIntent().getStringExtra("currentUser");
+                    boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+                    myIntent.putExtra("currentUser", currentUser);
+                    myIntent.putExtra("isDrinker", isDrinker);
                     myIntent.putExtra("businessTitle", marker.getTitle());
-                    startActivityForResult(myIntent, 0);
+                    startActivityForResult(myIntent, 0);System.out.println("----------   "+currentUser+" "+isDrinker);
                     dialog.cancel();
                 }
             });
@@ -266,6 +270,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (distance < 25)
             {
                 Intent myIntent = new Intent(MapsActivity.this, MenuActivity.class);
+                String currentUser = getIntent().getStringExtra("currentUser");
+                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+                myIntent.putExtra("currentUser", currentUser);
+                myIntent.putExtra("isDrinker", isDrinker);
                 startActivityForResult(myIntent, 0);
             }
         }

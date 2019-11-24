@@ -89,7 +89,8 @@ public class RegisterMerchantActivity extends AppCompatActivity implements Seria
 
                                 //Update Page
                                 Intent myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
-                                myIntent.putExtra("currentUser", merchant);
+                                myIntent.putExtra("currentUser", merchant.id);
+                                myIntent.putExtra("isDrinker", false);
                                 startActivity(myIntent);
                             }
                         }

@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                                 drinker = snapshot.getValue(Drinker.class);
                                             else
                                                 drinker = snapshot.getValue(Merchant.class);
+                                            drinker.id = snapshot.getKey();
                                             if (!drinker.password.equals(password))
                                             {
                                                 Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
@@ -99,12 +100,18 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                             {
                                                 //Update Page
                                                 Intent myIntent;
-                                                if (id == 1)
-                                                    myIntent = new Intent(getApplicationContext(), DrinkerMainActivity.class);
-                                                else
-                                                    myIntent = new Intent(getApplicationContext(), MerchantMainActivity.class);
-                                                myIntent.putExtra("currentUser", drinker);
+                                                if (id == 1) {
+                                                    myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);                                                myIntent.putExtra("isDrinker", id);
+                                                    myIntent.putExtra("isDrinker", true);
+                                                }
+                                                else {
+                                                    myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
+                                                    myIntent.putExtra("isDrinker", false);
+
+                                                }
+                                                myIntent.putExtra("currentUser", drinker.id);
                                                 startActivity(myIntent);
+                                                break;
                                             }
                                             else
                                             {
