@@ -93,7 +93,7 @@ public class MenuActivity extends AppCompatActivity
                                 drinker.orderHistory.add(bag);
                                 drinker.submitToDatabase();
 
-                                //Intent myIntent = new Intent(view.getContext(), CheckoutActivity.class);
+                                //Intent myIntent = new Intent(view.getContext(), CheckoutActivity.class); Might want to bring this page back
                                 Intent myIntent;
                                 if (getIntent().getBooleanExtra("isDrinker", true))
                                   myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
