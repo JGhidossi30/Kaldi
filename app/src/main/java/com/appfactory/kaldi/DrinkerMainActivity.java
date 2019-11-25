@@ -302,6 +302,7 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
                 boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
                 myIntent.putExtra("currentUser", currentUser);
                 myIntent.putExtra("isDrinker", isDrinker);
+                myIntent.putExtra("businessTitle", destMarker.getTitle());
                 startActivityForResult(myIntent, 0);
             }
         }

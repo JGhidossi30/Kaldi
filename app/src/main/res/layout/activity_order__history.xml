@@ -7,17 +7,4 @@
     android:layout_height="match_parent"
     android:background="#94CE9A"
     tools:context=".OrderHistoryActivity">
-
-    <TextView
-        android:id="@+id/order_history"
-        android:layout_width="214dp"
-        android:layout_height="77dp"
-        android:layout_marginStart="98dp"
-        android:layout_marginTop="136dp"
-        android:text="Trip History"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="36sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

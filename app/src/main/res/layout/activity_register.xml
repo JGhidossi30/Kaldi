@@ -32,7 +32,7 @@
         android:layout_marginTop="79dp"
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="252dp"
-        android:text="Student"
+        android:text="Drinker"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/merchantButton"
         app:layout_constraintStart_toStartOf="parent"
