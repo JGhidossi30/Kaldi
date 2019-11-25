@@ -69,9 +69,9 @@ public class WhiteBoxTests {
     @Test
     public void createOrder(){
         ArrayList<Item> order = new ArrayList<Item>();
-        Order o = new Order(order);
+        Order o = new Order();
     }
 
-    
+
 
 }

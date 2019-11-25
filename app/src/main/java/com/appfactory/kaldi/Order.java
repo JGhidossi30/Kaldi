@@ -7,8 +7,8 @@ public class Order
 {
     public List<Item> items;
 
-    public Order(ArrayList<Item> items)
+    public Order()
     {
-        items = items;
+        items = new ArrayList<Item>();
     }
 }
