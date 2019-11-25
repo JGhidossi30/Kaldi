@@ -22,7 +22,6 @@ import java.util.List;
 
 public class MenuActivity extends AppCompatActivity
 {
-    private List<Item> menu;
     private Button newItem;
     private Order bag = new Order();
     @Override
@@ -31,11 +30,11 @@ public class MenuActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         String businessTitle = getIntent().getStringExtra("businessTitle");
-        getMenu(menu, businessTitle);
+        getMenu(businessTitle);
 
     }
 
-    public void getMenu(List<Item> menu, String businessTitle)
+    public void getMenu(String businessTitle)
     {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
         database.addValueEventListener(new ValueEventListener()
