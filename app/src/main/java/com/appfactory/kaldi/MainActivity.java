@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                                 break;
                                             }
                                             else
-                                            {
+                                            {System.out.println("----------  Account does not exist!");
                                                 Toast toast = Toast.makeText(getApplicationContext(), "Account does not exist!", Toast.LENGTH_LONG);
                                                 toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                                                 toast.show();
