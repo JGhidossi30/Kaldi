@@ -32,7 +32,7 @@
     <EditText
         android:id="@+id/email"
         android:layout_width="269dp"
-        android:layout_height="wrap_content"
+        android:layout_height="59dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"

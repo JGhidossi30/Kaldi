@@ -1,5 +1,8 @@
 package com.appfactory.kaldi;
 
+import android.app.Activity;
+import android.app.Instrumentation;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -8,10 +11,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -24,36 +32,47 @@ public class MainActivityTests {
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
 
-//    @Test
-//    public void useAppContext() {
-//        // Context of the app under test.
-//        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-//
-//        assertEquals("com.appfactory.kaldi", appContext.getPackageName());
-//    }
 
     //User can enter text into email field on login page
     @Test
-    public void loginTest(){
-        onView(withId(R.id.email)).perform(typeText("Hello"));
+    public void loginTest() {
+        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(DrinkerMainActivity.class.getName(), null, false);
+
+        onView(withId(R.id.email)).perform(typeText("test@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.password)).perform(typeText("password"), closeSoftKeyboard());
+
+        onView(withId(R.id.loginButton)).perform(click());
+
+        Activity login = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
+        assertNull(login);
     }
 
-    //User can enter text into password field on login page
+    //User can enter text into email field on login page
     @Test
-    public void passwordTest(){
-        onView(withId(R.id.password)).perform(typeText("password test"));
+    public void incorrectLoginTest() {
+        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(DrinkerMainActivity.class.getName(), null, false);
+
+        onView(withId(R.id.email)).perform(typeText("invalidemail@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.password)).perform(typeText("password"), closeSoftKeyboard());
+
+        onView(withId(R.id.loginButton)).perform(click());
+
+        Activity login = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
+        assertNull(login);
     }
 
     //Register button is clickable
     @Test
     public void registerButtonTest(){
-        onView(withId(R.id.regButton)).check(matches(isClickable()));
-    }
+        Instrumentation.ActivityMonitor monitor1 = getInstrumentation().addMonitor(Register.class.getName(), null, false);
 
-    //Login button is clickable
-    @Test
-    public void loginButtonTest(){
-        onView(withId(R.id.loginButton)).check(matches(isClickable()));
+        onView(withId(R.id.regButton)).perform(click());
+
+        Activity register = getInstrumentation().waitForMonitorWithTimeout(monitor1, 5000);
+
+        assertNotNull(register);
+
+        register.finish();
     }
 
 }

@@ -82,7 +82,28 @@ public class RegisterMerchantTests {
         assertNull(merchantMain);
     }
 
-    
+    @Test
+    public void registerMerchantIncorrectEmail(){
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(1000000);
+        //String emailString = randomNumber + "@gmail.com";
+
+        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(MerchantMainActivity.class.getName(), null, false);
+
+        onView(withId(R.id.adminInput)).perform(typeText("Name Test"), closeSoftKeyboard());
+        onView(withId(R.id.storeInput)).perform(typeText("store test"));
+        onView(withId(R.id.emailInput)).perform(typeText("wrong email format"), closeSoftKeyboard());
+        onView(withId(R.id.passwordInput)).perform(typeText("password"), closeSoftKeyboard());
+        onView(withId(R.id.confirmPasswordInput)).perform(typeText("wrong password"), closeSoftKeyboard());
+        onView(withId(R.id.addressInput)).perform(typeText("address test"), closeSoftKeyboard());
+        onView(withId(R.id.initialItemInput)).perform(typeText("item test"), closeSoftKeyboard());
+        onView(withId(R.id.caffeineInput)).perform(typeText("100"), closeSoftKeyboard());
+        onView(withId(R.id.register_button)).perform(click());
+
+        Activity merchantMain = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
+
+        assertNull(merchantMain);
+    }
 
 
 }

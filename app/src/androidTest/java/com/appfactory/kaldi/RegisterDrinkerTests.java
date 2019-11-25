@@ -25,7 +25,7 @@ public class RegisterDrinkerTests {
     public ActivityTestRule<RegisterDrinkerActivity> activityRule = new ActivityTestRule<>(RegisterDrinkerActivity.class);
 
     @Test
-    public void registerTestCorrect(){
+    public void registerCorrectTest(){
         Random rand = new Random();
         int randomNumber = rand.nextInt(1000000);
         String emailString = randomNumber + "@gmail.com";
@@ -46,7 +46,7 @@ public class RegisterDrinkerTests {
     }
 
     @Test
-    public void PasswordsIncorrect(){
+    public void registerIncorrectTest(){
         Random rand = new Random();
         int randomNumber = rand.nextInt(1000000);
         String emailString = randomNumber + "@gmail.com";
