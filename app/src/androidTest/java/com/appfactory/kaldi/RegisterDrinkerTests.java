@@ -1,41 +1,68 @@
 package com.appfactory.kaldi;
 
+import android.app.Activity;
+import android.app.Instrumentation;
+
 import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.Random;
+
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class RegisterDrinkerTests {
 
     @Rule
     public ActivityTestRule<RegisterDrinkerActivity> activityRule = new ActivityTestRule<>(RegisterDrinkerActivity.class);
 
-    //User can enter text into Name field on drinker registration page
     @Test
-    public void nameTest(){
-        onView(withId(R.id.adminInput)).perform(typeText("Name Test"));
+    public void registerTestCorrect(){
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(1000000);
+        String emailString = randomNumber + "@gmail.com";
+
+        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(DrinkerMainActivity.class.getName(), null, false);
+
+        onView(withId(R.id.adminInput)).perform(typeText("Name Test"), closeSoftKeyboard());
+        onView(withId(R.id.emailInput)).perform(typeText(emailString), closeSoftKeyboard());
+        onView(withId(R.id.passwordInput)).perform(typeText("password"), closeSoftKeyboard());
+        onView(withId(R.id.confirmPasswordInput)).perform(typeText("password"), closeSoftKeyboard());
+        onView(withId(R.id.register_button)).perform(click());
+
+        Activity drinkerMain = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
+
+        assertNotNull(drinkerMain);
+
+        drinkerMain.finish();
     }
 
-    //User can enter text into Email field on drinker registration page
     @Test
-    public void emailTest(){
-        onView(withId(R.id.emailInput)).perform(typeText("Email Test"));
-    }
+    public void PasswordsIncorrect(){
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(1000000);
+        String emailString = randomNumber + "@gmail.com";
 
-    //User can enter text into password field on drinker registration page
-    @Test
-    public void passwordTest(){
-        onView(withId(R.id.passwordInput)).perform(typeText("password"));
-    }
+        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(RegisterDrinkerActivity.class.getName(), null, false);
 
-    //User can enter text into confirm password field on drinker registration page
-    @Test
-    public void confirmPasswordTest(){
-        onView(withId(R.id.confirmPasswordInput)).perform(typeText("confirm"));
+        onView(withId(R.id.adminInput)).perform(typeText("Name Test"), closeSoftKeyboard());
+        onView(withId(R.id.emailInput)).perform(typeText(emailString), closeSoftKeyboard());
+        onView(withId(R.id.passwordInput)).perform(typeText("password"), closeSoftKeyboard());
+        onView(withId(R.id.confirmPasswordInput)).perform(typeText("wrong password"), closeSoftKeyboard());
+        onView(withId(R.id.register_button)).perform(click());
+
+        Activity drinkerRegistration = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
+
+        assertNull(drinkerRegistration);
+
     }
 
 

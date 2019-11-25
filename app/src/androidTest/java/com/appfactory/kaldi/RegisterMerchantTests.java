@@ -1,5 +1,8 @@
 package com.appfactory.kaldi;
 
+import android.app.Activity;
+import android.app.Instrumentation;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -7,11 +10,18 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Random;
+
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -24,61 +34,55 @@ public class RegisterMerchantTests {
     @Rule
     public ActivityTestRule<RegisterMerchantActivity> activityRule = new ActivityTestRule<>(RegisterMerchantActivity.class);
 
-
-    //User can enter text into administrator field on merchant registration page
     @Test
-    public void administratorTest(){
-        onView(withId(R.id.adminInput)).perform(typeText("admin test"));
-    }
+    public void registerMerchantCorrect(){
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(1000000);
+        String emailString = randomNumber + "@gmail.com";
 
-    //User can enter text into store field on merchant registration page
-    @Test
-    public void storeTest(){
+        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(MerchantMainActivity.class.getName(), null, false);
+
+        onView(withId(R.id.adminInput)).perform(typeText("Name Test"), closeSoftKeyboard());
         onView(withId(R.id.storeInput)).perform(typeText("store test"));
+        onView(withId(R.id.emailInput)).perform(typeText(emailString), closeSoftKeyboard());
+        onView(withId(R.id.passwordInput)).perform(typeText("password"), closeSoftKeyboard());
+        onView(withId(R.id.confirmPasswordInput)).perform(typeText("password"), closeSoftKeyboard());
+        onView(withId(R.id.addressInput)).perform(typeText("address test"), closeSoftKeyboard());
+        onView(withId(R.id.initialItemInput)).perform(typeText("item test"), closeSoftKeyboard());
+        onView(withId(R.id.caffeineInput)).perform(typeText("100"), closeSoftKeyboard());
+        onView(withId(R.id.register_button)).perform(click());
+
+        Activity merchantMain = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
+
+        assertNotNull(merchantMain);
+
+        merchantMain.finish();
     }
 
-    //User can enter text into email field on merchant registration page
     @Test
-    public void emailTest(){
-        onView(withId(R.id.emailInput)).perform(typeText("email test"));
+    public void registerMerchantIncorrectPassword(){
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(1000000);
+        String emailString = randomNumber + "@gmail.com";
+
+        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(MerchantMainActivity.class.getName(), null, false);
+
+        onView(withId(R.id.adminInput)).perform(typeText("Name Test"), closeSoftKeyboard());
+        onView(withId(R.id.storeInput)).perform(typeText("store test"));
+        onView(withId(R.id.emailInput)).perform(typeText(emailString), closeSoftKeyboard());
+        onView(withId(R.id.passwordInput)).perform(typeText("password"), closeSoftKeyboard());
+        onView(withId(R.id.confirmPasswordInput)).perform(typeText("wrong password"), closeSoftKeyboard());
+        onView(withId(R.id.addressInput)).perform(typeText("address test"), closeSoftKeyboard());
+        onView(withId(R.id.initialItemInput)).perform(typeText("item test"), closeSoftKeyboard());
+        onView(withId(R.id.caffeineInput)).perform(typeText("100"), closeSoftKeyboard());
+        onView(withId(R.id.register_button)).perform(click());
+
+        Activity merchantMain = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
+
+        assertNull(merchantMain);
     }
 
-    //User can enter text into  password field on login page
-    @Test
-    public void passwordTest(){
-        onView(withId(R.id.passwordInput)).perform(typeText("password test"));
-    }
-
-    //User can enter text into confirm password field on login page
-    @Test
-    public void confirmPasswordTest(){
-        onView(withId(R.id.confirmPasswordInput)).perform(typeText("confirm password test"));
-    }
-
-    //User can enter text into store field on login page
-    @Test
-    public void addressTest(){
-        onView(withId(R.id.addressInput)).perform(typeText("address test"));
-    }
-
-    //User can enter text into store field on login page
-    @Test
-    public void inputItemTest(){
-        onView(withId(R.id.initialItemInput)).perform(typeText("item test"));
-    }
-
-    //User can enter text into store field on login page
-    @Test
-    public void caffineTest(){
-        onView(withId(R.id.caffeineInput)).perform(typeText("100"));
-    }
-
-
-    //Register button is clickable
-    @Test
-    public void registerButtonTest(){
-        onView(withId(R.id.register_button)).check(matches(isClickable()));
-    }
+    
 
 
 }
