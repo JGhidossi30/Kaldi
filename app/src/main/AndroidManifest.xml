@@ -16,9 +16,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StoreProfileActivity"></activity>
-        <activity android:name=".AddMenuItemActivity" />
-        <activity android:name=".AddStoreActivity" />
+        <activity
+            android:name=".StoreProfileActivity"
+            android:label="@string/title_store_profile"></activity>
+        <activity
+            android:name=".AddMenuItemActivity"
+            android:label="@string/title_add_menu_item"/>
+        <activity
+            android:name=".AddStoreActivity"
+            android:label="@string/title_add_store"/>
         <activity
             android:name=".CheckoutActivity"
             android:label="@string/title_check_out" />
