@@ -24,7 +24,6 @@ public class MerchantMainTests {
     //Manage Store button is clickable
     @Test
     public void manageStoreTest(){
-        //onView(withId(R.id.manageStore)).check(matches(isClickable()));
         Instrumentation.ActivityMonitor monitor1 = getInstrumentation().addMonitor(ManageStoreActivity.class.getName(), null, false);
 
         onView(withId(R.id.manageStore)).perform(click());
@@ -36,7 +35,7 @@ public class MerchantMainTests {
         manageStore.finish();
     }
 
-    //Drinker Profile button is clickable
+    //Drinker Profile button directs to the Drinker Profile page
     @Test
     public void drinkerProfileTest(){
         Instrumentation.ActivityMonitor monitor2 = getInstrumentation().addMonitor(DrinkerMainActivity.class.getName(), null, false);
@@ -48,5 +47,18 @@ public class MerchantMainTests {
         assertNotNull(drinkerProfile);
 
         drinkerProfile.finish();
+    }
+
+    @Test
+    public void addStoreTest(){
+        Instrumentation.ActivityMonitor monitor2 = getInstrumentation().addMonitor(AddStoreActivity.class.getName(), null, false);
+
+        onView(withId(R.id.addStore)).perform(click());
+
+        Activity addStore = getInstrumentation().waitForMonitorWithTimeout(monitor2, 5000);
+
+        assertNotNull(addStore);
+
+        addStore.finish();
     }
 }

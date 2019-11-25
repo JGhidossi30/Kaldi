@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class WhiteBoxMainActivityTest {
+public class WhiteBoxTests {
     @Test
     public void emailValidatorReturnsFalse() {
         boolean value = MainActivity.validateEmail("thisisthewrong.com");

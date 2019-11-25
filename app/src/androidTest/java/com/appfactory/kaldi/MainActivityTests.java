@@ -88,6 +88,7 @@ public class MainActivityTests {
         Activity login = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
         assertNull(login);
     }
+
     @Test
     public void incorrectLoginTypeMerchant(){
         Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(DrinkerMainActivity.class.getName(), null, false);
