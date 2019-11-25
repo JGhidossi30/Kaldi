@@ -26,8 +26,10 @@ public class StoreProfileActivity extends AppCompatActivity
                 Intent myIntent = new Intent(view.getContext(), AddMenuItemActivity.class);
                 String currentUser = getIntent().getStringExtra("currentUser");
                 boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+                String storeName = getIntent().getStringExtra("storeName");
                 myIntent.putExtra("currentUser", currentUser);
                 myIntent.putExtra("isDrinker", isDrinker);
+                myIntent.putExtra("storeName", storeName);
                 startActivityForResult(myIntent, 0);
             }
         });
@@ -44,6 +46,23 @@ public class StoreProfileActivity extends AppCompatActivity
 
             }
         });
+
+        Button menu =  (Button) findViewById(R.id.getMenu);
+        menu.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                Intent myIntent = new Intent(view.getContext(), MenuActivity.class);
+                String currentUser = getIntent().getStringExtra("currentUser");
+                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+                String storeName = getIntent().getStringExtra("storeName");
+                myIntent.putExtra("currentUser", currentUser);
+                myIntent.putExtra("isDrinker", isDrinker);
+                myIntent.putExtra("businessTitle", storeName);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
     }
 
     @Override

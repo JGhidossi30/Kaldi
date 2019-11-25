@@ -47,7 +47,7 @@ public class MerchantMainActivity extends AppCompatActivity {
         {
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(view.getContext(), AddStoreActivity.class);
+                Intent myIntent = new Intent(view.getContext(), AddBusinessActivity.class);
                 String currentUser = getIntent().getStringExtra("currentUser");
                 boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
                 myIntent.putExtra("currentUser", currentUser);

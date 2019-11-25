@@ -26,6 +26,9 @@
             android:name=".AddStoreActivity"
             android:label="@string/title_add_store"/>
         <activity
+            android:name=".AddBusinessActivity"
+            android:label="@string/title_add_store"/>
+        <activity
             android:name=".CheckoutActivity"
             android:label="@string/title_check_out" />
         <activity

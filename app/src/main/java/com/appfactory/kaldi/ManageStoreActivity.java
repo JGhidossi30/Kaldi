@@ -25,12 +25,14 @@ public class ManageStoreActivity extends AppCompatActivity
 {
     private Button newItem;
     private String userName;
+    private boolean isDrinker;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage__store);
         userName = getIntent().getStringExtra("currentUser");
+        isDrinker = getIntent().getBooleanExtra("isDrinker", true);
         getStores(userName);
     }
     public void getStores(String userName)
@@ -73,6 +75,8 @@ public class ManageStoreActivity extends AppCompatActivity
             {
                 Intent myIntent = new Intent(view.getContext(), StoreProfileActivity.class);
                 myIntent.putExtra("currentUser", userName);
+                myIntent.putExtra("isDrinker", isDrinker);
+                myIntent.putExtra("storeName", storeName);
                 startActivityForResult(myIntent, 0);
             }
         });
