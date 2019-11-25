@@ -1,5 +1,8 @@
 package com.appfactory.kaldi;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -8,9 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,23 +18,25 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class AddMenuItemActivity extends AppCompatActivity
+public class AddBusinessActivity extends AppCompatActivity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_menu_item);
+        setContentView(R.layout.activity_add_business);
 
-        TextView businessNameInput = (TextView) findViewById(R.id.businessName);
-        TextView initialItemInput = (TextView) findViewById(R.id.initialItem);
-        TextView caffeineInput = (TextView) findViewById(R.id.caffeine);
+        TextView businessNameInput = (TextView) findViewById(R.id.storeInput);
+        TextView locationInput = (TextView) findViewById(R.id.addressInput);
+        TextView initialItemInput = (TextView) findViewById(R.id.initialItemInput);
+        TextView caffeineInput = (TextView) findViewById(R.id.caffeineInput);
 
-        String businessName = businessNameInput.getText().toString();
+        String businesName = businessNameInput.getText().toString();
+        String location = locationInput.getText().toString();
         String initialItem = initialItemInput.getText().toString();
         String caffeine = caffeineInput.getText().toString();
-        Button addMenuItem =  (Button) findViewById(R.id.addMenuItem);
-        addMenuItem.setOnClickListener(new View.OnClickListener() {
+        Button addBusiness =  (Button) findViewById(R.id.addBusiness);
+        addBusiness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
@@ -54,13 +56,7 @@ public class AddMenuItemActivity extends AppCompatActivity
 //                                else
                                     merchant = snapshot.getValue(Merchant.class);
                                 merchant.id = snapshot.getKey();
-                                for (int i = 0; i < merchant.stores.size(); i++)
-                                {
-                                    if (merchant.stores.get(i).storeName.equals(businessName))
-                                    {
-                                        merchant.stores.get(i).menu.addItem(new Item(initialItem, Integer.parseInt(caffeine)));
-                                    }
-                                }
+                                merchant.stores.add(new Store(businesName, location, new Menu(new Item(initialItem, Integer.parseInt(caffeine)))));
                                 merchant.submitToDatabase();
 
                                 //Intent myIntent = new Intent(view.getContext(), CheckoutActivity.class); Might want to bring this page back

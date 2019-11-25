@@ -16,8 +16,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertNotNull;
@@ -50,7 +48,7 @@ public class RegisterMerchantTests {
         onView(withId(R.id.addressInput)).perform(typeText("address test"), closeSoftKeyboard());
         onView(withId(R.id.initialItemInput)).perform(typeText("item test"), closeSoftKeyboard());
         onView(withId(R.id.caffeineInput)).perform(typeText("100"), closeSoftKeyboard());
-        onView(withId(R.id.register_button)).perform(click());
+        onView(withId(R.id.addBusiness)).perform(click());
 
         Activity merchantMain = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
 
@@ -75,7 +73,7 @@ public class RegisterMerchantTests {
         onView(withId(R.id.addressInput)).perform(typeText("address test"), closeSoftKeyboard());
         onView(withId(R.id.initialItemInput)).perform(typeText("item test"), closeSoftKeyboard());
         onView(withId(R.id.caffeineInput)).perform(typeText("100"), closeSoftKeyboard());
-        onView(withId(R.id.register_button)).perform(click());
+        onView(withId(R.id.addBusiness)).perform(click());
 
         Activity merchantMain = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
 
@@ -98,7 +96,7 @@ public class RegisterMerchantTests {
         onView(withId(R.id.addressInput)).perform(typeText("address test"), closeSoftKeyboard());
         onView(withId(R.id.initialItemInput)).perform(typeText("item test"), closeSoftKeyboard());
         onView(withId(R.id.caffeineInput)).perform(typeText("100"), closeSoftKeyboard());
-        onView(withId(R.id.register_button)).perform(click());
+        onView(withId(R.id.addBusiness)).perform(click());
 
         Activity merchantMain = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
 

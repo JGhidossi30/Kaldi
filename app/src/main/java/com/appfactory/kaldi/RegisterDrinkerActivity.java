@@ -31,7 +31,7 @@ public class RegisterDrinkerActivity extends AppCompatActivity implements Serial
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register__drinker);
-        Button registerButton = (Button)findViewById(R.id.register_button);
+        Button registerButton = (Button)findViewById(R.id.addBusiness);
         registerButton.setOnClickListener(new View.OnClickListener()
         {
             @Override

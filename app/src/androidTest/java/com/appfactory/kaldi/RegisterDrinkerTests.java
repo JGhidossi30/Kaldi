@@ -36,7 +36,7 @@ public class RegisterDrinkerTests {
         onView(withId(R.id.emailInput)).perform(typeText(emailString), closeSoftKeyboard());
         onView(withId(R.id.passwordInput)).perform(typeText("password"), closeSoftKeyboard());
         onView(withId(R.id.confirmPasswordInput)).perform(typeText("password"), closeSoftKeyboard());
-        onView(withId(R.id.register_button)).perform(click());
+        onView(withId(R.id.addBusiness)).perform(click());
 
         Activity drinkerMain = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
 
@@ -57,7 +57,7 @@ public class RegisterDrinkerTests {
         onView(withId(R.id.emailInput)).perform(typeText(emailString), closeSoftKeyboard());
         onView(withId(R.id.passwordInput)).perform(typeText("password"), closeSoftKeyboard());
         onView(withId(R.id.confirmPasswordInput)).perform(typeText("wrong password"), closeSoftKeyboard());
-        onView(withId(R.id.register_button)).perform(click());
+        onView(withId(R.id.addBusiness)).perform(click());
 
         Activity drinkerRegistration = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
 

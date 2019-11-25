@@ -31,7 +31,7 @@ public class RegisterMerchantActivity extends AppCompatActivity implements Seria
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register__merchant);
-        Button registerButton = (Button)findViewById(R.id.register_button);
+        Button registerButton = (Button)findViewById(R.id.addBusiness);
         registerButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
