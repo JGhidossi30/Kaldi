@@ -75,4 +75,31 @@ public class MainActivityTests {
         register.finish();
     }
 
+    @Test
+    public void incorrectLoginTypeDrinker(){
+        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(MerchantMainActivity.class.getName(), null, false);
+
+        onView(withId(R.id.email)).perform(typeText("nicky@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.password)).perform(typeText("123"), closeSoftKeyboard());
+
+        onView(withId(R.id.drinkerRadio)).perform(click(), closeSoftKeyboard());
+        onView(withId(R.id.loginButton)).perform(click());
+
+        Activity login = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
+        assertNull(login);
+    }
+
+    @Test
+    public void incorrectLoginTypeMerchant(){
+        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(DrinkerMainActivity.class.getName(), null, false);
+
+        onView(withId(R.id.email)).perform(typeText("derek@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.password)).perform(typeText("123"), closeSoftKeyboard());
+
+        onView(withId(R.id.merchantRadio)).perform(click(), closeSoftKeyboard());
+        onView(withId(R.id.loginButton)).perform(click());
+
+        Activity login = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
+        assertNull(login);
+    }
 }

@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements Serializable
      * @param email
      * @return
      */
-    private boolean validateEmail(String email)
+    public static boolean validateEmail(String email)
     {
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
         {
