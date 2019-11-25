@@ -35,43 +35,36 @@ public class ManageStoreActivity extends AppCompatActivity
     public void getStores(String userName)
     {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
-        Log.d("db", "" + database);
-//        database.addValueEventListener(new ValueEventListener()
-//        {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-//            {
-//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
-//                {
-//                    Merchant merchant = postSnapshot.getValue(Merchant.class);
-//                    if(merchant.stores != null)
-//                    {
-//                        for (int i = 0; i < merchant.stores.size(); i++)
-//                        {
-//                            if (merchant.name == userName)
-//                            {
-//                                List<String> stores = merchant.stores;
-//                                for (String storeName : stores) {
-//                                    addStoreItem(storeName);
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError)
-//            {
-//
-//            }
-//        });
+        database.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
+                {
+                    if (postSnapshot.getKey().equals(userName))
+                    {
+                        Merchant merchant = postSnapshot.getValue(Merchant.class);
+                        for (int i = 0; i < merchant.stores.size(); i++) {
+                            String storeName = merchant.stores.get(i).storeName;
+                            addStoreItem(storeName);
+                        }
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+
+            }
+        });
     }
-    public void addStoreItem(Item item)
+    public void addStoreItem(String storeName)
     {
         LinearLayout layout = (LinearLayout) findViewById(R.id.rootLayout);
-        String itemContent = item.name + "             " + item.caffeine + "mg" + "            " + "$" + item.price;
         newItem = new Button(this);
-        newItem.setText(itemContent);
+        newItem.setText(storeName);
         layout.addView(newItem);
         newItem.setOnClickListener(new View.OnClickListener()
         {
