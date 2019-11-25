@@ -24,12 +24,13 @@ import java.util.List;
 public class ManageStoreActivity extends AppCompatActivity
 {
     private Button newItem;
+    private String userName;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage__store);
-        String userName = getIntent().getStringExtra("currentUser");
+        userName = getIntent().getStringExtra("currentUser");
         getStores(userName);
     }
     public void getStores(String userName)
@@ -70,7 +71,9 @@ public class ManageStoreActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-
+                Intent myIntent = new Intent(view.getContext(), StoreProfileActivity.class);
+                myIntent.putExtra("currentUser", userName);
+                startActivityForResult(myIntent, 0);
             }
         });
     }

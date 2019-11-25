@@ -42,5 +42,19 @@ public class MerchantMainActivity extends AppCompatActivity {
             }
         });
 
+        Button AddStore =  (Button) findViewById(R.id.addStore);
+        AddStore.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                Intent myIntent = new Intent(view.getContext(), AddStoreActivity.class);
+                String currentUser = getIntent().getStringExtra("currentUser");
+                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+                myIntent.putExtra("currentUser", currentUser);
+                myIntent.putExtra("isDrinker", isDrinker);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
     }
 }

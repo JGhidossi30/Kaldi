@@ -16,13 +16,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".StoreProfileActivity"></activity>
+        <activity android:name=".AddMenuItemActivity" />
+        <activity android:name=".AddStoreActivity" />
         <activity
             android:name=".CheckoutActivity"
-            android:label="@string/title_check_out">
-        </activity>
+            android:label="@string/title_check_out" />
         <activity
             android:name=".MenuActivity"
-            android:label="@string/title_menu"/>
+            android:label="@string/title_menu" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -35,30 +37,28 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".DrinkerMainActivity"/>
+        <activity android:name=".DrinkerMainActivity" />
         <activity
             android:name=".ManageStoreActivity"
             android:label="@string/title_stores" />
         <activity
             android:name=".MerchantMainActivity"
-            android:label="@string/title_merchant"/>
+            android:label="@string/title_merchant" />
         <activity
             android:name=".ManageProfileActivity"
-            android:label="@string/title_manage_profile"/>
+            android:label="@string/title_manage_profile" />
         <activity
             android:name=".OrderHistoryActivity"
-            android:label="@string/title_order_history"/>
+            android:label="@string/title_order_history" />
         <activity
             android:name=".RegisterMerchantActivity"
-            android:label="@string/title_registration"/>
+            android:label="@string/title_registration" />
         <activity
             android:name=".RegisterDrinkerActivity"
-            android:label="@string/title_registration"/>
+            android:label="@string/title_registration" />
         <activity
             android:name=".Register"
-            android:label="@string/title_select_registration">
-        </activity>
+            android:label="@string/title_select_registration" />
 
         <meta-data
             android:name="preloaded_fonts"
