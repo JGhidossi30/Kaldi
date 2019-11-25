@@ -47,7 +47,7 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="Kaldi">
+            android:label="Bean and Leaf">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
