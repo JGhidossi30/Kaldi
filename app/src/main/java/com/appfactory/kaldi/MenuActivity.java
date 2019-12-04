@@ -47,14 +47,22 @@ public class MenuActivity extends AppCompatActivity
                     Merchant merchant = postSnapshot.getValue(Merchant.class);
                     if(merchant.stores != null)
                     {
-                        for (int i = 0; i < merchant.stores.size(); i++)
-                        {
-                            if (merchant.stores.get(i).storeName.equals(businessTitle))
-                            {
-                                List<Item> menu = merchant.stores.get(i).menu.menu;
-                                for (Item item : menu) {
-                                    addMenuItem(item);
+                        for (int i = 0; i < merchant.stores.size(); i++) {
+                            if (merchant.stores.get(i).storeName.equals(businessTitle)) {
+                                if (merchant.stores.get(i).menu != null)
+                                {
+                                    List<Item> menu = merchant.stores.get(i).menu.menu;
+                                    for (Item item : menu)
+                                    {
+                                        addMenuItem(item);
+                                    }
                                 }
+                                else
+                                    {
+                                Toast toast = Toast.makeText(getApplicationContext(), merchant.stores.get(i).storeName + " has no menu!", Toast.LENGTH_LONG);
+                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                toast.show();
+                                    }
                             }
                         }
                     }
@@ -66,7 +74,7 @@ public class MenuActivity extends AppCompatActivity
 
             }
         });
-        Button checkout =  (Button) findViewById(R.id.checkout);
+        Button checkout = (Button) findViewById(R.id.checkout);
         checkout.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)

@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -306,6 +307,10 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
                 myIntent.putExtra("isDrinker", isDrinker);
                 myIntent.putExtra("businessTitle", destMarker.getTitle());
                 startActivityForResult(myIntent, 0);
+
+                Toast toast = Toast.makeText(getApplicationContext(), "You have arrived at " + destMarker.getTitle() + "!", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
             }
         }
     }
