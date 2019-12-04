@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -130,9 +131,10 @@ public class MenuActivity extends AppCompatActivity
     public void addMenuItem(Item item)
     {
         LinearLayout layout = (LinearLayout) findViewById(R.id.rootLayout);
-        String itemContent = item.name + "             " + item.caffeine + "mg" + "            " + "$" + item.price;
+        String itemContent = item.name + "             " + item.caffeine + "mg" + "            " + "$4.5";
         newItem = new Button(this);
         newItem.setText(itemContent);
+        newItem.setBackgroundColor(Color.WHITE);
         layout.addView(newItem);
         newItem.setOnClickListener(new View.OnClickListener()
         {
