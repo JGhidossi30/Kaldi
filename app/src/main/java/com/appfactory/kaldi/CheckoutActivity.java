@@ -11,18 +11,20 @@ public class CheckoutActivity extends AppCompatActivity
 {
     ArrayList<String> bag;
     String bagString = "";
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
-
+        bag = getIntent().getStringArrayListExtra("BAG");
         TextView textview = (TextView) findViewById(R.id.bagText);
-        for(int i = 0; i < bag.size(); i++)
+        if(bag != null)
         {
-            bagString += bag.get(i);
-            bagString += "\n";
+            for (int i = 0; i < bag.size(); i++) {
+                bagString += bag.get(i);
+                bagString += "\n";
+            }
+            textview.setText(bagString);
         }
-        textview.setText(bagString);
     }
 }

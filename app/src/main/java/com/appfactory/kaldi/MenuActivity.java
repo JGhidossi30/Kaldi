@@ -19,12 +19,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuActivity extends AppCompatActivity
 {
     private Button newItem;
-    private Order bag = new Order();
+    private ArrayList <String> bag = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -32,7 +33,6 @@ public class MenuActivity extends AppCompatActivity
         setContentView(R.layout.activity_menu);
         String businessTitle = getIntent().getStringExtra("businessTitle");
         getMenu(businessTitle);
-
     }
 
     public void getMenu(String businessTitle)
@@ -80,51 +80,57 @@ public class MenuActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
-                Query search;
-                if (getIntent().getBooleanExtra("isDrinker", true))
-                    search = database.child("drinkers").orderByKey();
-                else
-                    search = database.child("merchants").orderByKey();
-                search.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            if (snapshot.getKey().equals(getIntent().getStringExtra("currentUser"))) {
-                                Drinker drinker;
-                                if (getIntent().getBooleanExtra("isDrinker", true))
-                                    drinker = snapshot.getValue(Drinker.class);
-                                else
-                                    drinker = snapshot.getValue(Merchant.class);
-                                drinker.id = snapshot.getKey();
-                                drinker.orderHistory.add(bag);
-                                drinker.submitToDatabase();
+                Intent myIntent = new Intent(view.getContext(), CheckoutActivity.class);
+                String currentUser = getIntent().getStringExtra("currentUser");
+                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+                myIntent.putExtra("currentUser", currentUser);
+                myIntent.putExtra("isDrinker", isDrinker);
+                myIntent.putStringArrayListExtra("BAG", bag);
+                startActivityForResult(myIntent, 0);
 
-                                //Intent myIntent = new Intent(view.getContext(), CheckoutActivity.class); Might want to bring this page back
-                                Intent myIntent;
-                                if (getIntent().getBooleanExtra("isDrinker", true))
-                                  myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
-                                else
-                                    myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
-                                String currentUser = getIntent().getStringExtra("currentUser");
-                                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
-                                myIntent.putExtra("currentUser", currentUser);
-                                myIntent.putExtra("isDrinker", isDrinker);
-                                startActivityForResult(myIntent, 0);
-
-                                Toast toast = Toast.makeText(getApplicationContext(), "Order placed!", Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                toast.show();
-                                break;
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+//                DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+//                Query search;
+//                if (getIntent().getBooleanExtra("isDrinker", true))
+//                    search = database.child("drinkers").orderByKey();
+//                else
+//                    search = database.child("merchants").orderByKey();
+//                search.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                            if (snapshot.getKey().equals(getIntent().getStringExtra("currentUser"))) {
+//                                Drinker drinker;
+//                                if (getIntent().getBooleanExtra("isDrinker", true))
+//                                    drinker = snapshot.getValue(Drinker.class);
+//                                else
+//                                    drinker = snapshot.getValue(Merchant.class);
+//                                drinker.id = snapshot.getKey();
+//                                drinker.orderHistory.add(bag);
+//                                drinker.submitToDatabase();
+//                                Intent myIntent;
+//                                if (getIntent().getBooleanExtra("isDrinker", true))
+//                                  myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
+//                                else
+//                                    myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
+//                                String currentUser = getIntent().getStringExtra("currentUser");
+//                                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+//                                myIntent.putExtra("currentUser", currentUser);
+//                                myIntent.putExtra("isDrinker", isDrinker);
+//                                startActivityForResult(myIntent, 0);
+//
+//                                Toast toast = Toast.makeText(getApplicationContext(), "Order placed!", Toast.LENGTH_LONG);
+//                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                                toast.show();
+//                                break;
+//                            }
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
             }
         });
     }
@@ -140,7 +146,8 @@ public class MenuActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                bag.items.add(item);
+                String checkoutContent = item.name + " $4.5";
+                bag.add(checkoutContent);
             }
         });
     }

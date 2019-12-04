@@ -92,9 +92,9 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                             drinker.id = snapshot.getKey();
                                             if (!drinker.password.equals(password))
                                             {
-                                                Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
-                                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                                toast.show();
+//                                                Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
+//                                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                                                toast.show();
                                             }
                                             else if (drinker.email.equals(email))
                                             {
@@ -117,9 +117,9 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                             }
                                             else
                                             {System.out.println("----------  Account does not exist!");
-                                                Toast toast = Toast.makeText(getApplicationContext(), "Account does not exist!", Toast.LENGTH_LONG);
-                                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                                toast.show();
+//                                                Toast toast = Toast.makeText(getApplicationContext(), "Account does not exist!", Toast.LENGTH_LONG);
+//                                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                                                toast.show();
                                             }
                                         }
                                         else
