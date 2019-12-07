@@ -52,7 +52,7 @@ public class MenuActivity extends AppCompatActivity
                             if (merchant.stores.get(i).storeName.equals(businessTitle)) {
                                 if (merchant.stores.get(i).menu != null)
                                 {
-                                    List<Item> menu = merchant.stores.get(i).menu.menu;
+                                    List<Item> menu = merchant.stores.get(i).menu;
                                     for (Item item : menu)
                                     {
                                         addMenuItem(item);

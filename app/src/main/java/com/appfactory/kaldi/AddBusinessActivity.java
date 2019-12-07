@@ -53,7 +53,7 @@ public class AddBusinessActivity extends AppCompatActivity
                                 if(merchant != null)
                                 {
                                     merchant.id = snapshot.getKey();
-                                    merchant.stores.add(new Store(businesName, location, new Menu(new Item(initialItem, Integer.parseInt(caffeine)))));
+                                    merchant.stores.add(new Store(businesName, location));
                                     merchant.submitToDatabase();
                                     Intent myIntent = myIntent = new Intent(getApplicationContext(), MerchantMainActivity.class);
                                     String currentUser = getIntent().getStringExtra("currentUser");

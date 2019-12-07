@@ -199,11 +199,13 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
                     Merchant merchant = postSnapshot.getValue(Merchant.class);
                     if (merchant.stores != null)
                     {
-                        for (int i = 0; i < merchant.stores.size(); i++) {
+                        for (int i = 0; i < merchant.stores.size(); i++)
+                        {
                             String strAddress = merchant.stores.get(i).getLocation();
                             String businessName = merchant.stores.get(i).getStoreName();
                             LatLng latLng = getLocationFromAddress(getApplicationContext(), strAddress);
-                            if(latLng != null) {
+                            if (latLng != null && merchant.stores.get(i).validated)
+                            {
                                 addMarker(businessName, latLng, 0);
                             }
                         }
@@ -216,14 +218,14 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
 
             }
         });
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnMarkerClickListener(this);
     }
-
 
     @Override
     public boolean onMarkerClick(Marker marker)
@@ -252,7 +254,7 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
                     dialog.dismiss();
                 }
             })
-            .setNegativeButton("Menu", new DialogInterface.OnClickListener()
+                    .setNegativeButton("Menu", new DialogInterface.OnClickListener()
             {
                 public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id)
                 {

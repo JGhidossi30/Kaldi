@@ -22,7 +22,7 @@ public class WhiteBoxTests {
         assertEquals(true, value);
     }
 
-    Menu menu;
+    List<Item> menu;
     Item item;
 
     @Test
@@ -33,13 +33,13 @@ public class WhiteBoxTests {
 
     @Test
     public void createMenu(){
-        menu = new Menu(item);
+        menu = new ArrayList<Item>();
         assertNotNull(menu);
     }
 
     @Test
     public void createStore(){
-        Store store = new Store("Example Store", "635 USC McCarthy Way", menu);
+        Store store = new Store("Example Store", "635 USC McCarthy Way");
         assertNotNull(store);
     }
 
@@ -56,7 +56,7 @@ public class WhiteBoxTests {
         String email = "example@gmail.com";
         String storeName = "Alex's coffee";
         String location = "635 USC McCarthy Way";
-        Merchant m = new Merchant(name, password, email, storeName, location, menu);
+        Merchant m = new Merchant(name, password, email, storeName, location);
         assertNotNull(m);
     }
 

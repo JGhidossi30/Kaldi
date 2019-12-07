@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "53083777039",
-    "firebase_url": "https://kaldi-6fe42.firebaseio.com",
-    "project_id": "kaldi-6fe42",
-    "storage_bucket": "kaldi-6fe42.appspot.com"
+    "project_number": "422289457748",
+    "firebase_url": "https://beanleaf-usc310.firebaseio.com",
+    "project_id": "beanleaf-usc310",
+    "storage_bucket": "beanleaf-usc310.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:53083777039:android:e196b0f47eaf75953b5b7a",
+        "mobilesdk_app_id": "1:422289457748:android:178a8881ebf531abbfa3c1",
         "android_client_info": {
           "package_name": "com.appfactory.kaldi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "53083777039-si5dq6ga197tnnlnbrm5bghp72nr3o4k.apps.googleusercontent.com",
+          "client_id": "422289457748-mtu5hlgcgq04e92adedftqe6s5k0qpb0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.appfactory.kaldi",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "53083777039-f9nfg3hgmdp1je000an766sjootm2028.apps.googleusercontent.com",
+          "client_id": "422289457748-9esjmq1h9klu9admgoljcmp3vgn45mpr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAe4wXm6aGNVfIW7jA6SqJc2Juc6ineQXU"
+          "current_key": "AIzaSyDGaJtuMNbAS6KHiE0PmH4FRSMYC41Cj8g"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "53083777039-f9nfg3hgmdp1je000an766sjootm2028.apps.googleusercontent.com",
+              "client_id": "422289457748-9esjmq1h9klu9admgoljcmp3vgn45mpr.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

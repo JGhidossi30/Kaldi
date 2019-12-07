@@ -84,7 +84,7 @@ public class RegisterMerchantActivity extends AppCompatActivity implements Seria
                             }
                             if (!emailExists)
                             {
-                                Merchant merchant = new Merchant(name, password, email, storeName, address, new Menu(new Item(initialItem, Integer.parseInt(caffeine))));
+                                Merchant merchant = new Merchant(name, password, email, storeName, address);
                                 merchant.submitToDatabase();
 
                                 //Update Page

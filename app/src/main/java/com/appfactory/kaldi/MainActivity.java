@@ -2,6 +2,7 @@ package com.appfactory.kaldi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.View;
@@ -25,8 +26,6 @@ import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity implements Serializable
 {
-    private int id;
-
     /**
      * @param savedInstanceState
      */
@@ -42,8 +41,8 @@ public class MainActivity extends AppCompatActivity implements Serializable
             @Override
             public void onClick(View view)
             {
-                TextView emailInput = (TextView) findViewById(R.id.email);
-                TextView passwordInput = (TextView) findViewById(R.id.password);
+                TextView emailInput = (TextView)findViewById(R.id.email);
+                TextView passwordInput = (TextView)findViewById(R.id.password);
 
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
@@ -62,84 +61,65 @@ public class MainActivity extends AppCompatActivity implements Serializable
                 }
                 else
                 {
-                    RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+                    RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
                     int radioButtonId = radioGroup.getCheckedRadioButtonId();
                     if (radioButtonId != -1)
                     {
-                        RadioButton radioButton = (RadioButton) radioGroup.findViewById(radioButtonId);
-                        if (radioButton != null) ;
+                        RadioButton radioButton = (RadioButton)radioGroup.findViewById(radioButtonId);
+                        if (radioButton != null);
                         {
-                            id = (Integer.parseInt((String) radioButton.getTag()));
+                            int id = (Integer.parseInt((String) radioButton.getTag()));
                             DatabaseReference database;
                             if (id == 1)
                                 database = FirebaseDatabase.getInstance().getReference("users").child("drinkers");
                             else
                                 database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
-                            database.addValueEventListener(new ValueEventListener()
-                            {
+                            database.orderByChild("email").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                                {
-                                    for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                System.out.println(id + "- - - - - - "+dataSnapshot.toString());    if (id == 1)
                                     {
-                                        if (snapshot.exists())
+                                        Drinker drinker = dataSnapshot.getValue(Drinker.class);
+                                        if (!drinker.password.equals(password))
                                         {
-                                            Drinker drinker;
-                                            if (id == 1)
-                                                drinker = snapshot.getValue(Drinker.class);
-                                            else
-                                                drinker = snapshot.getValue(Merchant.class);
-                                            drinker.id = snapshot.getKey();
-                                            if (!drinker.password.equals(password))
-                                            {
-//                                                Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
-//                                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-//                                                toast.show();
-                                            }
-                                            else if (drinker.email.equals(email))
-                                            {
-                                                //Update Page
-                                                Intent myIntent;
-                                                if (id == 1) {
-                                                    myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
-                                                    myIntent.putExtra("currentUser", id);
-                                                    myIntent.putExtra("isDrinker", true);
-                                                }
-                                                else {
-                                                    myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
-                                                    myIntent.putExtra("currentUser", id);
-                                                    myIntent.putExtra("isDrinker", false);
-
-                                                }
-                                                myIntent.putExtra("currentUser", drinker.id);
-                                                startActivity(myIntent);
-                                                break;
-                                            }
-                                            else
-                                            {System.out.println("----------  Account does not exist!");
-//                                                Toast toast = Toast.makeText(getApplicationContext(), "Account does not exist!", Toast.LENGTH_LONG);
-//                                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-//                                                toast.show();
-                                            }
+                                            Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
+                                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                            toast.show();
                                         }
                                         else
                                         {
-                                            Toast toast = Toast.makeText(getApplicationContext(), "Account does not exist!", Toast.LENGTH_LONG);
+                                            CurrentUser.getInstance().signIn(drinker);
+                                            Intent intent = new Intent(view.getContext(), DrinkerMainActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Merchant merchant = dataSnapshot.getValue(Merchant.class);
+                                        if (!merchant.password.equals(password))
+                                        {
+                                            Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
                                             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                                             toast.show();
+                                        }
+                                        else
+                                        {
+                                            CurrentUser.getInstance().signIn(merchant);
+                                            Intent intent = new Intent(view.getContext(), MerchantMainActivity.class);
+                                            startActivity(intent);
                                         }
                                     }
                                 }
 
                                 @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) { }
+                                public void onCancelled(@NonNull DatabaseError databaseError) { Log.d("onCancelled:", databaseError.toString()); }
                             });
                         }
                     }
                 }
             }
         });
-        Button button2 = (Button) findViewById(R.id.regButton);
+        Button button2 = (Button)findViewById(R.id.regButton);
         button2.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -153,26 +133,22 @@ public class MainActivity extends AppCompatActivity implements Serializable
     }
 
     /**
-     * Validates that the input given is in the correct format.
-     *
-     * @param email
-     * @return
-     */
-    public static boolean validateEmail(String email)
-    {
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
-        {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      *
      */
     @Override
     protected void onStart()
     {
         super.onStart();
+    }
+
+    /**
+     * Validates that the input given is in the correct format.
+     *
+     * @param email
+     * @return True: Email is valid. False: Email is not valid.
+     */
+    public static boolean validateEmail(String email)
+    {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

@@ -55,7 +55,7 @@ public class AddMenuItemActivity extends AppCompatActivity
                                     {
                                         if (merchant.stores.get(i).storeName.equals(businessName))
                                         {
-                                            merchant.stores.get(i).menu.addItem(new Item(itemName, Integer.parseInt(caffeine)));
+                                            merchant.stores.get(i).menu.add(new Item(itemName, Integer.parseInt(caffeine)));
                                             merchant.submitToDatabase();
                                         }
                                         break;

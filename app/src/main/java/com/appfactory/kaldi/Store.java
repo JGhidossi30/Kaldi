@@ -1,11 +1,12 @@
 package com.appfactory.kaldi;
 
+import java.util.List;
+
 public class Store
 {
-    public String storeName;
-    public String location;
-    public Menu menu;
-
+    public String storeName, location;
+    public boolean validated;
+    public List<Item> menu;
 
     /**
      *
@@ -17,13 +18,11 @@ public class Store
      *
      * @param storeName
      * @param location
-     * @param menu
      */
-    public Store(String storeName, String location, Menu menu)
+    public Store(String storeName, String location)
     {
         this.storeName = storeName;
         this.location = location;
-        this.menu = menu;
     }
 
     /**
@@ -66,7 +65,7 @@ public class Store
      *
      * @return
      */
-    public Menu getMenu()
+    public List<Item> getMenu()
     {
         return menu;
     }
@@ -75,7 +74,7 @@ public class Store
      *
      * @param menu
      */
-    public void setMenu(Menu menu)
+    public void setMenu(List<Item> menu)
     {
         this.menu = menu;
     }
