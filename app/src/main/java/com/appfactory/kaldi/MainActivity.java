@@ -69,15 +69,19 @@ public class MainActivity extends AppCompatActivity implements Serializable
                         if (radioButton != null);
                         {
                             int id = (Integer.parseInt((String) radioButton.getTag()));
-                            DatabaseReference database;
+                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+                            Query search;
                             if (id == 1)
-                                database = FirebaseDatabase.getInstance().getReference("users").child("drinkers");
+                                search = database.child("drinkers").orderByChild("email").equalTo(email);
                             else
-                                database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
-                            database.orderByChild("email").addListenerForSingleValueEvent(new ValueEventListener() {
+                                search = database.child("merchants").orderByChild("email").equalTo(email);
+                            System.out.println(id+"------ -- - - - ");
+
+                            search.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                System.out.println(id + "- - - - - - "+dataSnapshot.toString());    if (id == 1)
+                                System.out.println(id + "- - - - - - "+dataSnapshot.toString());
+                                    if (id == 1)
                                     {
                                         Drinker drinker = dataSnapshot.getValue(Drinker.class);
                                         if (!drinker.password.equals(password))
