@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements Serializable
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Button loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener()
         {
@@ -77,17 +76,20 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                 search = database.child("merchants").orderByChild("email").equalTo(email);
                             System.out.println(id+"------ -- - - - ");
 
-                            search.addListenerForSingleValueEvent(new ValueEventListener() {
+                            search.addListenerForSingleValueEvent(new ValueEventListener()
+                            {
                                 @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                System.out.println(id + "- - - - - - "+dataSnapshot.toString());
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                                {
+                                    Log.d("dataShot", "" + id + "- - - - - - "+dataSnapshot.toString());
                                     if (id == 1)
                                     {
                                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                                         {
-                                            Drinker drinker;
-                                            if (snapshot.getValue(Merchant.class).email.equals(email)) {
-                                                drinker = dataSnapshot.getValue(Drinker.class);
+                                            Drinker drinker = snapshot.getValue(Drinker.class);
+                                            Log.d("drinker", "" + drinker.name);
+                                            if ((drinker != null) && (drinker.email.equals(email)))
+                                            {
                                                 if (!drinker.password.equals(password)) {
                                                     Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
                                                     toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -102,10 +104,12 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                     }
                                     else
                                     {
-                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                            Merchant merchant;
-                                            if (snapshot.getValue(Merchant.class).email.equals(email)) {
-                                                merchant = dataSnapshot.getValue(Merchant.class);
+                                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                                        {
+                                            Merchant merchant = snapshot.getValue(Merchant.class);
+                                            if ((merchant != null) && (merchant.email.equals(email)))
+                                            {
+                                                Log.d("merchant", "" + merchant.name);
                                                 if (!merchant.password.equals(password)) {
                                                     Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
                                                     toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
