@@ -42,10 +42,8 @@ public class MainActivity extends AppCompatActivity implements Serializable
             {
                 TextView emailInput = (TextView)findViewById(R.id.email);
                 TextView passwordInput = (TextView)findViewById(R.id.password);
-
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
-
                 if (!validateEmail(email))
                 {
                     Toast toast = Toast.makeText(getApplicationContext(), "Invalid email!", Toast.LENGTH_LONG);
@@ -70,11 +68,12 @@ public class MainActivity extends AppCompatActivity implements Serializable
                             int id = (Integer.parseInt((String) radioButton.getTag()));
                             DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
                             Query search;
-                            if (id == 1)
+                            if (id == 1) {
                                 search = database.child("drinkers").orderByChild("email").equalTo(email);
-                            else
+                            }
+                            else {
                                 search = database.child("merchants").orderByChild("email").equalTo(email);
-                            System.out.println(id+"------ -- - - - ");
+                            }
 
                             search.addListenerForSingleValueEvent(new ValueEventListener()
                             {
@@ -87,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                                         {
                                             Drinker drinker = snapshot.getValue(Drinker.class);
-                                            Log.d("drinker", "" + drinker.name);
                                             if ((drinker != null) && (drinker.email.equals(email)))
                                             {
                                                 if (!drinker.password.equals(password)) {
@@ -109,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                             Merchant merchant = snapshot.getValue(Merchant.class);
                                             if ((merchant != null) && (merchant.email.equals(email)))
                                             {
-                                                Log.d("merchant", "" + merchant.name);
                                                 if (!merchant.password.equals(password)) {
                                                     Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
                                                     toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
