@@ -43,8 +43,6 @@ public class RegisterMerchantActivity extends AppCompatActivity implements Seria
                 TextView passwordInput = findViewById(R.id.passwordInput);
                 TextView confirmPasswordInput = findViewById(R.id.confirmPasswordInput);
                 TextView addressInput = findViewById(R.id.addressInput);
-                TextView initialItemInput = findViewById(R.id.initialItemInput);
-                TextView caffeineInput = findViewById(R.id.caffeineInput);
 
                 String name = nameInput.getText().toString();
                 String storeName = storeNameInput.getText().toString();
@@ -52,8 +50,6 @@ public class RegisterMerchantActivity extends AppCompatActivity implements Seria
                 String password = passwordInput.getText().toString();
                 String confirmPassword = confirmPasswordInput.getText().toString();
                 String address = addressInput.getText().toString();
-                String initialItem = initialItemInput.getText().toString();
-                String caffeine = caffeineInput.getText().toString();
 
                 if (!password.equals(confirmPassword))
                 {
@@ -89,8 +85,6 @@ public class RegisterMerchantActivity extends AppCompatActivity implements Seria
 
                                 //Update Page
                                 Intent myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
-                                myIntent.putExtra("currentUser", merchant.id);
-                                myIntent.putExtra("isDrinker", false);
                                 startActivity(myIntent);
                             }
                         }
