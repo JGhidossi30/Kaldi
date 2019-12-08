@@ -83,34 +83,39 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                 System.out.println(id + "- - - - - - "+dataSnapshot.toString());
                                     if (id == 1)
                                     {
-                                        Drinker drinker = dataSnapshot.getValue(Drinker.class);
-                                        if (!drinker.password.equals(password))
+                                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
                                         {
-                                            Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
-                                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                            toast.show();
-                                        }
-                                        else
-                                        {
-                                            CurrentUser.getInstance().signIn(drinker);
-                                            Intent intent = new Intent(view.getContext(), DrinkerMainActivity.class);
-                                            startActivity(intent);
+                                            Drinker drinker;
+                                            if (snapshot.getValue(Merchant.class).email.equals(email)) {
+                                                drinker = dataSnapshot.getValue(Drinker.class);
+                                                if (!drinker.password.equals(password)) {
+                                                    Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
+                                                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                                    toast.show();
+                                                } else {
+                                                    CurrentUser.getInstance().signIn(drinker);
+                                                    Intent intent = new Intent(view.getContext(), DrinkerMainActivity.class);
+                                                    startActivity(intent);
+                                                }
+                                            }
                                         }
                                     }
                                     else
                                     {
-                                        Merchant merchant = dataSnapshot.getValue(Merchant.class);
-                                        if (!merchant.password.equals(password))
-                                        {
-                                            Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
-                                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                            toast.show();
-                                        }
-                                        else
-                                        {
-                                            CurrentUser.getInstance().signIn(merchant);
-                                            Intent intent = new Intent(view.getContext(), MerchantMainActivity.class);
-                                            startActivity(intent);
+                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                            Merchant merchant;
+                                            if (snapshot.getValue(Merchant.class).email.equals(email)) {
+                                                merchant = dataSnapshot.getValue(Merchant.class);
+                                                if (!merchant.password.equals(password)) {
+                                                    Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
+                                                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                                    toast.show();
+                                                } else {
+                                                    CurrentUser.getInstance().signIn(merchant);
+                                                    Intent intent = new Intent(view.getContext(), MerchantMainActivity.class);
+                                                    startActivity(intent);
+                                                }
+                                            }
                                         }
                                     }
                                 }
