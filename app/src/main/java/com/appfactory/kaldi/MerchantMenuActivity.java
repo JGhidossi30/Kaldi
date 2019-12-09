@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -26,8 +27,6 @@ import java.util.List;
 public class MerchantMenuActivity extends AppCompatActivity
 {
     private Button newItem;
-    private Button checkout;
-    private ArrayList <String> bag = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -54,7 +53,7 @@ public class MerchantMenuActivity extends AppCompatActivity
                         {
                             if (merchant.stores.get(i).storeName.equals(businessTitle))
                             {
-                                if (merchant.stores.get(i).menu != null)
+                                if (merchant.stores.get(i).menu.size() != 0)
                                 {
                                     List<Item> menu = merchant.stores.get(i).menu;
                                     for (Item item : menu)

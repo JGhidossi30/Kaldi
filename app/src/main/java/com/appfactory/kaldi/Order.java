@@ -12,7 +12,8 @@ public class Order
     public Order()
     {
         items = new ArrayList<Item>();
-        time = LocalTime.now();
+//        time = LocalTime.now();
+        time = null;
     }
 
     public List<Item> getItems()
