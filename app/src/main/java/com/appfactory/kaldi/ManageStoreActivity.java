@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -43,9 +44,7 @@ public class ManageStoreActivity extends AppCompatActivity
             {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
                 {
-                    Log.d("key", "" + postSnapshot.getKey());
-                    Log.d("userName", "" + userName);
-                    if (postSnapshot.getKey().equals(userName))
+                    if ((postSnapshot.getKey() != null) && (postSnapshot.getKey().equals(userName)))
                     {
                         Merchant merchant = postSnapshot.getValue(Merchant.class);
                         if((merchant != null) && (merchant.stores != null))
@@ -55,8 +54,8 @@ public class ManageStoreActivity extends AppCompatActivity
                                 String storeName = merchant.stores.get(i).storeName;
                                 addStoreItem(storeName);
                             }
-                            break;
                         }
+                        break;
                     }
                 }
             }
@@ -73,6 +72,7 @@ public class ManageStoreActivity extends AppCompatActivity
         LinearLayout layout = (LinearLayout) findViewById(R.id.rootLayout);
         newItem = new Button(this);
         newItem.setText(storeName);
+        newItem.setBackgroundColor(Color.WHITE);
         layout.addView(newItem);
         newItem.setOnClickListener(new View.OnClickListener()
         {
