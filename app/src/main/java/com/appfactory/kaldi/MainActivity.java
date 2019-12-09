@@ -87,13 +87,13 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                         {
                                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                                 Drinker drinker = snapshot.getValue(Drinker.class);
-                                                drinker.setId(dataSnapshot.getKey());
                                                 if ((drinker != null) && (drinker.email.equals(email))) {
                                                     if (!drinker.password.equals(password)) {
                                                         Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
                                                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                                                         toast.show();
                                                     } else {
+                                                        drinker.setId(snapshot.getKey());
                                                         CurrentUser.getInstance().signIn(drinker);
                                                         Intent intent = new Intent(view.getContext(), DrinkerMainActivity.class);
                                                         startActivity(intent);
@@ -114,13 +114,14 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                         {
                                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                                 Merchant merchant = snapshot.getValue(Merchant.class);
-                                                merchant.setId(dataSnapshot.getKey());
-                                                if ((merchant != null) && (merchant.email.equals(email))) {
+                                                if ((merchant != null) && (merchant.email.equals(email)))
+                                                {
                                                     if (!merchant.password.equals(password)) {
                                                         Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
                                                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                                                         toast.show();
                                                     } else {
+                                                        merchant.setId(snapshot.getKey());
                                                         CurrentUser.getInstance().signIn(merchant);
                                                         Intent intent = new Intent(view.getContext(), MerchantMainActivity.class);
                                                         startActivity(intent);
