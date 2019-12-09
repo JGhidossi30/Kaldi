@@ -24,11 +24,7 @@ public class StoreProfileActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), AddMenuItemActivity.class);
-                String currentUser = getIntent().getStringExtra("currentUser");
-                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
                 String storeName = getIntent().getStringExtra("storeName");
-                myIntent.putExtra("currentUser", currentUser);
-                myIntent.putExtra("isDrinker", isDrinker);
                 myIntent.putExtra("storeName", storeName);
                 startActivityForResult(myIntent, 0);
             }
@@ -38,8 +34,6 @@ public class StoreProfileActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                String currentUser = getIntent().getStringExtra("currentUser");
-                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
                 myFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 myFileIntent.setType("*/*");
                 startActivityForResult(myFileIntent, 10);
@@ -52,12 +46,8 @@ public class StoreProfileActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(view.getContext(), MenuActivity.class);
-                String currentUser = getIntent().getStringExtra("currentUser");
-                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+                Intent myIntent = new Intent(view.getContext(), MerchantMenuActivity.class);
                 String storeName = getIntent().getStringExtra("storeName");
-                myIntent.putExtra("currentUser", currentUser);
-                myIntent.putExtra("isDrinker", isDrinker);
                 myIntent.putExtra("businessTitle", storeName);
                 startActivityForResult(myIntent, 0);
             }
