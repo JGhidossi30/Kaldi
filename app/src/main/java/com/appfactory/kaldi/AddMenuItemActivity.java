@@ -51,7 +51,6 @@ public class AddMenuItemActivity extends AppCompatActivity
                                 Merchant merchant = snapshot.getValue(Merchant.class);
                                 if(merchant != null)
                                 {
-                                    merchant.id = snapshot.getKey();
                                     for(int i = 0; i < merchant.stores.size(); i++)
                                     {
                                         if (merchant.stores.get(i).storeName.equals(businessName))
