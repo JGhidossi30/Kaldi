@@ -47,21 +47,21 @@ public class Drinker implements Serializable
         this.id = database.push().getKey();
     }
 
-    /**
-     *
-     * @param name
-     * @param password
-     * @param email
-     * @param id
-     */
-    public Drinker(String name, String password, String email, String id)
-    {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.orderHistory = new ArrayList<Order>();
-        this.id = id;
-    }
+//    /**
+//     *
+//     * @param name
+//     * @param password
+//     * @param email
+//     * @param id
+//     */
+//    public Drinker(String name, String password, String email, String id)
+//    {
+//        this.name = name;
+//        this.password = password;
+//        this.email = email;
+//        this.orderHistory = new ArrayList<Order>();
+//        this.id = id;
+//    }
 
     /**
      *
@@ -69,5 +69,13 @@ public class Drinker implements Serializable
     public void submitToDatabase()
     {
         database.child("drinkers").child(id).setValue(this);
+    }
+
+    /**
+     *
+     */
+    public void setId(String id)
+    {
+        this.id = id;
     }
 }

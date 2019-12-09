@@ -25,23 +25,23 @@ public class Merchant extends Drinker
         this.stores.add(new Store(storeName, location));
     }
 
-    /**
-     *
-     * @param name
-     * @param password
-     * @param email
-     * @param storeName
-     * @param location
-     * @param menu
-     * @param id
-     */
-    public Merchant(String name, String password, String email, String storeName, String location, List<Item> menu, String id)
-    {
-        super(name, password, email);
-        this.stores = new ArrayList<Store>();
-        this.stores.add(new Store(storeName, location));
-        this.id = id;
-    }
+//    /**
+//     *
+//     * @param name
+//     * @param password
+//     * @param email
+//     * @param storeName
+//     * @param location
+//     * @param menu
+//     * @param id
+//     */
+//    public Merchant(String name, String password, String email, String storeName, String location, List<Item> menu, String id)
+//    {
+//        super(name, password, email);
+//        this.stores = new ArrayList<Store>();
+//        this.stores.add(new Store(storeName, location));
+//        this.id = id;
+//    }
 
     /**
      * 

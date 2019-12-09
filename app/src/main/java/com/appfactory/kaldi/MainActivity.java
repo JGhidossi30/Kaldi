@@ -23,6 +23,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements Serializable
 {
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                         {
                                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                                 Drinker drinker = snapshot.getValue(Drinker.class);
+                                                drinker.setId(dataSnapshot.getKey());
                                                 if ((drinker != null) && (drinker.email.equals(email))) {
                                                     if (!drinker.password.equals(password)) {
                                                         Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                         {
                                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                                 Merchant merchant = snapshot.getValue(Merchant.class);
+                                                merchant.setId(dataSnapshot.getKey());
                                                 if ((merchant != null) && (merchant.email.equals(email))) {
                                                     if (!merchant.password.equals(password)) {
                                                         Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
