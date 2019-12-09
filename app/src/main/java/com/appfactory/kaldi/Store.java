@@ -24,7 +24,7 @@ public class Store
     {
         this.storeName = storeName;
         this.location = location;
-        this.validated = true;
+        this.validated = false;
         this.menu = new ArrayList<Item>();
     }
 

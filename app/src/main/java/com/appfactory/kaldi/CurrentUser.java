@@ -2,6 +2,8 @@ package com.appfactory.kaldi;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 class CurrentUser
@@ -15,7 +17,7 @@ class CurrentUser
     private String id;
     private int dailyCaffeine;
     private List<Order> orderHistory;
-    private List<Item> cart;
+    private HashMap<String, Order> cart;
     private List<Store> stores;
 
     public static CurrentUser getInstance() {
@@ -86,7 +88,7 @@ class CurrentUser
     public List<Order> getOrderHistory() {
         return this.orderHistory;
     }
-    public List<Item> getCart() { return this.cart; }
+    public HashMap<String, Order> getCart() { return this.cart; }
     public List<Store> getStores() {
         return this.stores;
     }
@@ -120,7 +122,7 @@ class CurrentUser
         this.orderHistory = orderHistory;
     }
 
-    public void setCart(List<Item> cart) {
+    public void setCart(HashMap<String, Order> cart) {
         this.cart = cart;
     }
 
@@ -128,19 +130,24 @@ class CurrentUser
         this.stores = stores;
     }
 
-    /**
-     *
-     * @return
-     */
-    public boolean checkout()
-    {
-        if (cart.size() == 0)
-            return false;
-        Order newOrder = new Order(cart, LocalTime.now());
-
-        orderHistory.add(newOrder);
-
-        cart = new ArrayList<Item>();
-        return true;
-    }
+//    /**
+//     *
+//     * @return
+//     */
+//    public boolean checkout()
+//    {
+//        if (cart.size() == 0)
+//            return false;
+//        Order newOrder = new Order();
+//        Iterator cartIterator = cart.entrySet().iterator();
+//        while (cartIterator.hasNext())
+//        {
+//           //add items in cart to newOrder
+//        }
+//        newOrder.setTime(LocalTime.now());
+//        orderHistory.add(newOrder);
+//
+//        cart = new HashMap<String, Order>();
+//        return true;
+//    }
 }
