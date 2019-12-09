@@ -38,8 +38,11 @@ public class Merchant extends Drinker
      */
     public Merchant(String name, String password, String email, String storeName, String location, List<Item> menu, String id)
     {
-        this(name, password, email, storeName, location);
+        super(name, password, email);
+        this.stores = new ArrayList<Store>();
+        this.stores.add(new Store(storeName, location));
         this.id = id;
+        submitToDatabase();
     }
 
     /**
