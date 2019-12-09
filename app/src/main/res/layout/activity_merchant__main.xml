@@ -18,26 +18,48 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/signOut"
+        android:layout_width="75dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Sign Out"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/drinkerProfile"
         android:layout_width="137dp"
         android:layout_height="74dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:text="Drinker Profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addStore" />
+        app:layout_constraintTop_toBottomOf="@+id/removeStore" />
 
     <Button
         android:id="@+id/addStore"
         android:layout_width="137dp"
         android:layout_height="74dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:text="Add Store"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/manageStore" />
+
+    <Button
+        android:id="@+id/removeStore"
+        android:layout_width="137dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="20dp"
+        android:text="Remove Store"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addStore" />
 
     <ImageView
         android:id="@+id/imageView"
