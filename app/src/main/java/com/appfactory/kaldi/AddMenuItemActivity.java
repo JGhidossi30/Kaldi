@@ -33,10 +33,10 @@ public class AddMenuItemActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 String businessName = getIntent().getStringExtra("storeName");
-                String userName = getIntent().getStringExtra("currentUser");
+                String userName = CurrentUser.getInstance().getId();
                 String itemName = itemInput.getText().toString();
                 String caffeine = caffeineInput.getText().toString();
-                double price = Double.parseDouble(priceInput.getText().toString());
+                String price = priceInput.getText().toString();
                 DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
                 Query search = database.child("merchants").orderByKey().equalTo(userName);
                 search.addListenerForSingleValueEvent(new ValueEventListener()
@@ -46,26 +46,21 @@ public class AddMenuItemActivity extends AppCompatActivity
                     {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
-                            if (snapshot.getKey().equals(userName))
+                            if ((snapshot.getKey() != null) && (snapshot.getKey().equals(userName)))
                             {
                                 Merchant merchant = snapshot.getValue(Merchant.class);
                                 if(merchant != null)
                                 {
-                                    merchant.id = snapshot.getKey();
-                                    for (int i = 0; i < merchant.stores.size(); i++)
+                                    for(int i = 0; i < merchant.stores.size(); i++)
                                     {
                                         if (merchant.stores.get(i).storeName.equals(businessName))
                                         {
-                                            merchant.stores.get(i).menu.add(new Item(itemName, Integer.parseInt(caffeine), price));
+                                            merchant.stores.get(i).menu.add(new Item(itemName, Integer.parseInt(caffeine)));
                                             merchant.submitToDatabase();
                                         }
                                         break;
                                     }
                                     Intent myIntent = myIntent = new Intent(getApplicationContext(), MerchantMainActivity.class);
-                                    String currentUser = getIntent().getStringExtra("currentUser");
-                                    boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
-                                    myIntent.putExtra("currentUser", currentUser);
-                                    myIntent.putExtra("isDrinker", isDrinker);
                                     startActivityForResult(myIntent, 0);
                                     Toast toast = Toast.makeText(getApplicationContext(), "New item Added!", Toast.LENGTH_LONG);
                                     toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);

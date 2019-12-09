@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import java.util.List;
 public class MenuActivity extends AppCompatActivity
 {
     private Button newItem;
+    private Button checkout;
     private ArrayList <String> bag = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,10 +48,12 @@ public class MenuActivity extends AppCompatActivity
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
                 {
                     Merchant merchant = postSnapshot.getValue(Merchant.class);
-                    if(merchant.stores != null)
+                    if((merchant != null) && (merchant.stores != null))
                     {
-                        for (int i = 0; i < merchant.stores.size(); i++) {
-                            if (merchant.stores.get(i).storeName.equals(businessTitle)) {
+                        for (int i = 0; i < merchant.stores.size(); i++)
+                        {
+                            if (merchant.stores.get(i).storeName.equals(businessTitle))
+                            {
                                 if (merchant.stores.get(i).menu != null)
                                 {
                                     List<Item> menu = merchant.stores.get(i).menu;
@@ -60,10 +64,12 @@ public class MenuActivity extends AppCompatActivity
                                 }
                                 else
                                     {
-                                Toast toast = Toast.makeText(getApplicationContext(), merchant.stores.get(i).storeName + " has no menu!", Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                toast.show();
-                                    }
+                                    checkout.setVisibility(View.INVISIBLE);
+                                    Toast toast = Toast.makeText(getApplicationContext(), merchant.stores.get(i).storeName + " has no menu!", Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    toast.show();
+
+                                }
                             }
                         }
                     }
@@ -75,69 +81,63 @@ public class MenuActivity extends AppCompatActivity
 
             }
         });
-        Button checkout = (Button) findViewById(R.id.checkout);
-        checkout.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View view)
-            {
+        checkout = (Button) findViewById(R.id.checkout);
+        checkout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), CheckoutActivity.class);
-                String currentUser = getIntent().getStringExtra("currentUser");
-                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
-                myIntent.putExtra("currentUser", currentUser);
-                myIntent.putExtra("isDrinker", isDrinker);
                 myIntent.putStringArrayListExtra("BAG", bag);
                 startActivityForResult(myIntent, 0);
 
-//                DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
-//                Query search;
-//                if (getIntent().getBooleanExtra("isDrinker", true))
-//                    search = database.child("drinkers").orderByKey();
-//                else
-//                    search = database.child("merchants").orderByKey();
-//                search.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                            if (snapshot.getKey().equals(getIntent().getStringExtra("currentUser"))) {
-//                                Drinker drinker;
-//                                if (getIntent().getBooleanExtra("isDrinker", true))
-//                                    drinker = snapshot.getValue(Drinker.class);
-//                                else
-//                                    drinker = snapshot.getValue(Merchant.class);
-//                                drinker.id = snapshot.getKey();
-//                                drinker.orderHistory.add(bag);
-//                                drinker.submitToDatabase();
-//                                Intent myIntent;
-//                                if (getIntent().getBooleanExtra("isDrinker", true))
-//                                  myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
-//                                else
-//                                    myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
-//                                String currentUser = getIntent().getStringExtra("currentUser");
-//                                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
-//                                myIntent.putExtra("currentUser", currentUser);
-//                                myIntent.putExtra("isDrinker", isDrinker);
-//                                startActivityForResult(myIntent, 0);
-//
-//                                Toast toast = Toast.makeText(getApplicationContext(), "Order placed!", Toast.LENGTH_LONG);
-//                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-//                                toast.show();
-//                                break;
-//                            }
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
+                //                DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+                //                Query search;
+                //                if (getIntent().getBooleanExtra("isDrinker", true))
+                //                    search = database.child("drinkers").orderByKey();
+                //                else
+                //                    search = database.child("merchants").orderByKey();
+                //                search.addListenerForSingleValueEvent(new ValueEventListener() {
+                //                    @Override
+                //                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                //                            if (snapshot.getKey().equals(getIntent().getStringExtra("currentUser"))) {
+                //                                Drinker drinker;
+                //                                if (getIntent().getBooleanExtra("isDrinker", true))
+                //                                    drinker = snapshot.getValue(Drinker.class);
+                //                                else
+                //                                    drinker = snapshot.getValue(Merchant.class);
+                //                                drinker.id = snapshot.getKey();
+                //                                drinker.orderHistory.add(bag);
+                //                                drinker.submitToDatabase();
+                //                                Intent myIntent;
+                //                                if (getIntent().getBooleanExtra("isDrinker", true))
+                //                                  myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
+                //                                else
+                //                                    myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
+                //                                String currentUser = getIntent().getStringExtra("currentUser");
+                //                                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+                //                                myIntent.putExtra("currentUser", currentUser);
+                //                                myIntent.putExtra("isDrinker", isDrinker);
+                //                                startActivityForResult(myIntent, 0);
+                //
+                //                                Toast toast = Toast.makeText(getApplicationContext(), "Order placed!", Toast.LENGTH_LONG);
+                //                                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                //                                toast.show();
+                //                                break;
+                //                            }
+                //                        }
+                //                    }
+                //
+                //                    @Override
+                //                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                //
+                //                    }
+                //                });
             }
         });
     }
     public void addMenuItem(Item item)
     {
         LinearLayout layout = (LinearLayout) findViewById(R.id.rootLayout);
-        String itemContent = item.name + "             " + item.caffeine + "mg" + "            " + "$4.5";
+        String itemContent = item.name + "             " + item.caffeine + "mg" + "            $" + item.price;
         newItem = new Button(this);
         newItem.setText(itemContent);
         newItem.setBackgroundColor(Color.WHITE);
@@ -146,7 +146,7 @@ public class MenuActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                String checkoutContent = item.name + " $4.5";
+                String checkoutContent = item.name;
                 bag.add(checkoutContent);
             }
         });

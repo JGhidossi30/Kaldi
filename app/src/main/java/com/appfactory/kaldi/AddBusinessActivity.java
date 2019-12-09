@@ -28,8 +28,6 @@ public class AddBusinessActivity extends AppCompatActivity
         String userName = CurrentUser.getInstance().getId();
         TextView businessNameInput = (TextView) findViewById(R.id.storeInput);
         TextView locationInput = (TextView) findViewById(R.id.addressInput);
-        TextView initialItemInput = (TextView) findViewById(R.id.initialItemInput);
-        TextView caffeineInput = (TextView) findViewById(R.id.caffeineInput);
         Button addBusiness =  (Button) findViewById(R.id.addBusiness);
         addBusiness.setOnClickListener(new View.OnClickListener()
         {
@@ -38,16 +36,16 @@ public class AddBusinessActivity extends AppCompatActivity
             {
                 String businessName = businessNameInput.getText().toString();
                 String location = locationInput.getText().toString();
-                String initialItem = initialItemInput.getText().toString();
-                String caffeine = caffeineInput.getText().toString();
                 DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
                 Query search = database.child("merchants").orderByKey().equalTo(userName);
                 search.addListenerForSingleValueEvent(new ValueEventListener()
                 {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            if (snapshot.getKey().equals(userName))
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        {
+                            if ((snapshot.getKey() != null) && (snapshot.getKey().equals(userName)))
                             {
                                 Merchant merchant = snapshot.getValue(Merchant.class);
                                 if(merchant != null)
@@ -55,7 +53,7 @@ public class AddBusinessActivity extends AppCompatActivity
                                     merchant.id = snapshot.getKey();
                                     merchant.stores.add(new Store(businessName, location));
                                     merchant.submitToDatabase();
-                                    Intent myIntent = myIntent = new Intent(getApplicationContext(), MerchantMainActivity.class);
+                                    Intent myIntent = new Intent(getApplicationContext(), MerchantMainActivity.class);
                                     startActivityForResult(myIntent, 0);
                                     Toast toast = Toast.makeText(getApplicationContext(), "New Business Added!", Toast.LENGTH_LONG);
                                     toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
