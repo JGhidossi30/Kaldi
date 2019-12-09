@@ -79,10 +79,8 @@ public class RegisterDrinkerActivity extends AppCompatActivity implements Serial
                                 Drinker drinker = new Drinker(name, password, email);
                                 drinker.submitToDatabase();
 
-                                //Update Page
+                                CurrentUser.getInstance().signIn(drinker);
                                 Intent myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
-                                myIntent.putExtra("currentUser", drinker.id);
-                                myIntent.putExtra("isDrinker", true);
                                 startActivity(myIntent);
                             }
                         }

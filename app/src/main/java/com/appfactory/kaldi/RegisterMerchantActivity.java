@@ -83,7 +83,7 @@ public class RegisterMerchantActivity extends AppCompatActivity implements Seria
                                 Merchant merchant = new Merchant(name, password, email, storeName, address);
                                 merchant.submitToDatabase();
 
-                                //Update Page
+                                CurrentUser.getInstance().signIn(merchant);
                                 Intent myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
                                 startActivity(myIntent);
                             }

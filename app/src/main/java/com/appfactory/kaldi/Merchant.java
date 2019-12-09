@@ -23,7 +23,6 @@ public class Merchant extends Drinker
         super(name, password, email);
         this.stores = new ArrayList<Store>();
         this.stores.add(new Store(storeName, location));
-        submitToDatabase();
     }
 
     /**
@@ -42,7 +41,6 @@ public class Merchant extends Drinker
         this.stores = new ArrayList<Store>();
         this.stores.add(new Store(storeName, location));
         this.id = id;
-        submitToDatabase();
     }
 
     /**
