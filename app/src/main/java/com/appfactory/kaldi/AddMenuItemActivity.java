@@ -56,6 +56,7 @@ public class AddMenuItemActivity extends AppCompatActivity
                                     {
                                         if (merchant.stores.get(i).storeName.equals(businessName))
                                         {
+                                            merchant.id = snapshot.getKey();
                                             merchant.stores.get(i).menu.add(new Item(itemName, caffeine, price));
                                             merchant.submitToDatabase();
                                         }

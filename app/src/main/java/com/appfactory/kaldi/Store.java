@@ -12,7 +12,10 @@ public class Store
     /**
      *
      */
-    public Store() { }
+    public Store()
+    {
+        this.menu = new ArrayList<Item>();
+    }
     /**
      *
      * @param storeName
