@@ -23,6 +23,7 @@ public class Store
     {
         this.storeName = storeName;
         this.location = location;
+        this.validated = true;
     }
 
     /**

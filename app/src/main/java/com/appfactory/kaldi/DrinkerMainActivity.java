@@ -141,12 +141,14 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
         {
             getLocationPermission();
         }
-        else {
+        else if(lm != null)
+        {
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
             myLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             Log.d("Get myLocation", "" + myLocation);
-            if (myLocation != null) {
+            if (myLocation != null)
+            {
                 // Debug Statement
                 double latitude = myLocation.getLatitude();
                 double longitude = myLocation.getLongitude();
@@ -157,8 +159,6 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, this);
             }
         }
-
-
     }
 
     // Adds marker on map using LatLng object
@@ -168,26 +168,9 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
         marker.setTag(tag);
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap)
+    // Displays the validated stores on the map
+    void getStores()
     {
-        mMap = googleMap;
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setCompassEnabled(true);
-
-        // Add all current location features if the user grants access
-        if(checkMapServices())
-        {
-            if(mLocationPermissionGranted)
-            {
-                getCurrentLoc();
-            }
-            else
-            {
-                getLocationPermission();
-            }
-        }
-        // ---- Repeat process for all added business ---
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
         database.addValueEventListener(new ValueEventListener()
         {
@@ -197,14 +180,15 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
                 {
                     Merchant merchant = postSnapshot.getValue(Merchant.class);
-                    if (merchant.stores != null)
+                    if ((merchant != null) && (merchant.stores != null))
                     {
                         for (int i = 0; i < merchant.stores.size(); i++)
                         {
+
                             String strAddress = merchant.stores.get(i).getLocation();
                             String businessName = merchant.stores.get(i).getStoreName();
                             LatLng latLng = getLocationFromAddress(getApplicationContext(), strAddress);
-                            if (latLng != null && merchant.stores.get(i).validated)
+                            if ((latLng != null) && (merchant.stores.get(i).validated))
                             {
                                 addMarker(businessName, latLng, 0);
                             }
@@ -223,6 +207,27 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
 
             }
         });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap)
+    {
+        mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        // Add all current location features if the user grants access
+        if(checkMapServices())
+        {
+            if(mLocationPermissionGranted)
+            {
+                getCurrentLoc();
+            }
+            else
+            {
+                getLocationPermission();
+            }
+        }
+        getStores();
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnMarkerClickListener(this);
     }
