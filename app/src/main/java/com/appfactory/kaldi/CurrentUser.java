@@ -35,24 +35,18 @@ class CurrentUser
             this.password = currentUser.password;
             this.email = currentUser.email;
             this.id = currentUser.id;
-
             this.dailyCaffeine = currentUser.dailyCaffeine;
-
             this.orderHistory = currentUser.orderHistory;
-
             this.stores = ((Merchant)currentUser).stores;
         }
         else
         {
             this.nullDrinkerMerchant = 1;
-
             this.name = currentUser.name;
             this.password = currentUser.password;
             this.email = currentUser.email;
             this.id = currentUser.id;
-
             this.dailyCaffeine = currentUser.dailyCaffeine;
-
             this.orderHistory = currentUser.orderHistory;
         }
     }
@@ -74,29 +68,22 @@ class CurrentUser
     }
 
     public int getNullDrinkerMerchant() { return this.nullDrinkerMerchant; }
-
     public String getName() {
         return this.name;
     }
-
     public String getPassword() {
         return this.password;
     }
-
     public String getEmail() { return this.email; }
-
     public String getId() {
         return this.id;
     }
-
     public int getDailyCaffeine() {
         return this.dailyCaffeine;
     }
-
     public List<Order> getOrderHistory() {
         return this.orderHistory;
     }
-
     public List<Store> getStores() {
         return this.stores;
     }

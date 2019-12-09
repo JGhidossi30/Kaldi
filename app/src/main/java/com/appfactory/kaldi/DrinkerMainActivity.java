@@ -88,8 +88,8 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
     public void onBackPressed() {
         super.onBackPressed();
         int userType = CurrentUser.getInstance().getNullDrinkerMerchant();
-        if (userType == 1) {
-            Log.d("drinker", "" + CurrentUser.getInstance().getId());
+        if (userType == 1)
+        {
             CurrentUser.getInstance().signOut();
             Intent myIntent = new Intent(DrinkerMainActivity.this, MainActivity.class);
             startActivityForResult(myIntent, 0);
