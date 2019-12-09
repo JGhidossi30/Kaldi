@@ -22,10 +22,6 @@ public class MerchantMainActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), ManageStoreActivity.class);
-                String currentUser = getIntent().getStringExtra("currentUser");
-                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
-                myIntent.putExtra("currentUser", currentUser);
-                myIntent.putExtra("isDrinker", isDrinker);
                 startActivityForResult(myIntent, 0);
             }
         });
@@ -36,10 +32,6 @@ public class MerchantMainActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
-                String currentUser = getIntent().getStringExtra("currentUser");
-                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
-                myIntent.putExtra("currentUser", currentUser);
-                myIntent.putExtra("isDrinker", isDrinker);
                 startActivityForResult(myIntent, 0);
             }
         });
@@ -50,10 +42,6 @@ public class MerchantMainActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), AddBusinessActivity.class);
-                String currentUser = getIntent().getStringExtra("currentUser");
-                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
-                myIntent.putExtra("currentUser", currentUser);
-                myIntent.putExtra("isDrinker", isDrinker);
                 startActivityForResult(myIntent, 0);
             }
         });
@@ -63,6 +51,7 @@ public class MerchantMainActivity extends AppCompatActivity
     public void onBackPressed()
     {
         super.onBackPressed();
+        CurrentUser.getInstance().signOut();
         Intent myIntent = new Intent(MerchantMainActivity.this, MainActivity.class);
         startActivityForResult(myIntent, 0);
     }

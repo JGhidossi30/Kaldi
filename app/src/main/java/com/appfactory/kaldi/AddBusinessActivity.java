@@ -25,7 +25,7 @@ public class AddBusinessActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_business);
-        String userName = getIntent().getStringExtra("currentUser");
+        String userName = CurrentUser.getInstance().getId();
         TextView businessNameInput = (TextView) findViewById(R.id.storeInput);
         TextView locationInput = (TextView) findViewById(R.id.addressInput);
         TextView initialItemInput = (TextView) findViewById(R.id.initialItemInput);
@@ -36,7 +36,7 @@ public class AddBusinessActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                String businesName = businessNameInput.getText().toString();
+                String businessName = businessNameInput.getText().toString();
                 String location = locationInput.getText().toString();
                 String initialItem = initialItemInput.getText().toString();
                 String caffeine = caffeineInput.getText().toString();
@@ -53,13 +53,9 @@ public class AddBusinessActivity extends AppCompatActivity
                                 if(merchant != null)
                                 {
                                     merchant.id = snapshot.getKey();
-                                    merchant.stores.add(new Store(businesName, location));
+                                    merchant.stores.add(new Store(businessName, location));
                                     merchant.submitToDatabase();
                                     Intent myIntent = myIntent = new Intent(getApplicationContext(), MerchantMainActivity.class);
-                                    String currentUser = getIntent().getStringExtra("currentUser");
-                                    boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
-                                    myIntent.putExtra("currentUser", currentUser);
-                                    myIntent.putExtra("isDrinker", isDrinker);
                                     startActivityForResult(myIntent, 0);
                                     Toast toast = Toast.makeText(getApplicationContext(), "New Business Added!", Toast.LENGTH_LONG);
                                     toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);

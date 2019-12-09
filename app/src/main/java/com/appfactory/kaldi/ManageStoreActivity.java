@@ -25,14 +25,12 @@ public class ManageStoreActivity extends AppCompatActivity
 {
     private Button newItem;
     private String userName;
-    private boolean isDrinker;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage__store);
-        userName = getIntent().getStringExtra("currentUser");
-        isDrinker = getIntent().getBooleanExtra("isDrinker", true);
+        userName = CurrentUser.getInstance().getId();
         getStores(userName);
     }
     public void getStores(String userName)
@@ -41,17 +39,24 @@ public class ManageStoreActivity extends AppCompatActivity
         database.addValueEventListener(new ValueEventListener()
         {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
                 {
+                    Log.d("key", "" + postSnapshot.getKey());
+                    Log.d("userName", "" + userName);
                     if (postSnapshot.getKey().equals(userName))
                     {
                         Merchant merchant = postSnapshot.getValue(Merchant.class);
-                        for (int i = 0; i < merchant.stores.size(); i++) {
-                            String storeName = merchant.stores.get(i).storeName;
-                            addStoreItem(storeName);
+                        if((merchant != null) && (merchant.stores != null))
+                        {
+                            for (int i = 0; i < merchant.stores.size(); i++)
+                            {
+                                String storeName = merchant.stores.get(i).storeName;
+                                addStoreItem(storeName);
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }
@@ -74,8 +79,6 @@ public class ManageStoreActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), StoreProfileActivity.class);
-                myIntent.putExtra("currentUser", userName);
-                myIntent.putExtra("isDrinker", isDrinker);
                 myIntent.putExtra("storeName", storeName);
                 startActivityForResult(myIntent, 0);
             }

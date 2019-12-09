@@ -85,11 +85,20 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
         mapFragment.getMapAsync(this);
     }
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         super.onBackPressed();
-        Intent myIntent = new Intent(DrinkerMainActivity.this, MainActivity.class);
-        startActivityForResult(myIntent, 0);
+        int userType = CurrentUser.getInstance().getNullDrinkerMerchant();
+        if (userType == 1) {
+            Log.d("drinker", "" + CurrentUser.getInstance().getId());
+            CurrentUser.getInstance().signOut();
+            Intent myIntent = new Intent(DrinkerMainActivity.this, MainActivity.class);
+            startActivityForResult(myIntent, 0);
+        }
+        else
+        {
+            Intent myIntent = new Intent(DrinkerMainActivity.this, MerchantMainActivity.class);
+            startActivityForResult(myIntent, 0);
+        }
     }
 
     /* Calculates the directions for the marker we click on */
@@ -149,10 +158,8 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
             Log.d("Get myLocation", "" + myLocation);
             if (myLocation != null)
             {
-                // Debug Statement
                 double latitude = myLocation.getLatitude();
                 double longitude = myLocation.getLongitude();
-                // End of debug
                 LatLng latLng = new LatLng(latitude, longitude);
                 CameraUpdate loc = CameraUpdateFactory.newLatLngZoom(latLng, 15.5f);
                 mMap.animateCamera(loc);
@@ -184,7 +191,6 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
                     {
                         for (int i = 0; i < merchant.stores.size(); i++)
                         {
-
                             String strAddress = merchant.stores.get(i).getLocation();
                             String businessName = merchant.stores.get(i).getStoreName();
                             LatLng latLng = getLocationFromAddress(getApplicationContext(), strAddress);
@@ -264,6 +270,7 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
                 public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id)
                 {
                     Intent myIntent = new Intent(DrinkerMainActivity.this, MenuActivity.class);
+                    myIntent.putExtra("businessTitle", marker.getTitle());
                     startActivityForResult(myIntent, 0);
                     dialog.cancel();
                 }
@@ -303,6 +310,7 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
             if (distance < 50)
             {
                 Intent myIntent = new Intent(DrinkerMainActivity.this, MenuActivity.class);
+                myIntent.putExtra("businessTitle", destMarker.getTitle());
                 startActivityForResult(myIntent, 0);
                 Toast toast = Toast.makeText(getApplicationContext(), "You have arrived at " + destMarker.getTitle() + "!", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
