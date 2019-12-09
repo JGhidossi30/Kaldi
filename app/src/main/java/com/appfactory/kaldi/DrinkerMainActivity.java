@@ -56,7 +56,8 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
     private Marker destMarker;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         Button manageProfile =  (Button) findViewById(R.id.manageProfile);
@@ -65,10 +66,6 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), ManageProfileActivity.class);
-                String currentUser = getIntent().getStringExtra("currentUser");
-                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
-                myIntent.putExtra("currentUser", currentUser);
-                myIntent.putExtra("isDrinker", isDrinker);
                 startActivityForResult(myIntent, 0);
             }
         });
@@ -78,10 +75,6 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), OrderHistoryActivity.class);
-                String currentUser = getIntent().getStringExtra("currentUser");
-                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
-                myIntent.putExtra("currentUser", currentUser);
-                myIntent.putExtra("isDrinker", isDrinker);
                 startActivityForResult(myIntent, 0);
             }
 
@@ -90,6 +83,13 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        Intent myIntent = new Intent(DrinkerMainActivity.this, MainActivity.class);
+        startActivityForResult(myIntent, 0);
     }
 
     /* Calculates the directions for the marker we click on */
@@ -264,11 +264,6 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
                 public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id)
                 {
                     Intent myIntent = new Intent(DrinkerMainActivity.this, MenuActivity.class);
-                    String currentUser = getIntent().getStringExtra("currentUser");
-                    boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
-                    myIntent.putExtra("currentUser", currentUser);
-                    myIntent.putExtra("isDrinker", isDrinker);
-                    myIntent.putExtra("businessTitle", marker.getTitle());
                     startActivityForResult(myIntent, 0);
                     dialog.cancel();
                 }
@@ -308,13 +303,7 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
             if (distance < 50)
             {
                 Intent myIntent = new Intent(DrinkerMainActivity.this, MenuActivity.class);
-                String currentUser = getIntent().getStringExtra("currentUser");
-                boolean isDrinker = getIntent().getBooleanExtra("isDrinker", true);
-                myIntent.putExtra("currentUser", currentUser);
-                myIntent.putExtra("isDrinker", isDrinker);
-                myIntent.putExtra("businessTitle", destMarker.getTitle());
                 startActivityForResult(myIntent, 0);
-
                 Toast toast = Toast.makeText(getApplicationContext(), "You have arrived at " + destMarker.getTitle() + "!", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();

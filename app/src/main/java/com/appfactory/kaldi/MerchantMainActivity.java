@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MerchantMainActivity extends AppCompatActivity {
+public class MerchantMainActivity extends AppCompatActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant__main);
 
@@ -56,5 +58,12 @@ public class MerchantMainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        Intent myIntent = new Intent(MerchantMainActivity.this, MainActivity.class);
+        startActivityForResult(myIntent, 0);
     }
 }
