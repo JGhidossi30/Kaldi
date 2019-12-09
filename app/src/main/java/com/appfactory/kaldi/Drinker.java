@@ -13,7 +13,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @IgnoreExtraProperties
@@ -22,6 +24,7 @@ public class Drinker implements Serializable
     public String name, password, email;
     public int dailyCaffeine;
     public List<Order> orderHistory;
+    public HashMap<String, Order> cart;
     protected static DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
     protected String id;
 
@@ -29,7 +32,11 @@ public class Drinker implements Serializable
     /**
      *
      */
-    public Drinker() { this.orderHistory = new ArrayList<Order>(); }
+    public Drinker()
+    {
+        this.orderHistory = new ArrayList<Order>();
+        this.cart = new HashMap<String, Order>();
+    }
 
     /**
      *
@@ -44,6 +51,7 @@ public class Drinker implements Serializable
         this.password = password;
         this.email = email;
         this.orderHistory = new ArrayList<Order>();
+        this.cart = new HashMap<String, Order>();
         this.id = database.push().getKey();
     }
 
@@ -78,4 +86,34 @@ public class Drinker implements Serializable
     {
         this.id = id;
     }
+
+//    /**
+//     *
+//     * @return
+//     */
+//    public boolean checkout()
+//    {
+//        if (cart.size() == 0)
+//            return false;
+//        Order newOrder = new Order(cart, LocalTime.now());
+//
+//        orderHistory.add(newOrder);
+//
+//        cart = new ArrayList<Item>();
+//        return true;
+//    }/**
+//     *
+//     * @return
+//     */
+//    public boolean checkout()
+//    {
+//        if (cart.size() == 0)
+//            return false;
+//        Order newOrder = new Order(cart, LocalTime.now());
+//
+//        orderHistory.add(newOrder);
+//
+//        cart = new ArrayList<Item>();
+//        return true;
+//    }
 }

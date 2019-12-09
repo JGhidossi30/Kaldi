@@ -1,5 +1,7 @@
 package com.appfactory.kaldi;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 class CurrentUser
@@ -13,7 +15,7 @@ class CurrentUser
     private String id;
     private int dailyCaffeine;
     private List<Order> orderHistory;
-
+    private List<Item> cart;
     private List<Store> stores;
 
     public static CurrentUser getInstance() {
@@ -37,6 +39,7 @@ class CurrentUser
             this.id = currentUser.id;
             this.dailyCaffeine = currentUser.dailyCaffeine;
             this.orderHistory = currentUser.orderHistory;
+            this.cart = currentUser.cart;
             this.stores = ((Merchant)currentUser).stores;
         }
         else
@@ -48,6 +51,7 @@ class CurrentUser
             this.id = currentUser.id;
             this.dailyCaffeine = currentUser.dailyCaffeine;
             this.orderHistory = currentUser.orderHistory;
+            this.cart = currentUser.cart;
         }
     }
 
@@ -75,16 +79,68 @@ class CurrentUser
         return this.password;
     }
     public String getEmail() { return this.email; }
-    public String getId() {
-        return this.id;
-    }
+    public String getId() { return this.id; }
     public int getDailyCaffeine() {
         return this.dailyCaffeine;
     }
     public List<Order> getOrderHistory() {
         return this.orderHistory;
     }
+    public List<Item> getCart() { return this.cart; }
     public List<Store> getStores() {
         return this.stores;
+    }
+
+    public void setNullDrinkerMerchant(int nullDrinkerMerchant) {
+        if (nullDrinkerMerchant > 0 && nullDrinkerMerchant < 3)
+            this.nullDrinkerMerchant = nullDrinkerMerchant;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setDailyCaffeine(int dailyCaffeine) {
+        this.dailyCaffeine = dailyCaffeine;
+    }
+
+    public void setOrderHistory(List<Order> orderHistory) {
+        this.orderHistory = orderHistory;
+    }
+
+    public void setCart(List<Item> cart) {
+        this.cart = cart;
+    }
+
+    public void setStores(List<Store> stores) {
+        this.stores = stores;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean checkout()
+    {
+        if (cart.size() == 0)
+            return false;
+        Order newOrder = new Order(cart, LocalTime.now());
+
+        orderHistory.add(newOrder);
+
+        cart = new ArrayList<Item>();
+        return true;
     }
 }

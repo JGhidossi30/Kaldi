@@ -8,14 +8,13 @@ public class Store
     public String storeName, location;
     public boolean validated;
     public List<Item> menu;
+    public List<Order> orderHistory;
 
     /**
      *
      */
-    public Store()
-    {
-        this.menu = new ArrayList<Item>();
-    }
+    public Store() { this.menu = new ArrayList<Item>(); }
+
     /**
      *
      * @param storeName
@@ -81,5 +80,23 @@ public class Store
     public void setMenu(List<Item> menu)
     {
         this.menu = menu;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<Order> getOrderHistory()
+    {
+        return orderHistory;
+    }
+
+    /**
+     *
+     * @param orderHistory
+     */
+    public void setOrderHistory(List<Order> orderHistory)
+    {
+        this.orderHistory = orderHistory;
     }
 }

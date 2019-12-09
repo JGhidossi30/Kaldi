@@ -9,20 +9,35 @@ public class Order
     public List<Item> items;
     public LocalTime time;
 
-    public Order()
+    public Order() { items = new ArrayList<Item>(); }
+
+    public Order(List<Item> items, LocalTime time)
     {
-        items = new ArrayList<Item>();
-//        time = LocalTime.now();
-        time = null;
+        this.items = items;
+        this.time = time;
     }
 
-    public List<Item> getItems()
-{
-    return this.items;
-}
+    /**
+     *
+     * @return
+     */
+    public List<Item> getItems() { return this.items; }
 
-    public LocalTime getTime()
-    {
-        return this.time;
-    }
+    /**
+     *
+     * @param items
+     */
+    public void setItems(List<Item> items) { this.items = items; }
+
+    /**
+     *
+     * @return
+     */
+    public LocalTime getTime() { return this.time; }
+
+    /**
+     *
+     * @param time
+     */
+    public void setTime(LocalTime time) { this.time = time; }
 }

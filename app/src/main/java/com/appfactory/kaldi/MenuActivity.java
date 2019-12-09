@@ -56,7 +56,7 @@ public class MenuActivity extends AppCompatActivity
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
                 {
                     Merchant merchant = postSnapshot.getValue(Merchant.class);
-                    if((merchant != null) && (merchant.stores != null))
+                    if ((merchant != null) && (merchant.stores != null))
                     {
                         for (int i = 0; i < merchant.stores.size(); i++)
                         {
@@ -94,7 +94,7 @@ public class MenuActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                if(cart.size() > 0)
+                if (cart.size() > 0)
                 {
                     DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
                     Query search;

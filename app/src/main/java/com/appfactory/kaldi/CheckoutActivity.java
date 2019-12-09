@@ -44,7 +44,7 @@ public class CheckoutActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                if((shoppingCart != null) && (shoppingCart.size() > 0))
+                if ((shoppingCart != null) && (shoppingCart.size() > 0))
                 {
                     int userType = CurrentUser.getInstance().getNullDrinkerMerchant();
                     if (userType == 1)
@@ -105,14 +105,14 @@ public class CheckoutActivity extends AppCompatActivity
                         else {
                             drinker = snapshot.getValue(Merchant.class);
                         }
-                        if(drinker != null)
+                        if (drinker != null)
                         {
                             drinker.id = snapshot.getKey();
                             int lastOrder = drinker.orderHistory.size() - 1;
                             Order cart = drinker.orderHistory.get(lastOrder);
                             List<Item> shoppingCart = cart.items;
                             // Remove any item from the cart and updates db
-                            if(removeItem != null)
+                            if (removeItem != null)
                             {
                                 updateDateBase(drinker, cart, shoppingCart);
                             }
