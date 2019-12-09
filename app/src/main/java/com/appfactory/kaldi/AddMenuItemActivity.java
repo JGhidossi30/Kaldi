@@ -34,6 +34,7 @@ public class AddMenuItemActivity extends AppCompatActivity
             {
                 String businessName = getIntent().getStringExtra("storeName");
                 String userName = CurrentUser.getInstance().getId();
+                Log.d("user", "" + userName);
                 String itemName = itemInput.getText().toString();
                 String caffeine = caffeineInput.getText().toString();
                 String price = priceInput.getText().toString();
