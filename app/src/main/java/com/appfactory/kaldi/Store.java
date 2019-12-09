@@ -1,5 +1,6 @@
 package com.appfactory.kaldi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Store
@@ -11,9 +12,7 @@ public class Store
     /**
      *
      */
-    public Store() {
-
-    }
+    public Store() { }
     /**
      *
      * @param storeName
@@ -24,6 +23,7 @@ public class Store
         this.storeName = storeName;
         this.location = location;
         this.validated = true;
+        this.menu = new ArrayList<Item>();
     }
 
     /**

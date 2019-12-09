@@ -10,21 +10,19 @@ Item
     public int caffeine;
     public double price;
 
-    public Item()
-    {
-
-    }
+    public Item() { }
 
     /**
      *
      */
-    public Item(String name, int caffeine)
+    public Item(String name, int caffeine, double price)
     {
 
         byte[] array = new byte[7];
         new Random().nextBytes(array);
         this.name = name;
         this.caffeine = caffeine;
+        this.price = price;
     }
 
     /**
@@ -44,4 +42,10 @@ Item
     {
         return this.caffeine;
     }
+
+    /**
+     *
+     * @return
+     */
+    public double getPrice() { return this.price; }
 }

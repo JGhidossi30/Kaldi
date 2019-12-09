@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                         {
                                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                                 Merchant merchant = snapshot.getValue(Merchant.class);
-                                                merchant.setId(dataSnapshot.getKey());
+                                                merchant.setId(snapshot.getKey());
                                                 if ((merchant != null) && (merchant.email.equals(email))) {
                                                     if (!merchant.password.equals(password)) {
                                                         Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);

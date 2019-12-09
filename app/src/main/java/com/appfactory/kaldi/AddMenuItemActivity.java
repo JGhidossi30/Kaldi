@@ -36,6 +36,7 @@ public class AddMenuItemActivity extends AppCompatActivity
                 String userName = getIntent().getStringExtra("currentUser");
                 String itemName = itemInput.getText().toString();
                 String caffeine = caffeineInput.getText().toString();
+                double price = Double.parseDouble(priceInput.getText().toString());
                 DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
                 Query search = database.child("merchants").orderByKey().equalTo(userName);
                 search.addListenerForSingleValueEvent(new ValueEventListener()
@@ -55,7 +56,7 @@ public class AddMenuItemActivity extends AppCompatActivity
                                     {
                                         if (merchant.stores.get(i).storeName.equals(businessName))
                                         {
-                                            merchant.stores.get(i).menu.add(new Item(itemName, Integer.parseInt(caffeine)));
+                                            merchant.stores.get(i).menu.add(new Item(itemName, Integer.parseInt(caffeine), price));
                                             merchant.submitToDatabase();
                                         }
                                         break;
