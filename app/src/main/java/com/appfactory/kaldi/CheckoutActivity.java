@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,6 +111,7 @@ public class CheckoutActivity extends AppCompatActivity
                             drinker.id = snapshot.getKey();
                             int lastOrder = drinker.orderHistory.size() - 1;
                             Order cart = drinker.orderHistory.get(lastOrder);
+                            cart.setTime(LocalTime.now().toString());
                             List<Item> shoppingCart = cart.items;
                             // Remove any item from the cart and updates db
                             if(removeItem != null)
@@ -120,6 +122,8 @@ public class CheckoutActivity extends AppCompatActivity
                             {
                                 addMenuItem(cartItem);
                             }
+                            Intent myIntent = new Intent(getApplicationContext(), DrinkerMainActivity.class);
+                            startActivityForResult(myIntent, 0);
                         }
                     }
                     break;
@@ -146,7 +150,7 @@ public class CheckoutActivity extends AppCompatActivity
         }
         Log.d("after", "" + cartItems.size());
         cart.items = cartItems;
-        int lastOrder = drinker.orderHistory.size() - 1;
+        int lastOrder = drinker.orderHistory.size() - 1;System.out.println(cart.time.toString());
         drinker.orderHistory.set(lastOrder,cart);
         drinker.submitToDatabase();
     }

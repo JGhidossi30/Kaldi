@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,11 +33,11 @@ public class ManageProfileActivity extends AppCompatActivity implements Serializ
         {
             public void onClick(View view)
             {
-                TextView nameInput = (TextView) findViewById(R.id.name);
-                TextView emailInput = (TextView) findViewById(R.id.email);
-                TextView passwordInput = (TextView) findViewById(R.id.password);
+                EditText nameInput = (EditText) findViewById(R.id.name);
+                EditText emailInput = (EditText) findViewById(R.id.email);
+                EditText passwordInput = (EditText) findViewById(R.id.password);
 
-                String name = passwordInput.getText().toString();
+                String name = nameInput.getText().toString();
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
 
@@ -49,10 +50,7 @@ public class ManageProfileActivity extends AppCompatActivity implements Serializ
                 Database.getInstance().updateDatabase();
 
                 Intent myIntent;
-                if (CurrentUser.getInstance().getNullDrinkerMerchant() == 1)
-                    myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
-                else
-                    myIntent = new Intent(view.getContext(), MerchantMainActivity.class);
+                myIntent = new Intent(view.getContext(), DrinkerMainActivity.class);
                 startActivityForResult(myIntent, 0);
 
                 Toast toast = Toast.makeText(getApplicationContext(), "Profile updated!", Toast.LENGTH_LONG);

@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements Serializable
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Database db = Database.getInstance();
+
         Button loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener()
         {
