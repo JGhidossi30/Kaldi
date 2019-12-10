@@ -161,6 +161,7 @@ public class CheckoutActivity extends AppCompatActivity
                             }
                         }
                     }
+                    break;
                 }
             }
 
@@ -204,7 +205,7 @@ public class CheckoutActivity extends AppCompatActivity
                         {
                             drinker.id = snapshot.getKey();
                             newOrder = drinker.cart.get(businessTitle);
-                            newOrder.setTime(LocalTime.now().toString());
+//                            newOrder.setTime(LocalTime.now().toString());
                             drinker.orderHistory.add(newOrder);
                             drinker.submitToDatabase();
                         }
