@@ -58,7 +58,7 @@ public class StoreProfileActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(view.getContext(), MerchantMenuActivity.class);
+                Intent myIntent = new Intent(view.getContext(), StoreOrderHistoryActivity.class);
                 String storeName = getIntent().getStringExtra("storeName");
                 myIntent.putExtra("businessTitle", storeName);
                 startActivityForResult(myIntent, 0);
@@ -70,7 +70,7 @@ public class StoreProfileActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(view.getContext(), MerchantMenuActivity.class);
+                Intent myIntent = new Intent(view.getContext(), RemoveMenuItemActivity.class);
                 String storeName = getIntent().getStringExtra("storeName");
                 myIntent.putExtra("businessTitle", storeName);
                 startActivityForResult(myIntent, 0);
