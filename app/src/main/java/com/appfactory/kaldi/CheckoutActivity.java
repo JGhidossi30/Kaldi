@@ -47,7 +47,6 @@ public class CheckoutActivity extends AppCompatActivity
                 {
                     updateDrinkerOrderHistory();
                     updateStoreOrderHistory();
-                    emptyCart();
                     int userType = CurrentUser.getInstance().getNullDrinkerMerchant();
                     if (userType == 1)
                     {
@@ -204,59 +203,13 @@ public class CheckoutActivity extends AppCompatActivity
                         if ((drinker != null))
                         {
                             drinker.id = snapshot.getKey();
-                            newOrder = drinker.cart.get(businessTitle);
+                            newOrder = drinker.cart.remove(businessTitle);
 //                            newOrder.setTime(LocalTime.now().toString());
                             drinker.orderHistory.add(newOrder);
                             drinker.submitToDatabase();
                         }
                     }
                     break;
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError)
-            {
-
-            }
-        });
-    }
-
-    // Removes the cart from the database
-    public void emptyCart()
-    {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
-        Query search;
-        int userType = CurrentUser.getInstance().getNullDrinkerMerchant();
-        String userName = CurrentUser.getInstance().getId();
-        if (userType == 1)
-            search = database.child("drinkers").orderByKey().equalTo(userName);
-        else
-            search = database.child("merchants").orderByKey().equalTo(userName);
-        search.addListenerForSingleValueEvent(new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                {
-                    if ((snapshot.getKey() != null) && (snapshot.getKey().equals(userName)))
-                    {
-                        Drinker drinker;
-                        if (userType == 1)
-                        {
-                            drinker = snapshot.getValue(Drinker.class);
-                        }
-                        else {
-                            drinker = snapshot.getValue(Merchant.class);
-                        }
-                        if ((drinker != null))
-                        {
-                            drinker.id = snapshot.getKey();
-                            drinker.cart.remove(businessTitle);
-                            drinker.submitToDatabase();
-                        }
-                        break;
-                    }
                 }
             }
             @Override
