@@ -20,7 +20,6 @@ public class Database
     private List<Merchant> merchants;
     private DatabaseReference database;
 
-
     public static Database getInstance() {
         return instance;
     }

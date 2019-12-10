@@ -30,35 +30,46 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/manageProfile"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="Manage Profile"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/history"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="Order History"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/signOut"
+                    android:layout_width="130dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="Sign Out"
+                    android:textSize="12sp" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_weight=".5"
                     android:layout_height="match_parent">
-                    <Button
-                        android:id="@+id/manageProfile"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:minHeight="0dp"
-                        android:minWidth="0dp"
-                        android:text="Manage Profile" />
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_weight=".5"
-                    android:layout_height="match_parent">
-                    <Button
-                        android:id="@+id/history"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginBottom="0dp"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:text="Order History" />
+
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>

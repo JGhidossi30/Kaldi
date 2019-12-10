@@ -69,6 +69,7 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
                 startActivityForResult(myIntent, 0);
             }
         });
+
         Button historyButton =  (Button) findViewById(R.id.history);
         historyButton.setOnClickListener(new View.OnClickListener()
         {
@@ -79,6 +80,18 @@ public class DrinkerMainActivity extends FragmentActivity implements OnMapReadyC
             }
 
         });
+
+        Button signOut =  (Button) findViewById(R.id.signOut);
+        signOut.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                CurrentUser.getInstance().signOut();
+                Intent myIntent = new Intent(view.getContext(), MainActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
