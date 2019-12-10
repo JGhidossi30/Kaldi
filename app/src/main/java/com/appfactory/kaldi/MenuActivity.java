@@ -118,11 +118,12 @@ public class MenuActivity extends AppCompatActivity
                                     if (drinker != null) {
                                         drinker.id = snapshot.getKey();
                                         Order newOrder = new Order();
+                                        String businessTitle = getIntent().getStringExtra("businessTitle");
                                         newOrder.items = cart;
+                                        newOrder.storeName = businessTitle;
                                         drinker.orderHistory.add(newOrder);
                                         drinker.submitToDatabase();
                                         Intent myIntent = new Intent(view.getContext(), CheckoutActivity.class);
-                                        String businessTitle = getIntent().getStringExtra("businessTitle");
                                         myIntent.putExtra("businessTitle", businessTitle);
                                         startActivityForResult(myIntent, 0);
                                         Toast toast = Toast.makeText(getApplicationContext(), "Added to cart!", Toast.LENGTH_LONG);

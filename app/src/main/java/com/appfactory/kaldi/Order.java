@@ -12,8 +12,9 @@ public class Order
 
     public Order() { items = new ArrayList<Item>(); }
 
-    public Order(List<Item> items, LocalTime time)
+    public Order(String storeName, List<Item> items, LocalTime time)
     {
+        this.storeName = storeName;
         this.items = items;
         this.time = time;
     }
