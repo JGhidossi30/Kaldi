@@ -20,11 +20,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CheckoutActivity extends AppCompatActivity
 {
@@ -208,9 +211,10 @@ public class CheckoutActivity extends AppCompatActivity
                         {
                             drinker.id = snapshot.getKey();
                             newOrder = drinker.cart.remove(businessTitle);
-                            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                            Calendar cal = Calendar.getInstance();
-                            newOrder.setTime(dateFormat.format(cal));
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                            Date date = new Date();
+                            String outputText = dateFormat.format(date);
+                            newOrder.setTime(outputText);
                             drinker.orderHistory.add(newOrder);
                             drinker.submitToDatabase();
                         }

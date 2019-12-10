@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -35,7 +36,8 @@ public class RemoveMenuItemActivity extends AppCompatActivity {
                 {
                     if (merchant.stores.get(i).getStoreName().equals(getIntent().getStringExtra("businessTitle")))
                     {
-                        for (int j = 0; j < merchant.stores.get(i).menu.size(); j++) {
+                        for (int j = 0; j < merchant.stores.get(i).menu.size(); j++)
+                        {
                             addMenuItem(merchant.stores.get(i).menu.get(j), i, j);
                         }
                     }
