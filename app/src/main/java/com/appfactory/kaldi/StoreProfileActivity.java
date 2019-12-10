@@ -53,6 +53,18 @@ public class StoreProfileActivity extends AppCompatActivity
             }
         });
 
+        Button storeOrderHistory =  (Button) findViewById(R.id.orderHistory);
+        menu.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                Intent myIntent = new Intent(view.getContext(), StoreOrderHistoryActivity.class);
+                String storeName = getIntent().getStringExtra("storeName");
+                myIntent.putExtra("businessTitle", storeName);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Order
 {
+    public String storeName;
     public List<Item> items;
     public LocalTime time;
 
@@ -16,6 +17,18 @@ public class Order
         this.items = items;
         this.time = time;
     }
+
+    /**
+     *
+     * @return
+     */
+    public String getStoreName() { return this.storeName; }
+
+    /**
+     *
+     * @param storeName
+     */
+    public void setStoreName(String storeName) { this.storeName = storeName; }
 
     /**
      *
