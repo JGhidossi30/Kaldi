@@ -71,10 +71,10 @@ public class MainActivity extends AppCompatActivity implements Serializable
                             Query search;
                             if (id == 1)
                             {
-                                search = database.child("drinkers");//.orderByChild("email").equalTo(email);
+                                search = database.child("drinkers")orderByChild("email").equalTo(email);
                             }
                             else {
-                                search = database.child("merchants");//.orderByChild("email").equalTo(email);
+                                search = database.child("merchants")orderByChild("email").equalTo(email);
                             }
                             search.addListenerForSingleValueEvent(new ValueEventListener()
                             {
@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                                         CurrentUser.getInstance().signIn(drinker);
                                                         Intent intent = new Intent(view.getContext(), DrinkerMainActivity.class);
                                                         startActivity(intent);
-                                                        return;
                                                     }
                                                 }
                                             }
@@ -108,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                             Toast toast = Toast.makeText(getApplicationContext(), "Account does not exist!", Toast.LENGTH_LONG);
                                             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                                             toast.show();
-                                            return;
                                         }
                                     }
                                     else
@@ -123,13 +121,11 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                                         Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
                                                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                                                         toast.show();
-                                                        return;
                                                     } else {
                                                         merchant.setId(snapshot.getKey());
                                                         CurrentUser.getInstance().signIn(merchant);
                                                         Intent intent = new Intent(view.getContext(), MerchantMainActivity.class);
                                                         startActivity(intent);
-                                                        return;
                                                     }
                                                 }
                                             }
@@ -139,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                             Toast toast = Toast.makeText(getApplicationContext(), "Account does not exist!", Toast.LENGTH_LONG);
                                             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                                             toast.show();
-                                            return;
                                         }
                                     }
                                 }
