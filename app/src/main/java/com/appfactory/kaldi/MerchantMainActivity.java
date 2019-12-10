@@ -36,7 +36,7 @@ public class MerchantMainActivity extends AppCompatActivity
             }
         });
 
-        Button addStore =  (Button) findViewById(R.id.addStore);
+        Button addStore = (Button) findViewById(R.id.addStore);
         addStore.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
@@ -46,8 +46,8 @@ public class MerchantMainActivity extends AppCompatActivity
             }
         });
 
-        Button removeStore =  (Button) findViewById(R.id.removeStore);
-        addStore.setOnClickListener(new View.OnClickListener()
+        Button removeStore = (Button) findViewById(R.id.removeStore);
+        removeStore.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {
