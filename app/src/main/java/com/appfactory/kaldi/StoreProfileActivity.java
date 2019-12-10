@@ -54,7 +54,7 @@ public class StoreProfileActivity extends AppCompatActivity
         });
 
         Button orderHistory =  (Button) findViewById(R.id.orderHistory);
-        menu.setOnClickListener(new View.OnClickListener()
+        orderHistory.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {
@@ -66,7 +66,7 @@ public class StoreProfileActivity extends AppCompatActivity
         });
 
         Button removeItem =  (Button) findViewById(R.id.removeItem);
-        menu.setOnClickListener(new View.OnClickListener()
+        removeItem.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {

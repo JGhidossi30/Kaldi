@@ -19,8 +19,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class CheckoutActivity extends AppCompatActivity
@@ -105,18 +108,19 @@ public class CheckoutActivity extends AppCompatActivity
                         else {
                             drinker = snapshot.getValue(Merchant.class);
                         }
-                        if(drinker != null)
+                        if (drinker != null)
                         {
                             drinker.id = snapshot.getKey();
                             Order cart = drinker.cart.get(businessTitle);
-                            if(cart != null)
+                            if (cart != null)
                             {
                                 shoppingCart = cart.items;
                                 // Remove any item from the cart and updates db
                                 if (removeItem != null) {
                                     updateDateBase(drinker, cart, shoppingCart);
                                 }
-                                for (Item cartItem : shoppingCart) {
+                                for (Item cartItem : shoppingCart)
+                                {
                                     addMenuItem(cartItem);
                                 }
                             }
@@ -150,7 +154,7 @@ public class CheckoutActivity extends AppCompatActivity
                         for (int i = 0; i < merchant.stores.size(); i++)
                         {
                             Store store = merchant.stores.get(i);
-                            if(store.storeName.equals(businessTitle))
+                            if (store.storeName.equals(businessTitle))
                             {
                                 merchant.id = snapshot.getKey();
                                 Log.d("merch Id", "" + merchant.id);
@@ -204,7 +208,9 @@ public class CheckoutActivity extends AppCompatActivity
                         {
                             drinker.id = snapshot.getKey();
                             newOrder = drinker.cart.remove(businessTitle);
-//                            newOrder.setTime(LocalTime.now().toString());
+                            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                            Calendar cal = Calendar.getInstance();
+                            newOrder.setTime(dateFormat.format(cal));
                             drinker.orderHistory.add(newOrder);
                             drinker.submitToDatabase();
                         }
