@@ -11,9 +11,9 @@
         android:id="@+id/menuItem"
         android:layout_width="137dp"
         android:layout_height="74dp"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="100dp"
         android:text="Add Menu Item"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,27 +21,39 @@
         android:id="@+id/businessLicense"
         android:layout_width="135dp"
         android:layout_height="76dp"
-        android:layout_marginStart="140dp"
-        android:layout_marginBottom="268dp"
+        android:layout_marginTop="20dp"
         android:text="Add Business License"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menuItem"
-        app:layout_constraintVertical_bias="0.165" />
+        app:layout_constraintTop_toBottomOf="@+id/removeItem" />
 
     <Button
         android:id="@+id/getMenu"
         android:layout_width="135dp"
         android:layout_height="76dp"
-        android:layout_marginStart="140dp"
-        android:layout_marginBottom="268dp"
+        android:layout_marginTop="20dp"
         android:text="Display Menu"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/businessLicense"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/businessLicense" />
+
+    <Button
+        android:id="@+id/orderHistory"
+        android:layout_width="135dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/title_order_history"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/getMenu" />
+
+    <Button
+        android:id="@+id/removeItem"
+        android:layout_width="135dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="20dp"
+        android:text="Remove Menu Item"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menuItem" />
 </androidx.constraintlayout.widget.ConstraintLayout>
