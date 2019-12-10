@@ -38,7 +38,6 @@ public class MerchantMenuActivity extends AppCompatActivity
 
     public void getMenu(String businessTitle)
     {
-        Log.d("test" , "" + businessTitle);
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
         database.addValueEventListener(new ValueEventListener()
         {

@@ -59,8 +59,8 @@ public class AddMenuItemActivity extends AppCompatActivity
                                             merchant.id = snapshot.getKey();
                                             merchant.stores.get(i).menu.add(new Item(itemName, caffeine, price));
                                             merchant.submitToDatabase();
+                                            break;
                                         }
-                                        break;
                                     }
                                     Intent myIntent = myIntent = new Intent(getApplicationContext(), StoreProfileActivity.class);
                                     startActivityForResult(myIntent, 0);

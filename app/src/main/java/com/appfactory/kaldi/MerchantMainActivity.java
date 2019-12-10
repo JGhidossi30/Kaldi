@@ -16,7 +16,7 @@ public class MerchantMainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant__main);
 
-        Button manageStore =  (Button) findViewById(R.id.manageStore);
+        Button manageStore = (Button) findViewById(R.id.manageStore);
         manageStore.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
@@ -36,8 +36,8 @@ public class MerchantMainActivity extends AppCompatActivity
             }
         });
 
-        Button AddStore =  (Button) findViewById(R.id.addStore);
-        AddStore.setOnClickListener(new View.OnClickListener()
+        Button addStore =  (Button) findViewById(R.id.addStore);
+        addStore.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {
@@ -46,6 +46,26 @@ public class MerchantMainActivity extends AppCompatActivity
             }
         });
 
+        Button removeStore =  (Button) findViewById(R.id.removeStore);
+        addStore.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                Intent myIntent = new Intent(view.getContext(), RemoveBusinessActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        Button signOut =  (Button) findViewById(R.id.signOut);
+        signOut.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                CurrentUser.getInstance().signOut();
+                Intent myIntent = new Intent(view.getContext(), MainActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
     }
     @Override
     public void onBackPressed()
