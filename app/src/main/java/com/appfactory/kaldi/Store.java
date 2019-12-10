@@ -13,7 +13,11 @@ public class Store
     /**
      *
      */
-    public Store() { this.menu = new ArrayList<Item>(); }
+    public Store()
+    {
+        this.menu = new ArrayList<Item>();
+        this.orderHistory = new ArrayList<Order>();
+    }
 
     /**
      *
