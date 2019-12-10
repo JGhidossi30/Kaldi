@@ -71,10 +71,10 @@ public class MainActivity extends AppCompatActivity implements Serializable
                             Query search;
                             if (id == 1)
                             {
-                                search = database.child("drinkers")orderByChild("email").equalTo(email);
+                                search = database.child("drinkers").orderByChild("email").equalTo(email);
                             }
                             else {
-                                search = database.child("merchants")orderByChild("email").equalTo(email);
+                                search = database.child("merchants").orderByChild("email").equalTo(email);
                             }
                             search.addListenerForSingleValueEvent(new ValueEventListener()
                             {

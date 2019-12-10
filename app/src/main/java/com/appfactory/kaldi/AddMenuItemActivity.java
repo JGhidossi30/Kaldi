@@ -62,7 +62,7 @@ public class AddMenuItemActivity extends AppCompatActivity
                                         }
                                         break;
                                     }
-                                    Intent myIntent = myIntent = new Intent(getApplicationContext(), MerchantMainActivity.class);
+                                    Intent myIntent = myIntent = new Intent(getApplicationContext(), StoreProfileActivity.class);
                                     startActivityForResult(myIntent, 0);
                                     Toast toast = Toast.makeText(getApplicationContext(), "New item Added!", Toast.LENGTH_LONG);
                                     toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);

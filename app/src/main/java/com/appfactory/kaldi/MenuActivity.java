@@ -27,7 +27,7 @@ public class MenuActivity extends AppCompatActivity
 {
     private Button newItem;
     private Button checkout;
-    private ArrayList <Item> cart = new ArrayList<Item>();
+    private ArrayList <Item> myCart = new ArrayList<Item>();
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -94,58 +94,78 @@ public class MenuActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                if (cart.size() > 0)
+                DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+                Query search;
+                int userType = CurrentUser.getInstance().getNullDrinkerMerchant();
+                String userName = CurrentUser.getInstance().getId();
+                if (userType == 1)
+                    search = database.child("drinkers").orderByKey().equalTo(userName);
+                else
+                    search = database.child("merchants").orderByKey().equalTo(userName);
+                search.addListenerForSingleValueEvent(new ValueEventListener()
                 {
-                    DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
-                    Query search;
-                    int userType = CurrentUser.getInstance().getNullDrinkerMerchant();
-                    String userName = CurrentUser.getInstance().getId();
-                    if (userType == 1)
-                        search = database.child("drinkers").orderByKey().equalTo(userName);
-                    else
-                        search = database.child("merchants").orderByKey().equalTo(userName);
-                    search.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                if ((snapshot.getKey() != null) && (snapshot.getKey().equals(userName))) {
-                                    Drinker drinker;
-                                    if (userType == 1) {
-                                        drinker = snapshot.getValue(Drinker.class);
-                                    } else {
-                                        drinker = snapshot.getValue(Merchant.class);
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        {
+                            if ((snapshot.getKey() != null) && (snapshot.getKey().equals(userName)))
+                            {
+                                Drinker drinker;
+                                if (userType == 1) {
+                                    drinker = snapshot.getValue(Drinker.class);
+                                } else {
+                                    drinker = snapshot.getValue(Merchant.class);
+                                }
+                                if (drinker != null)
+                                {
+                                    drinker.id = snapshot.getKey();
+                                    Order cartItems = drinker.cart.get(businessTitle);
+                                    // Adds new items to the cart if the user selected anything
+                                    if(myCart.size() > 0)
+                                    {
+                                        // Creates a new cart
+                                        if (cartItems == null) {
+                                            cartItems = new Order();
+                                            cartItems.items = myCart;
+                                            cartItems.storeName = businessTitle;
+                                            drinker.cart.put(businessTitle, cartItems);
+                                        }
+                                        // Adds items to old cart
+                                        else {
+                                            cartItems.items.addAll(myCart);
+                                            drinker.cart.put(businessTitle, cartItems);
+                                        }
+                                        Toast toast = Toast.makeText(getApplicationContext(), "Added items to cart!", Toast.LENGTH_LONG);
+                                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                        toast.show();
                                     }
-                                    if (drinker != null) {
-                                        drinker.id = snapshot.getKey();
-                                        Order newOrder = new Order();
-                                        String businessTitle = getIntent().getStringExtra("businessTitle");
-                                        newOrder.items = cart;
-                                        newOrder.storeName = businessTitle;
-                                        drinker.orderHistory.add(newOrder);
+                                    // Determines whether the cart has any items
+                                    if(cartItems == null)
+                                    {
+                                        Toast toast = Toast.makeText(getApplicationContext(), "Cart is empty!", Toast.LENGTH_LONG);
+                                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                        toast.show();
+                                    }
+                                    else
+                                    {
                                         drinker.submitToDatabase();
                                         Intent myIntent = new Intent(view.getContext(), CheckoutActivity.class);
                                         myIntent.putExtra("businessTitle", businessTitle);
                                         startActivityForResult(myIntent, 0);
-                                        Toast toast = Toast.makeText(getApplicationContext(), "Added to cart!", Toast.LENGTH_LONG);
-                                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                        toast.show();
-                                        break;
                                     }
                                 }
+                                break;
                             }
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
-                }
-                else
-                {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Cart is empty!", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
-                }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
+
+                    }
+                });
             }
         });
     }
@@ -161,7 +181,7 @@ public class MenuActivity extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                cart.add(item);
+                myCart.add(item);
             }
         });
     }

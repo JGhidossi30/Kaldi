@@ -32,13 +32,8 @@ public class StoreOrderHistoryActivity extends AppCompatActivity {
     public void displayHistory()
     {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
-        Query search;
-//        int userType = CurrentUser.getInstance().getNullDrinkerMerchant();
         String userName = CurrentUser.getInstance().getId();
-//        if (userType == 1)
-//            search = database.child("drinkers").orderByKey().equalTo(userName);
-//        else
-            search = database.child("merchants").orderByKey().equalTo(userName);
+        Query search = database.child("merchants").orderByKey().equalTo(userName);
         search.addListenerForSingleValueEvent(new ValueEventListener()
         {
             @Override
@@ -48,17 +43,9 @@ public class StoreOrderHistoryActivity extends AppCompatActivity {
                 {
                     if ((snapshot.getKey() != null) && (snapshot.getKey().equals(userName)))
                     {
-                        Merchant merchant;
-//                        if (userType == 1)
-//                        {
-//                            drinker = snapshot.getValue(Drinker.class);
-//                        }
-//                        else {
-                            merchant = snapshot.getValue(Merchant.class);
-//                        }
+                        Merchant merchant = snapshot.getValue(Merchant.class);
                         if(merchant != null)
                         {
-//                            merchant.id = snapshot.getKey();
                             for (int k = 0; k < merchant.stores.size(); k++)
                             {
                                 if (merchant.stores.get(k).getStoreName().equals(getIntent().getStringExtra("storeName"))) {
@@ -87,7 +74,7 @@ public class StoreOrderHistoryActivity extends AppCompatActivity {
     public void addLabel(Order order)
     {
         LinearLayout layout = (LinearLayout) findViewById(R.id.rootLayout);
-        String itemContent = "-----" + order.getStoreName() + "----- " + order.getTime();//"-------Sal's Coffee-----" + "12/09/2019";
+        String itemContent = "-----" + order.getStoreName() + "----- " + order.getTime();
         orderItem = new Button(this);
         orderItem.setText(itemContent);
         orderItem.setBackgroundColor(Color.TRANSPARENT);

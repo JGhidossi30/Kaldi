@@ -26,6 +26,7 @@ public class Store
         this.location = location;
         this.validated = false;
         this.menu = new ArrayList<Item>();
+        this.orderHistory = new ArrayList<Order>();
     }
 
     /**

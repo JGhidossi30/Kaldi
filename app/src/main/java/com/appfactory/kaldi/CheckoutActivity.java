@@ -1,8 +1,6 @@
 package com.appfactory.kaldi;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,16 +12,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class CheckoutActivity extends AppCompatActivity
 {
@@ -32,6 +30,7 @@ public class CheckoutActivity extends AppCompatActivity
     private Button cartItem;
     private Button checkout;
     private Item removeItem;
+    private Order newOrder;
     String businessTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,13 +45,16 @@ public class CheckoutActivity extends AppCompatActivity
             {
                 if ((shoppingCart != null) && (shoppingCart.size() > 0))
                 {
+                    updateDrinkerOrderHistory();
+                    updateStoreOrderHistory();
+                    emptyCart();
                     int userType = CurrentUser.getInstance().getNullDrinkerMerchant();
                     if (userType == 1)
                     {
-                        CurrentUser.getInstance().signOut();
-                        Intent myIntent = new Intent(CheckoutActivity.this, MainActivity.class);
+                        Intent myIntent = new Intent(CheckoutActivity.this, DrinkerMainActivity.class);
                         startActivityForResult(myIntent, 0);
-                    } else {
+                    } else
+                        {
                         Intent myIntent = new Intent(CheckoutActivity.this, MerchantMainActivity.class);
                         startActivityForResult(myIntent, 0);
                     }
@@ -105,21 +107,151 @@ public class CheckoutActivity extends AppCompatActivity
                         else {
                             drinker = snapshot.getValue(Merchant.class);
                         }
-                        if (drinker != null)
+                        if ((drinker != null))
                         {
                             drinker.id = snapshot.getKey();
-                            int lastOrder = drinker.orderHistory.size() - 1;
-                            Order cart = drinker.orderHistory.get(lastOrder);
-                            List<Item> shoppingCart = cart.items;
-                            // Remove any item from the cart and updates db
-                            if (removeItem != null)
+                            Order cart = drinker.cart.get(businessTitle);
+                            if(cart != null)
                             {
-                                updateDateBase(drinker, cart, shoppingCart);
+                                shoppingCart = cart.items;
+                                // Remove any item from the cart and updates db
+                                if (removeItem != null) {
+                                    updateDateBase(drinker, cart, shoppingCart);
+                                }
+                                for (Item cartItem : shoppingCart) {
+                                    addMenuItem(cartItem);
+                                }
                             }
-                            for(Item cartItem: shoppingCart)
+                        }
+                    }
+                    break;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+
+            }
+        });
+    }
+
+    // Updates the store order history
+    public void updateStoreOrderHistory()
+    {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
+        database.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren())
+                {
+                    Merchant merchant = snapshot.getValue(Merchant.class);
+                    if ((merchant != null) && (merchant.stores != null))
+                    {
+                        for (int i = 0; i < merchant.stores.size(); i++)
+                        {
+                            Store store = merchant.stores.get(i);
+                            if(store.storeName.equals(businessTitle))
                             {
-                                addMenuItem(cartItem);
+                                merchant.id = snapshot.getKey();
+                                store.orderHistory.add(newOrder);
+                                merchant.submitToDatabase();
+                                break;
                             }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+
+            }
+        });
+    }
+
+    // Updates the drinker order history
+    public void updateDrinkerOrderHistory()
+    {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+        Query search;
+        int userType = CurrentUser.getInstance().getNullDrinkerMerchant();
+        String userName = CurrentUser.getInstance().getId();
+        if (userType == 1)
+            search = database.child("drinkers").orderByKey().equalTo(userName);
+        else
+            search = database.child("merchants").orderByKey().equalTo(userName);
+        search.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    if ((snapshot.getKey() != null) && (snapshot.getKey().equals(userName)))
+                    {
+                        Drinker drinker;
+                        if (userType == 1)
+                        {
+                            drinker = snapshot.getValue(Drinker.class);
+                        }
+                        else {
+                            drinker = snapshot.getValue(Merchant.class);
+                        }
+                        if ((drinker != null))
+                        {
+                            drinker.id = snapshot.getKey();
+                            newOrder = drinker.cart.get(businessTitle);
+                            newOrder.time = LocalTime.now();
+                            drinker.orderHistory.add(newOrder);
+                            drinker.submitToDatabase();
+                        }
+                    }
+                    break;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+
+            }
+        });
+    }
+
+    // Removes the cart from the database
+    public void emptyCart()
+    {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+        Query search;
+        int userType = CurrentUser.getInstance().getNullDrinkerMerchant();
+        String userName = CurrentUser.getInstance().getId();
+        if (userType == 1)
+            search = database.child("drinkers").orderByKey().equalTo(userName);
+        else
+            search = database.child("merchants").orderByKey().equalTo(userName);
+        search.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    if ((snapshot.getKey() != null) && (snapshot.getKey().equals(userName)))
+                    {
+                        Drinker drinker;
+                        if (userType == 1)
+                        {
+                            drinker = snapshot.getValue(Drinker.class);
+                        }
+                        else {
+                            drinker = snapshot.getValue(Merchant.class);
+                        }
+                        if ((drinker != null))
+                        {
+                            drinker.id = snapshot.getKey();
+                            drinker.cart.remove(businessTitle);
                         }
                     }
                     break;
@@ -146,8 +278,14 @@ public class CheckoutActivity extends AppCompatActivity
         }
         Log.d("after", "" + cartItems.size());
         cart.items = cartItems;
-        int lastOrder = drinker.orderHistory.size() - 1;
-        drinker.orderHistory.set(lastOrder,cart);
+        if(cartItems.size() > 0)
+        {
+            drinker.cart.put(businessTitle, cart);
+        }
+        else
+        {
+            drinker.cart.remove(businessTitle);
+        }
         drinker.submitToDatabase();
     }
 
