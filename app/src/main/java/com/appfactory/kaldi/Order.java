@@ -6,23 +6,52 @@ import java.util.List;
 
 public class Order
 {
+    public String storeName;
     public List<Item> items;
     public LocalTime time;
 
-    public Order()
+    public Order() { items = new ArrayList<Item>(); }
+
+    public Order(String storeName, List<Item> items, LocalTime time)
     {
-        items = new ArrayList<Item>();
-//        time = LocalTime.now();
-        time = null;
+        this.storeName = storeName;
+        this.items = items;
+        this.time = time;
     }
 
-    public List<Item> getItems()
-{
-    return this.items;
-}
+    /**
+     *
+     * @return
+     */
+    public String getStoreName() { return this.storeName; }
 
-    public LocalTime getTime()
-    {
-        return this.time;
-    }
+    /**
+     *
+     * @param storeName
+     */
+    public void setStoreName(String storeName) { this.storeName = storeName; }
+
+    /**
+     *
+     * @return
+     */
+    public List<Item> getItems() { return this.items; }
+
+    /**
+     *
+     * @param items
+     */
+    public void setItems(List<Item> items) { this.items = items; }
+
+    /**
+     *
+     * @return
+     */
+    public LocalTime getTime() { return this.time; }
+
+    /**
+     *
+     * @param time
+     */
+    public void setTime(LocalTime time) { this.time = time; }
 }
