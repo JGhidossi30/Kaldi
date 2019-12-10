@@ -25,7 +25,7 @@
         android:text="Add Business License"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/removeItem" />
+        app:layout_constraintTop_toBottomOf="@+id/menuItem" />
 
     <Button
         android:id="@+id/getMenu"
@@ -47,13 +47,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/getMenu" />
 
-    <Button
-        android:id="@+id/removeItem"
-        android:layout_width="135dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="20dp"
-        android:text="Remove Menu Item"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menuItem" />
 </androidx.constraintlayout.widget.ConstraintLayout>

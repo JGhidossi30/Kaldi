@@ -65,18 +65,6 @@ public class StoreProfileActivity extends AppCompatActivity
             }
         });
 
-        Button removeItem =  (Button) findViewById(R.id.removeItem);
-        removeItem.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View view)
-            {
-                Intent myIntent = new Intent(view.getContext(), RemoveMenuItemActivity.class);
-                String storeName = getIntent().getStringExtra("storeName");
-                myIntent.putExtra("businessTitle", storeName);
-                startActivityForResult(myIntent, 0);
-            }
-        });
-
     }
 
     @Override

@@ -46,16 +46,6 @@ public class MerchantMainActivity extends AppCompatActivity
             }
         });
 
-        Button removeStore = (Button) findViewById(R.id.removeStore);
-        removeStore.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View view)
-            {
-                Intent myIntent = new Intent(view.getContext(), RemoveBusinessActivity.class);
-                startActivityForResult(myIntent, 0);
-            }
-        });
-
         Button signOut =  (Button) findViewById(R.id.signOut);
         signOut.setOnClickListener(new View.OnClickListener()
         {
