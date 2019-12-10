@@ -53,6 +53,30 @@ public class StoreProfileActivity extends AppCompatActivity
             }
         });
 
+        Button orderHistory =  (Button) findViewById(R.id.orderHistory);
+        menu.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                Intent myIntent = new Intent(view.getContext(), MerchantMenuActivity.class);
+                String storeName = getIntent().getStringExtra("storeName");
+                myIntent.putExtra("businessTitle", storeName);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        Button removeItem =  (Button) findViewById(R.id.removeItem);
+        menu.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                Intent myIntent = new Intent(view.getContext(), MerchantMenuActivity.class);
+                String storeName = getIntent().getStringExtra("storeName");
+                myIntent.putExtra("businessTitle", storeName);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
     }
 
     @Override
