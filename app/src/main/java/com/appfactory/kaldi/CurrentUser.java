@@ -13,7 +13,6 @@ class CurrentUser
     private String id;
     private int dailyCaffeine;
     private List<Order> orderHistory;
-
     private List<Store> stores;
 
     public static CurrentUser getInstance() {
@@ -75,16 +74,70 @@ class CurrentUser
         return this.password;
     }
     public String getEmail() { return this.email; }
-    public String getId() {
-        return this.id;
-    }
+    public String getId() { return this.id; }
     public int getDailyCaffeine() {
         return this.dailyCaffeine;
     }
+
     public List<Order> getOrderHistory() {
         return this.orderHistory;
     }
+
     public List<Store> getStores() {
         return this.stores;
     }
+
+    public void setNullDrinkerMerchant(int nullDrinkerMerchant) {
+        if (nullDrinkerMerchant > 0 && nullDrinkerMerchant < 3)
+            this.nullDrinkerMerchant = nullDrinkerMerchant;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setDailyCaffeine(int dailyCaffeine) {
+        this.dailyCaffeine = dailyCaffeine;
+    }
+
+    public void setOrderHistory(List<Order> orderHistory) {
+        this.orderHistory = orderHistory;
+    }
+
+    public void setStores(List<Store> stores) {
+        this.stores = stores;
+    }
+
+//    /**
+//     *
+//     * @return
+//     */
+//    public boolean checkout()
+//    {
+//        if (cart.size() == 0)
+//            return false;
+//        Order newOrder = new Order();
+//        Iterator cartIterator = cart.entrySet().iterator();
+//        while (cartIterator.hasNext())
+//        {
+//           //add items in cart to newOrder
+//        }
+//        newOrder.setTime(LocalTime.now());
+//        orderHistory.add(newOrder);
+//
+//        cart = new HashMap<String, Order>();
+//        return true;
+//    }
 }

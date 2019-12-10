@@ -8,6 +8,7 @@ public class Store
     public String storeName, location;
     public boolean validated;
     public List<Item> menu;
+    public List<Order> orderHistory;
 
     /**
      *
@@ -15,7 +16,9 @@ public class Store
     public Store()
     {
         this.menu = new ArrayList<Item>();
+        this.orderHistory = new ArrayList<Order>();
     }
+
     /**
      *
      * @param storeName
@@ -25,8 +28,9 @@ public class Store
     {
         this.storeName = storeName;
         this.location = location;
-        this.validated = true;
+        this.validated = false;
         this.menu = new ArrayList<Item>();
+        this.orderHistory = new ArrayList<Order>();
     }
 
     /**
@@ -81,5 +85,23 @@ public class Store
     public void setMenu(List<Item> menu)
     {
         this.menu = menu;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<Order> getOrderHistory()
+    {
+        return orderHistory;
+    }
+
+    /**
+     *
+     * @param orderHistory
+     */
+    public void setOrderHistory(List<Order> orderHistory)
+    {
+        this.orderHistory = orderHistory;
     }
 }

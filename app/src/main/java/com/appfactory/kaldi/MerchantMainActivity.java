@@ -36,12 +36,33 @@ public class MerchantMainActivity extends AppCompatActivity
             }
         });
 
-        Button AddStore =  (Button) findViewById(R.id.addStore);
-        AddStore.setOnClickListener(new View.OnClickListener()
+        Button addStore =  (Button) findViewById(R.id.addStore);
+        addStore.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), AddBusinessActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+//        Button removeStore = (Button) findViewById(R.id.removeStore);
+//        removeStore.setOnClickListener(new View.OnClickListener()
+//        {
+//            public void onClick(View view)
+//            {
+//                Intent myIntent = new Intent(view.getContext(), RemoveBusinessActivity.class);
+//                startActivityForResult(myIntent, 0);
+//            }
+//        });
+
+        Button signOut =  (Button) findViewById(R.id.signOut);
+        signOut.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                CurrentUser.getInstance().signOut();
+                Intent myIntent = new Intent(view.getContext(), MainActivity.class);
                 startActivityForResult(myIntent, 0);
             }
         });
