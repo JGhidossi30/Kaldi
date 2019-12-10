@@ -47,7 +47,7 @@ public class CheckoutActivity extends AppCompatActivity
                 {
                     updateDrinkerOrderHistory();
                     updateStoreOrderHistory();
-//                    emptyCart();
+                    emptyCart();
                     int userType = CurrentUser.getInstance().getNullDrinkerMerchant();
                     if (userType == 1)
                     {
@@ -255,8 +255,8 @@ public class CheckoutActivity extends AppCompatActivity
                             drinker.cart.remove(businessTitle);
                             drinker.submitToDatabase();
                         }
+                        break;
                     }
-                    break;
                 }
             }
             @Override
