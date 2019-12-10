@@ -74,7 +74,7 @@ public class StoreOrderHistoryActivity extends AppCompatActivity {
     public void addLabel(Order order)
     {
         LinearLayout layout = (LinearLayout) findViewById(R.id.rootLayout);
-        String itemContent = order.getTime().toString();//"-----" + order.getStoreName() + "----- " + order.getTime();
+        String itemContent = "-----" + order.getStoreName() + "----- " + order.getTime().toString();
         orderItem = new Button(this);
         orderItem.setText(itemContent);
         orderItem.setBackgroundColor(Color.TRANSPARENT);
