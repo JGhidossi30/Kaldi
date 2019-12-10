@@ -138,7 +138,7 @@ public class CheckoutActivity extends AppCompatActivity
     public void updateStoreOrderHistory()
     {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child("merchants");
-        database.addValueEventListener(new ValueEventListener()
+        database.addListenerForSingleValueEvent(new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
