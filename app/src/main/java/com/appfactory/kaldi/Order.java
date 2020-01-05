@@ -8,11 +8,11 @@ public class Order
 {
     public String storeName;
     public List<Item> items;
-    public LocalTime time;
+    public String time;
 
     public Order() { items = new ArrayList<Item>(); }
 
-    public Order(String storeName, List<Item> items, LocalTime time)
+    public Order(String storeName, List<Item> items, String time)
     {
         this.storeName = storeName;
         this.items = items;
@@ -47,11 +47,11 @@ public class Order
      *
      * @return
      */
-    public LocalTime getTime() { return this.time; }
+    public String getTime() { return this.time; }
 
     /**
      *
      * @param time
      */
-    public void setTime(LocalTime time) { this.time = time; }
+    public void setTime(String time) { this.time = time; }
 }

@@ -16,7 +16,7 @@ public class MerchantMainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant__main);
 
-        Button manageStore = (Button) findViewById(R.id.manageStore);
+        Button manageStore =  (Button) findViewById(R.id.manageStore);
         manageStore.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
@@ -36,22 +36,12 @@ public class MerchantMainActivity extends AppCompatActivity
             }
         });
 
-        Button addStore = (Button) findViewById(R.id.addStore);
+        Button addStore =  (Button) findViewById(R.id.addStore);
         addStore.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {
                 Intent myIntent = new Intent(view.getContext(), AddBusinessActivity.class);
-                startActivityForResult(myIntent, 0);
-            }
-        });
-
-        Button removeStore = (Button) findViewById(R.id.removeStore);
-        removeStore.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View view)
-            {
-                Intent myIntent = new Intent(view.getContext(), RemoveBusinessActivity.class);
                 startActivityForResult(myIntent, 0);
             }
         });
@@ -66,6 +56,7 @@ public class MerchantMainActivity extends AppCompatActivity
                 startActivityForResult(myIntent, 0);
             }
         });
+
     }
     @Override
     public void onBackPressed()

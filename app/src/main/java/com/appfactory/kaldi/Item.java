@@ -2,7 +2,8 @@ package com.appfactory.kaldi;
 
 import java.util.Random;
 
-public class Item
+public class
+Item
 {
 
     public String name;

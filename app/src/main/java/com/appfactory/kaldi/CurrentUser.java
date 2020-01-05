@@ -1,9 +1,5 @@
 package com.appfactory.kaldi;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 class CurrentUser
@@ -17,7 +13,6 @@ class CurrentUser
     private String id;
     private int dailyCaffeine;
     private List<Order> orderHistory;
-    private HashMap<String, Order> cart;
     private List<Store> stores;
 
     public static CurrentUser getInstance() {
@@ -41,7 +36,6 @@ class CurrentUser
             this.id = currentUser.id;
             this.dailyCaffeine = currentUser.dailyCaffeine;
             this.orderHistory = currentUser.orderHistory;
-            this.cart = currentUser.cart;
             this.stores = ((Merchant)currentUser).stores;
         }
         else
@@ -53,7 +47,6 @@ class CurrentUser
             this.id = currentUser.id;
             this.dailyCaffeine = currentUser.dailyCaffeine;
             this.orderHistory = currentUser.orderHistory;
-            this.cart = currentUser.cart;
         }
     }
 
@@ -85,10 +78,11 @@ class CurrentUser
     public int getDailyCaffeine() {
         return this.dailyCaffeine;
     }
+
     public List<Order> getOrderHistory() {
         return this.orderHistory;
     }
-    public HashMap<String, Order> getCart() { return this.cart; }
+
     public List<Store> getStores() {
         return this.stores;
     }
@@ -120,10 +114,6 @@ class CurrentUser
 
     public void setOrderHistory(List<Order> orderHistory) {
         this.orderHistory = orderHistory;
-    }
-
-    public void setCart(HashMap<String, Order> cart) {
-        this.cart = cart;
     }
 
     public void setStores(List<Store> stores) {

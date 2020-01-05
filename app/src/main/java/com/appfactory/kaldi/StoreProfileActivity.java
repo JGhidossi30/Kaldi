@@ -37,10 +37,11 @@ public class StoreProfileActivity extends AppCompatActivity
                 myFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 myFileIntent.setType("*/*");
                 startActivityForResult(myFileIntent, 10);
+
             }
         });
 
-        Button menu = (Button) findViewById(R.id.getMenu);
+        Button menu =  (Button) findViewById(R.id.getMenu);
         menu.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
@@ -52,8 +53,8 @@ public class StoreProfileActivity extends AppCompatActivity
             }
         });
 
-        Button storeOrderHistory =  (Button) findViewById(R.id.orderHistory);
-        storeOrderHistory.setOnClickListener(new View.OnClickListener()
+        Button orderHistory =  (Button) findViewById(R.id.orderHistory);
+        orderHistory.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {

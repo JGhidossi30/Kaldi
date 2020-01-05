@@ -91,7 +91,7 @@ public class Database
             drinker.password = CurrentUser.getInstance().getPassword();
             drinker.dailyCaffeine = CurrentUser.getInstance().getDailyCaffeine();
             drinker.orderHistory = CurrentUser.getInstance().getOrderHistory();
-            drinker.cart = CurrentUser.getInstance().getCart();
+//            drinker.cart = CurrentUser.getInstance().getCart();
             drinker.id = CurrentUser.getInstance().getId();
 
             database.child("drinkers").child(CurrentUser.getInstance().getId()).setValue(drinker);
@@ -104,11 +104,11 @@ public class Database
             merchant.password = CurrentUser.getInstance().getPassword();
             merchant.dailyCaffeine = CurrentUser.getInstance().getDailyCaffeine();
             merchant.orderHistory = CurrentUser.getInstance().getOrderHistory();
-            merchant.cart = CurrentUser.getInstance().getCart();
+//            merchant.cart = CurrentUser.getInstance().getCart();
             merchant.id = CurrentUser.getInstance().getId();
             merchant.stores = CurrentUser.getInstance().getStores();
 
-            database.child("drinkers").child(CurrentUser.getInstance().getId()).setValue(merchant);
+            database.child("merchants").child(CurrentUser.getInstance().getId()).setValue(merchant);
         }
     }
 

@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements Serializable
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Database db = Database.getInstance();
+
         Button loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener()
         {
@@ -92,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements Serializable
                                                         Toast toast = Toast.makeText(getApplicationContext(), "Password is incorrect!", Toast.LENGTH_LONG);
                                                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                                                         toast.show();
-                                                        return;
                                                     } else {
                                                         drinker.setId(snapshot.getKey());
                                                         CurrentUser.getInstance().signIn(drinker);

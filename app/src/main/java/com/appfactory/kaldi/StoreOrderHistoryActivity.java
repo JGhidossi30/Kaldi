@@ -3,10 +3,15 @@ package com.appfactory.kaldi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,21 +20,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class StoreOrderHistoryActivity extends AppCompatActivity {
-
+public class StoreOrderHistoryActivity extends AppCompatActivity
+{
     private Button orderItem;
-
+    private String storeName;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_store_order_history);
-        displayHistory();
+        setContentView(R.layout.activity_order__history);
+        storeName = getIntent().getStringExtra("businessTitle");
+        displayCart();
     }
 
-    public void displayHistory()
+    public void displayCart()
     {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
         String userName = CurrentUser.getInstance().getId();
@@ -46,21 +53,26 @@ public class StoreOrderHistoryActivity extends AppCompatActivity {
                         Merchant merchant = snapshot.getValue(Merchant.class);
                         if(merchant != null)
                         {
-                            for (int k = 0; k < merchant.stores.size(); k++)
+                            for(Store store: merchant.stores)
                             {
-                                if (merchant.stores.get(k).getStoreName().equals(getIntent().getStringExtra("storeName"))) {
-                                    int lastOrder = merchant.stores.get(k).orderHistory.size() - 1;
-                                    for (int i = lastOrder; i >= 0; i--) {
-                                        Order prevOrder = merchant.stores.get(i).orderHistory.get(i);
+                                if (store.storeName.equals(storeName))
+                                {
+                                    Log.d("test", storeName);
+                                    int lastOrder = store.orderHistory.size() - 1;
+                                    for (int i = lastOrder; i >= 0; i--)
+                                    {
+                                        Order prevOrder = store.orderHistory.get(i);
                                         addLabel(prevOrder);
                                         List<Item> orderItems = prevOrder.items;
                                         for (Item item : orderItems) {
                                             addItem(item);
                                         }
                                     }
+                                    break;
                                 }
                             }
                         }
+                        break;
                     }
                 }
             }
@@ -74,7 +86,7 @@ public class StoreOrderHistoryActivity extends AppCompatActivity {
     public void addLabel(Order order)
     {
         LinearLayout layout = (LinearLayout) findViewById(R.id.rootLayout);
-        String itemContent = "-----" + order.getStoreName() + "----- " + order.getTime();
+        String itemContent = "-----------" + order.getTime() + "--------";
         orderItem = new Button(this);
         orderItem.setText(itemContent);
         orderItem.setBackgroundColor(Color.TRANSPARENT);

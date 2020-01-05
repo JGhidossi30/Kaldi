@@ -16,12 +16,14 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RemoveBusinessActivity"></activity>
-        <activity android:name=".RemoveMenuItemActivity" />
-        <activity android:name=".StoreOrderHistoryActivity" />
-        <activity
-            android:name=".MerchantMenuActivity"
-            android:label="@string/title_menu" />
+        <activity android:name=".StoreOrderHistoryActivity"
+            android:label="@string/title_order_history"/>
+        <activity android:name=".RemoveBusinessActivity"
+            android:label="@string/title_remove_store"/>
+        <activity android:name=".RemoveMenuItemActivity"
+            android:label="@string/title_remove_menu_item"/>
+        <activity android:name=".MerchantMenuActivity"
+            android:label="@string/title_menu"/>
         <activity
             android:name=".StoreProfileActivity"
             android:label="@string/title_store_profile" />
